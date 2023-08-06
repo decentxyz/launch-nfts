@@ -1,21 +1,41 @@
 import { NextApiRequest, NextApiResponse, NextApiHandler } from 'next';
-import axios from 'axios';
+import { RedisClient } from '../../../lib/database/RedisClient';
+
+interface ChainData {
+  allDates: Object,
+  targetDateStats: Object
+}
  
 const handler: NextApiHandler = async (req: NextApiRequest, res: NextApiResponse) => {
-  try {
-    const { data: chainData } = await axios.get(
-      "https://api-base.reservoir.tools/chain/stats/v1", {
-      headers: {
-        method: "GET",
-        accept: "*/*",
-        "x-api-key": process.env.RESERVOIR_API_KEY as string,
-      }
-    });
-    res.status(200).json(chainData);
-  } catch (e) {
-    console.log(e);
-    res.status(404).end();
+  let data: ChainData = {
+    allDates: {},
+    targetDateStats: {}
   };
-};
+  const targetDate = req.query.targetDate;
+  try {
+    await RedisClient.connect();
+    let fetchedData = await RedisClient.json.get('noderedis:chainStats', {
+      path: [
+        '$.Date',
+        '$.Stats'
+      ]
+    });
+
+    const parsedData = JSON.parse(JSON.stringify(fetchedData));
+    data.allDates = parsedData;
+    const dateIndex = parsedData['$.Date'].indexOf(targetDate);
+    console.log(targetDate, dateIndex)
+    if (targetDate && dateIndex !== -1) {
+      data.targetDateStats = JSON.parse(parsedData['$.Stats'][dateIndex]);
+    };
+
+    res.status(200).json(data);
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ message: 'Error getting data from database.' });
+  } finally {
+    await RedisClient.quit();
+  }
+}
 
 export default handler;

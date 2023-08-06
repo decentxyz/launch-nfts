@@ -4,7 +4,7 @@ import styles from '../styles/Home.module.css';
 import { useChainData } from '../lib/nftData/useChainData';
 
 const Home: NextPage = (props: any) => {
-  const { chainData } = useChainData();
+  const { chainData } = useChainData('8/6/2023');
 
   return <>
     <Head>
