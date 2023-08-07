@@ -24,7 +24,7 @@ const handler: NextApiHandler = async (req: NextApiRequest, res: NextApiResponse
     const parsedData = JSON.parse(JSON.stringify(fetchedData));
     data.allDates = parsedData;
     const dateIndex = parsedData['$.Date'].indexOf(targetDate);
-    console.log(targetDate, dateIndex)
+
     if (targetDate && dateIndex !== -1) {
       data.targetDateStats = JSON.parse(parsedData['$.Stats'][dateIndex]);
     };
