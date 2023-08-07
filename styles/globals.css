@@ -86,3 +86,7 @@ h1 {
   background-color: rgba(0, 0, 0, .2);
   backdrop-filter: blur(150px);
 }
+
+textarea:focus, input:focus{
+  outline: none;
+}

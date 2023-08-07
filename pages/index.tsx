@@ -3,9 +3,11 @@ import Head from 'next/head';
 import styles from '../styles/Home.module.css';
 import { useChainData } from '../lib/nftData/useChainData';
 import { useNftData } from '../lib/nftData/useNftData';
+import Navbar from '../components/Navbar/Navbar';
 
 const Home: NextPage = (props: any) => {
-  const { chainData } = useChainData('8/6/2023');
+  const today = new Date().toLocaleDateString();
+  const { chainData } = useChainData(today);
   const { nftData } = useNftData(['0xC85f505B43FcbFFBF7808A55bC4E8ceCAC18D85B', '0xECDE63c35a69F378b4fa83b5D5506F64e3DaBbbC']);
 
   return <>
@@ -27,11 +29,12 @@ const Home: NextPage = (props: any) => {
       <meta name='twitter:description' content={""} />
       <meta name='twitter:image' content={""} />
     </Head>
+    <Navbar oneDay={chainData?.targetDateStats["1day"]} sevenDay={chainData?.targetDateStats["7day"]} />
 
     <main className={`${styles.main}`}>
       yo
       <div>
-        {JSON.stringify(chainData)}
+        {JSON.stringify(chainData?.targetDateStats["1day"])}
       </div>
       {JSON.stringify(nftData)}
     </main>
