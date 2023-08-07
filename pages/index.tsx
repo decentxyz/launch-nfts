@@ -2,9 +2,11 @@ import type { NextPage } from 'next';
 import Head from 'next/head';
 import styles from '../styles/Home.module.css';
 import { useChainData } from '../lib/nftData/useChainData';
+import { useNftData } from '../lib/nftData/useNftData';
 
 const Home: NextPage = (props: any) => {
   const { chainData } = useChainData('8/6/2023');
+  const { nftData } = useNftData(['0xC85f505B43FcbFFBF7808A55bC4E8ceCAC18D85B', '0xECDE63c35a69F378b4fa83b5D5506F64e3DaBbbC']);
 
   return <>
     <Head>
@@ -31,6 +33,7 @@ const Home: NextPage = (props: any) => {
       <div>
         {JSON.stringify(chainData)}
       </div>
+      {JSON.stringify(nftData)}
     </main>
   </>
 };
