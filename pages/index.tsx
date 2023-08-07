@@ -4,8 +4,15 @@ import styles from '../styles/Home.module.css';
 import { useChainData } from '../lib/nftData/useChainData';
 import { useNftData } from '../lib/nftData/useNftData';
 import Navbar from '../components/Navbar/Navbar';
+import { useRef, useEffect } from 'react';
 
 const Home: NextPage = (props: any) => {
+  const blurRef = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    if (blurRef.current) blurRef.current.style.display = "none";
+    setTimeout(() => blurRef.current && (blurRef.current.style.display = "block"))
+  }, []);
+
   const today = new Date().toLocaleDateString();
   const { chainData } = useChainData(today);
   const { nftData } = useNftData(['0xC85f505B43FcbFFBF7808A55bC4E8ceCAC18D85B', '0xECDE63c35a69F378b4fa83b5D5506F64e3DaBbbC']);
@@ -31,12 +38,20 @@ const Home: NextPage = (props: any) => {
     </Head>
     <Navbar oneDay={chainData?.targetDateStats["1day"]} sevenDay={chainData?.targetDateStats["7day"]} />
 
-    <main className={`${styles.main}`}>
-      yo
-      <div>
-        {JSON.stringify(chainData?.targetDateStats["1day"])}
+    <main className={`${styles.main} relative`} style={{ minHeight: '100vh' }}>
+      <div className='centeredBackground'>
+        <div className='collectionBannerFlex'>
+          <h1 className='text-[450px] text-[#0052FF] font-medium uppercase'>o c s</h1>
+          <div ref={blurRef} className="blurrer"></div>
+        </div>
       </div>
-      {JSON.stringify(nftData)}
+      
+      <div className='absolute z-50'>
+        <div>
+          {JSON.stringify(chainData?.targetDateStats["1day"])}
+        </div>
+        {JSON.stringify(nftData)}
+      </div>
     </main>
   </>
 };
