@@ -5,6 +5,7 @@ import { useChainData } from '../lib/nftData/useChainData';
 import { useNftData } from '../lib/nftData/useNftData';
 import Navbar from '../components/Navbar/Navbar';
 import { useRef, useEffect } from 'react';
+import NftCard from '../components/NftCard';
 
 const Home: NextPage = (props: any) => {
   const blurRef = useRef<HTMLDivElement | null>(null);
@@ -15,7 +16,9 @@ const Home: NextPage = (props: any) => {
 
   const today = new Date().toLocaleDateString();
   const { chainData } = useChainData(today);
-  const { nftData } = useNftData(['0xC85f505B43FcbFFBF7808A55bC4E8ceCAC18D85B', '0xECDE63c35a69F378b4fa83b5D5506F64e3DaBbbC']);
+  const { nftData } = useNftData(['0xC85f505B43FcbFFBF7808A55bC4E8ceCAC18D85B', '0xECDE63c35a69F378b4fa83b5D5506F64e3DaBbbC',]);
+
+  console.log(nftData)
 
   return <>
     <Head>
@@ -50,7 +53,16 @@ const Home: NextPage = (props: any) => {
         <div>
           {JSON.stringify(chainData?.targetDateStats["1day"])}
         </div>
-        {JSON.stringify(nftData)}
+
+        <div className="snap-x snap-mandatory">
+          <div className='snap-center'>
+            <div className='flex gap-24'>
+              {nftData?.map((collection: any, i:number) => {
+                return <NftCard key={i} {...collection} />
+              })}
+            </div>
+          </div>
+        </div>
       </div>
     </main>
   </>
