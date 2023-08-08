@@ -5,7 +5,7 @@ import { useChainData } from '../lib/nftData/useChainData';
 import { useNftData } from '../lib/nftData/useNftData';
 import Navbar from '../components/Navbar/Navbar';
 import { useRef, useEffect } from 'react';
-import NftCard from '../components/NftCard';
+import FeaturedNftContainer from "../components/NFTs/FeaturedNftContainer";
 
 const Home: NextPage = (props: any) => {
   const blurRef = useRef<HTMLDivElement | null>(null);
@@ -16,7 +16,14 @@ const Home: NextPage = (props: any) => {
 
   const today = new Date().toLocaleDateString();
   const { chainData } = useChainData(today);
-  const { nftData } = useNftData(['0xC85f505B43FcbFFBF7808A55bC4E8ceCAC18D85B', '0xECDE63c35a69F378b4fa83b5D5506F64e3DaBbbC',]);
+  // Pull out to separate component where I can manage these
+  const { nftData, loadingNftData, errorNftData } = useNftData([
+    '0xC85f505B43FcbFFBF7808A55bC4E8ceCAC18D85B', 
+    '0xECDE63c35a69F378b4fa83b5D5506F64e3DaBbbC', 
+    '0x90fb81ca2fec713c9c6b4b2694eded668b85d5ed',
+    '0x8b559fba48051ca930a646493ca3fcf1c7fe1bf9', 
+    '0x1a126d5d53815e44d8635f3a7e4547cf3dedced9'
+  ]);
 
   console.log(nftData)
 
@@ -49,20 +56,10 @@ const Home: NextPage = (props: any) => {
         </div>
       </div>
       
-      <div className='absolute z-50'>
-        <div>
-          {JSON.stringify(chainData?.targetDateStats["1day"])}
-        </div>
-
-        <div className="snap-x snap-mandatory">
-          <div className='snap-center'>
-            <div className='flex gap-24'>
-              {nftData?.map((collection: any, i:number) => {
-                return <NftCard key={i} {...collection} />
-              })}
-            </div>
-          </div>
-        </div>
+      <div className='absolute z-50 w-full'>
+        {!loadingNftData && !errorNftData &&
+          <FeaturedNftContainer nftData={nftData} />
+        }
       </div>
     </main>
   </>
