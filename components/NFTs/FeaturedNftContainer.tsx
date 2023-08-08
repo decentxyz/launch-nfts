@@ -1,12 +1,13 @@
 import NftCard from "./NftCard";
 import styles from "./nfts.module.css";
 import { useRef, useEffect, useState } from 'react';
+import { useFeaturedNftContext } from "../../lib/contexts/FeaturedNftContext";
 
 const FeaturedNftContainer = ({ nftData }: any) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
-  const [middleCardIndex, setMiddleCardIndex] = useState(0);
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const [cardSize, setCardSize] = useState(0);
+  const { setMiddleIndex } = useFeaturedNftContext();
 
   const handleResize = () => {
     setScreenWidth(window.innerWidth);
@@ -36,8 +37,8 @@ const FeaturedNftContainer = ({ nftData }: any) => {
       const container = containerRef.current;
       if (container) {
         container.scrollLeft += e.deltaY
-        const middleIndex = Math.round(container.scrollLeft / cardSize);
-        setMiddleCardIndex(middleIndex);
+        const middleCardIndex = Math.round(container.scrollLeft / cardSize);
+        setMiddleIndex(middleCardIndex);
       };
     };
 
@@ -50,7 +51,7 @@ const FeaturedNftContainer = ({ nftData }: any) => {
         container.removeEventListener('wheel', handleScroll);
       }
     };
-  }, [cardSize, screenWidth]);
+  }, [cardSize, screenWidth, setMiddleIndex]);
 
   return <>
   
@@ -59,8 +60,8 @@ const FeaturedNftContainer = ({ nftData }: any) => {
         {nftData.map((collection: any, i:number) => {
           return <NftCard key={i} screenWidth={screenWidth} collection={collection} />
         })}
+      <div className={`${styles.emptyItem}`} />
     </div>
-    {middleCardIndex}
   </>
 }
 

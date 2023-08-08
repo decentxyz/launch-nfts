@@ -40,25 +40,25 @@ const Navbar = (props: any) => {
           }
         </div>
 
-        {/* <div className="flex gap-2">
-          <p className="text-xs flex items-center">1 day <span className="text-xl font-light"> {" {"}</span></p>
+        <div className="flex gap-2">
+          <p className="text-xs flex items-center">1 day <span className="text-2xl font-light"> {" {"}</span></p>
           <div>
-            <p className="text-[11px] text-[#0052FF]">{props.oneDay?.mintCount?.toLocaleString()} <span className="text-[10px] text-black">minted</span></p>
-            <p className="text-[11px] text-[#0052FF]">{Math.ceil(props.oneDay?.mintVolume)?.toLocaleString()} ETH <span className="text-[10px] text-black">mint vol.</span></p>
+            <p className="text-[13px] text-[#0052FF]">{props.oneDay?.mintCount?.toLocaleString()} <span className="text-[12px] text-black">minted</span></p>
+            <p className="text-[13px] text-[#0052FF]">{Math.ceil(props.oneDay?.mintVolume)?.toLocaleString()} ETH <span className="text-[12px] text-black">mint vol.</span></p>
           </div>
-        </div> */}
-
-        <div className="flex items-center mt-8">
-          {BaseLogoBlack("75", "75")} <p className="pl-4 text-7xl">NFTs</p>
         </div>
 
-        {/* <div className="flex gap-2">
-          <p className="text-xs flex items-center">7 day <span className="text-xl font-light"> {" {"}</span></p>
+        <div className="flex items-center">
+          {BaseLogoBlack("25", "25")} <p className="pl-4 text-2xl font-medium">NFTs</p>
+        </div>
+
+        <div className="flex gap-2">
+          <p className="text-xs flex items-center">7 day <span className="text-2xl font-light"> {" {"}</span></p>
           <div>
-            <p className="text-[11px] text-[#0052FF]">{props.sevenDay?.mintCount?.toLocaleString()} <span className="text-[10px] text-black">minted</span></p>
-            <p className="text-[11px] text-[#0052FF]">{Math.ceil(props.sevenDay?.mintVolume)?.toLocaleString()} ETH <span className="text-[10px] text-black">mint vol.</span></p>
+            <p className="text-[13px] text-[#0052FF]">{props.sevenDay?.mintCount?.toLocaleString()} <span className="text-[12px] text-black">minted</span></p>
+            <p className="text-[13px] text-[#0052FF]">{Math.ceil(props.sevenDay?.mintVolume)?.toLocaleString()} ETH <span className="text-[12px] text-black">mint vol.</span></p>
           </div>
-        </div> */}
+        </div>
 
         <ConnectWallet />
       </nav>

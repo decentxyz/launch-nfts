@@ -6,13 +6,10 @@ import { useNftData } from '../lib/nftData/useNftData';
 import Navbar from '../components/Navbar/Navbar';
 import { useRef, useEffect } from 'react';
 import FeaturedNftContainer from "../components/NFTs/FeaturedNftContainer";
+import { FeaturedNftContextProvider } from '../lib/contexts/FeaturedNftContext';
+import Footer from '../components/Footer';
 
 const Home: NextPage = (props: any) => {
-  const blurRef = useRef<HTMLDivElement | null>(null);
-  useEffect(() => {
-    if (blurRef.current) blurRef.current.style.display = "none";
-    setTimeout(() => blurRef.current && (blurRef.current.style.display = "block"))
-  }, []);
 
   const today = new Date().toLocaleDateString();
   const { chainData } = useChainData(today);
@@ -48,20 +45,14 @@ const Home: NextPage = (props: any) => {
     </Head>
     <Navbar oneDay={chainData?.targetDateStats["1day"]} sevenDay={chainData?.targetDateStats["7day"]} />
 
-    <main className={`${styles.main} relative`} style={{ minHeight: '100vh' }}>
-      <div className='centeredBackground'>
-        <div className='collectionBannerFlex'>
-          <h1 className='text-[450px] text-[#0052FF] font-medium uppercase'>o c s</h1>
-          <div ref={blurRef} className="blurrer"></div>
-        </div>
-      </div>
-      
-      <div className='absolute z-50 w-full'>
+    <FeaturedNftContextProvider>
+      <main className={`${styles.main} relative`} style={{ minHeight: '100vh' }}>
         {!loadingNftData && !errorNftData &&
           <FeaturedNftContainer nftData={nftData} />
         }
-      </div>
-    </main>
+        <Footer nftData={nftData} isLoading={loadingNftData} error={errorNftData} />
+      </main>
+    </FeaturedNftContextProvider>
   </>
 };
 
