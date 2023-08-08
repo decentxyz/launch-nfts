@@ -6,13 +6,11 @@ import { BaseLogoBlack } from "../../lib/utils/logos";
 
 const Navbar = (props: any) => {
   const [showSearch, setShowSearch] = useState(false);
-  const { setSearch } = useSearchContext();
+  const { search, setSearch } = useSearchContext();
 
-  const handleSearchInputChange = (event:any) => {
-    setSearch(event.target.value);
-  };
   const handleSubmit = (event:any) => {
     if (event.key === 'Enter') {
+      setSearch(event.target.value);
       setShowSearch(false);
     }
   }
@@ -26,13 +24,16 @@ const Navbar = (props: any) => {
             <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
           </svg>
           {showSearch ?
-            <input
+            <>
+              <input
               type="text"
-              placeholder="Search by address..."
-              className="font-thin pl-w py-1 px-2 text-[#0052FF] w-fit"
-              onChange={handleSearchInputChange}
+              placeholder="Search by contract name or address..."
+              className="font-thin pl-w py-1 px-2 text-[#0052FF] w-80"
+              onSubmit={handleSubmit}
               onKeyDown={handleSubmit}
-            /> :
+            />
+              <button onClick={() => setShowSearch(false)} className="text-gray-500">x</button>
+            </> :
             <div onClick={() => {setShowSearch(true)}} className="pl-2 cursor-pointer hover:text-gray-500"> 
               <p className="text-xl font-thin">Contract</p>
               <p className="text-lg font-thin">Search</p>
@@ -40,13 +41,14 @@ const Navbar = (props: any) => {
           }
         </div>
 
+        {!showSearch &&    
         <div className="flex gap-2">
           <p className="text-xs flex items-center">1 day <span className="text-2xl font-light"> {" {"}</span></p>
           <div>
             <p className="text-[13px] text-[#0052FF]">{props.oneDay?.mintCount?.toLocaleString()} <span className="text-[12px] text-black">minted</span></p>
             <p className="text-[13px] text-[#0052FF]">{Math.ceil(props.oneDay?.mintVolume)?.toLocaleString()} ETH <span className="text-[12px] text-black">mint vol.</span></p>
           </div>
-        </div>
+        </div>}
 
         <div className="flex items-center">
           {BaseLogoBlack("25", "25")} <p className="pl-4 text-2xl font-medium">NFTs</p>

@@ -1,8 +1,7 @@
 import { useFeaturedNftContext } from "../lib/contexts/FeaturedNftContext";
 
 const Footer = (props: any) => {
-  const { nftData, isLoading, error } = props;
-
+  const { nftData } = props;
   const { middleIndex } = useFeaturedNftContext();
 
   return <>
@@ -14,7 +13,7 @@ const Footer = (props: any) => {
         <p className="w-1/5 text-center">% On Sale</p>
         <p className="w-1/5 text-right">Secondary Volume</p>
       </div>
-      {!isLoading && !error && 
+      {nftData && 
         <div className="flex items-center justify-between pt-1">
           <p className="w-1/5 text-[#0052FF]">
             {nftData[middleIndex].name}
