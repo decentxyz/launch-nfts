@@ -24,55 +24,10 @@ h1 {
   font-family: 'Maven Pro', sans-serif;
 }
 
-.diplay-wallet {
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.info-box {
-  position: absolute;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  padding: 16px 16px;
-  background: #000000;
-
-  box-shadow: 0px 10px 20px 5px rgba(218, 217, 227, 0.31);
-  border-radius: 4px;
-
-  font-style: normal;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 24px;
-  color: #ffffff;
-}
-
 ::-moz-selection { background-color: #000000; 
   color: #ffffff; } 
   ::selection { background-color: #000000; 
   color: #ffffff; }
-
-  button.xmint-btn {
-    background-color: rgb(0, 0, 0);
-  }
-
-  button.xmint-btn span {
-    display: none;
-    color: #ffffff;
-    font-size: small;
-  }
-
-  button.xmint-btn:after {
-    content: "Purchase";
-    color: #ffffff;
-    padding-right: 8px;
-}
-
-.contentWrapper {
-  margin-top: 100vh;
-}
 
 textarea:focus, input:focus{
   outline: none;

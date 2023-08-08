@@ -9,10 +9,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@decent.xyz/sdk": "^0.3.4",
-    "@decent.xyz/the-box": "^0.0.9",
-    "@headlessui/react": "^1.7.7",
-    "@heroicons/react": "^2.0.13",
     "@rainbow-me/rainbowkit": "^1.0.8",
     "@vercel/analytics": "^0.1.5",
     "axios": "^1.4.0",
