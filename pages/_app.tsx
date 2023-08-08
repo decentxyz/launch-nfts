@@ -1,4 +1,3 @@
-import "@decent.xyz/the-box/dist/the-box-base.css";
 import '@rainbow-me/rainbowkit/styles.css'; 
 import '../styles/globals.css';
 import type { AppProps } from 'next/app';
