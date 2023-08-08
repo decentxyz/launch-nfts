@@ -1,4 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter%20Tight:wght@300;400;500;600&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Maven+Pro:wght@300;400;500;600&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -6,7 +8,7 @@
 html,
 body {
   font-family: 'Inter Tight', sans-serif;
-  @apply tracking-widest
+  @apply tracking-widest;
 }
 
 a {
@@ -19,7 +21,7 @@ a {
 }
 
 h1 {
-  @apply text-7xl font-medium
+  font-family: 'Maven Pro', sans-serif;
 }
 
 .diplay-wallet {
@@ -68,21 +70,10 @@ h1 {
     padding-right: 8px;
 }
 
-.collectionBannerFlex, .collectionBannerGrid {
-  width: 100%;
-  position: relative;
+.contentWrapper {
+  margin-top: 100vh;
 }
 
-.collectionBannerFlex {
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: center;
-  min-height: 80vh;
-}
-
-.blurrer {
-  position: absolute;
-  inset: 0;
-  background-color: rgba(0, 0, 0, .2);
-  backdrop-filter: blur(150px);
+textarea:focus, input:focus{
+  outline: none;
 }

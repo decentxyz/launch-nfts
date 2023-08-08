@@ -8,7 +8,7 @@ export const useNftData = (addresses: string[]) => {
 
   return {
     nftData: data,
-    loadingChainData: isLoading,
-    errorChainData: error,
+    loadingNftData: isLoading,
+    errorNftData: error,
   };
 };
