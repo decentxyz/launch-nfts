@@ -6,14 +6,27 @@ import { useSearchContext } from "../../lib/contexts/SearchContext";
 
 const FeaturedNftContainer = ({ nftData }: any) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
-  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+  const [screenWidth, setScreenWidth] = useState(0);
   const [cardSize, setCardSize] = useState(0);
   const { setMiddleIndex } = useFeaturedNftContext();
   const { search } = useSearchContext();
 
   const handleResize = () => {
-    setScreenWidth(window.innerWidth);
+    if (typeof window !== 'undefined') {
+      setScreenWidth(window.innerWidth);
+    }
   };
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setScreenWidth(window.innerWidth);
+      window.addEventListener('resize', handleResize);
+
+      return () => {
+        window.removeEventListener('resize', handleResize);
+      };
+    }
+  }, []);
 
   useEffect(() => {
     window.addEventListener('resize', handleResize);
@@ -55,7 +68,7 @@ const FeaturedNftContainer = ({ nftData }: any) => {
         container.removeEventListener('wheel', handleScroll);
       }
     };
-  }, [cardSize, screenWidth, setMiddleIndex]);
+  }, [cardSize, nftData.length, screenWidth, setMiddleIndex]);
 
   const searchSort = (a:any, b:any) => {
     if (a.primaryContract.toLocaleLowerCase() === search.toLocaleLowerCase() || a.name.toLocaleLowerCase() === search.toLocaleLowerCase()) {
@@ -69,11 +82,11 @@ const FeaturedNftContainer = ({ nftData }: any) => {
 
   return <>
     <div className={`${styles.featuredContainer}`} ref={containerRef}>
-      <div className={`${styles.emptyItem} md:w-1/4 w-1/2`} />
+      <div className={`${styles.emptyItem} md:w-1/4 w-1/2 hidden md:inline-block`} />
         {sortedNftData.map((collection: any, i:number) => {
           return <NftCard key={i} index={i} screenWidth={screenWidth} collection={collection} />
         })}
-      <div className={`${styles.emptyItem} md:w-1/4 w-1/2`} />
+      <div className={`${styles.emptyItem} md:w-1/4 w-1/2 hidden md:inline-block`} />
     </div>
   </>
 }

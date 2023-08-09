@@ -45,7 +45,7 @@ const Home: NextPage = () => {
     
       <FeaturedNftContextProvider>
         <main className={`${styles.main} relative`} style={{ minHeight: '100vh' }}>
-          {nftData && <>
+          {!loadingNftData && !errorNftData && <>
             <FeaturedNftContainer nftData={nftData} />
             <Footer nftData={nftData} isLoading={loadingNftData} error={errorNftData} />
           </>}
