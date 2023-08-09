@@ -1,5 +1,5 @@
 import { NextPage } from 'next';
-import { getContractData } from '../../lib/nftData/getContractData';
+import { getSingleContractData } from '../../lib/nftData/getContractData';
 import MintNavbar from '../../components/Navbars/MintNavbar';
 import styles from "../../styles/Home.module.css";
 import Image from 'next/image';
@@ -10,7 +10,7 @@ const Mint: NextPage = (props: any) => {
 
   return (
     <>
-    <MintNavbar address={address} />
+    <MintNavbar address={address} all />
     <div className={`${styles.main} px-[24px] py-[12px] relative`}>
       <div className='flex md:flex-wrap flex-wrap-reverse md:gap-0 gap-12 md:mt-0 mt-40 w-full'>
         <div className='md:w-1/2 w-full h-full pr-8'>
@@ -38,7 +38,7 @@ export async function getServerSideProps(context: any) {
   let nftData: any;
 
   if (address) {
-    nftData = await getContractData(address)
+    nftData = await getSingleContractData(address)
   }
 
   return {

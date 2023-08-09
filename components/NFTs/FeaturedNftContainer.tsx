@@ -81,10 +81,10 @@ const FeaturedNftContainer = ({ nftData }: any) => {
   const sortedNftData = nftData.sort(searchSort);
 
   return <>
-    <div className={`${styles.featuredContainer}`} ref={containerRef}>
+    <div className={`${styles.featuredContainer} relative`} ref={containerRef}>
       <div className={`${styles.emptyItem} md:w-1/4 w-1/2 hidden md:inline-block`} />
         {sortedNftData.map((collection: any, i:number) => {
-          return <NftCard key={i} index={i} screenWidth={screenWidth} collection={collection} />
+          return <NftCard key={i} index={i} screenWidth={screenWidth} collection={collection} cardView={false} />
         })}
       <div className={`${styles.emptyItem} md:w-1/4 w-1/2 hidden md:inline-block`} />
     </div>
