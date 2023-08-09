@@ -13,8 +13,8 @@ const NftCard = (props: any) => {
     setTimeout(() => blurRef.current && (blurRef.current.style.display = "block"))
   }, []);
 
-  return (
-    <div className={`${styles.nftCard} ${styles.containerFlex} bg-black ${screenWidth > 768 ? "w-1/2" : "w-full"} flex rounded-[6px] p-6 min-h-[400px]`}>
+  return (<>
+    <div className={`${styles.nftCard} ${styles.containerFlex} ${screenWidth > 768 ? "w-1/2" : "w-full"} sm:flex rounded-[6px] p-6 min-h-[400px]`}>
       <div>
         <Image className="rounded-md" src={collection.image} fill alt="nft image" />
       </div>
@@ -32,7 +32,9 @@ const NftCard = (props: any) => {
           <Image className="rounded-md hover:opacity-80 cursor-pointer" src={collection.image} fill alt="nft image" />
         </Link>
       </div>
+
     </div>
+    </>
   )
 }
 

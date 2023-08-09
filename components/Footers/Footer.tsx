@@ -6,7 +6,7 @@ const Footer = (props: any) => {
   const activeNft = nftData[middleIndex];
 
   return <>
-    <div className="absolute bottom-0 w-full h-24 py-[12px] px-[24px]">
+    <div className="hidden sm:inline-block absolute bottom-0 w-full h-24 py-[12px] px-[24px]">
       <div className="flex justify-between font-thin text-xs">
         <p className="w-1/5">Collection Name</p>
         <p className="w-1/5 text-center">Total Minted</p>

@@ -21,6 +21,8 @@ const Home: NextPage = () => {
     '0x1a126d5d53815e44d8635f3a7e4547cf3dedced9'
   ]);
 
+  console.log(nftData)
+
   return <>
     <Head>
       <title>{""}</title>
@@ -30,15 +32,15 @@ const Home: NextPage = () => {
       />
       <link rel="icon" href={""} />
       <meta property='og:type' content="website" />
-      <meta property='og:url' content={"https://featured.decent.xyz/"} />
-      <meta property='og:image' content={""} />
-      <meta property='og:title' content={""} />
-      <meta property='og:description' content={""} />
+      <meta property='og:url' content={"https://basednfts.co/"} />
+      <meta property='og:image' content={nftData ? nftData[0]?.image : ""} />
+      <meta property='og:title' content={"Based NFTs"} />
+      <meta property='og:description' content={"Mint NFTs on Base without bridging."} />
       <meta name='twitter:card' content={"summary_large_image"} />
-      <meta name='twitter:url' content={"https://featured.decent.xyz/"} />
-      <meta name='twitter:title' content={""} />
-      <meta name='twitter:description' content={""} />
-      <meta name='twitter:image' content={""} />
+      <meta name='twitter:url' content={"https://basednfts.co/"} />
+      <meta name='twitter:title' content={"Based NFTs"} />
+      <meta name='twitter:description' content={"Mint NFTs on Base without bridging."} />
+      <meta name='twitter:image' content={nftData ? nftData[0]?.image : ""} />
     </Head>
     <SearchContextProvider>
       <Navbar oneDay={chainData?.targetDateStats["1day"]} sevenDay={chainData?.targetDateStats["7day"]} />
