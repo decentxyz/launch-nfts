@@ -5,7 +5,7 @@ import { BaseScan } from "../../lib/utils/logos";
 import Link from "next/link";
 
 const NftCard = (props: any) => {
-  const { collection, screenWidth } = props;
+  const { collection, screenWidth, cardView } = props;
   const blurRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -14,22 +14,34 @@ const NftCard = (props: any) => {
   }, []);
 
   return (
-    <div className={`${styles.nftCard} ${styles.containerFlex} bg-black ${screenWidth > 768 ? "w-1/2" : "w-full"} flex rounded-[6px] p-6 min-h-[400px]`}>
-      <div>
-        <Image className="rounded-md" src={collection.image} fill alt="nft image" />
-      </div>
-      <div ref={blurRef} className={`${styles.blurrer} rounded-[6px]`}></div>
+    <div className={`${styles.nftCard} ${screenWidth > 768 ? "w-1/2" : "w-full"}`}>
+      <div className={`${styles.containerFlex} rounded-[6px]`}>
+        <div>
+          <Image className="rounded-md" src={collection.image} fill alt="nft image" />
+        </div>
+        <div ref={blurRef} className={`${styles.blurrer} rounded-[6px]`}></div>
 
-      <div className="w-1/2 h-full z-10 mr-2 text-left max-h-[400px] space-y-3 relative overflow-y-auto hidden sm:inline-block">
-        <Link href={`/mint/${collection.primaryContract}`}><p className="text-6xl hover:text-[#0052FF] cursor-pointer">{collection.name}</p></Link>
-        <p className="font-medium text-xs">{collection.createdAt}</p>
-        <p className="flex gap-2 items-center font-thin text-xs underline">{BaseScan(18, 20)}<Link target="_blank" href={`https://basescan.org/address/${collection.primaryContract}`}>View on BaseScan</Link></p>
-        <p className="font-thin text-sm absolute bottom-0 left-0">put box here</p>
+        <div className="sm:flex p-6">
+          <div className="w-1/2 max-h-[380px] z-10 mr-2 text-left space-y-3 relative overflow-y-auto hidden sm:inline-block">
+            <Link href={`/mint/${collection.primaryContract}`}>
+              <p className="text-6xl hover:text-[#0052FF] cursor-pointer">{collection.name}</p>
+            </Link>
+            <p className="font-medium text-xs">{collection.createdAt}</p>
+            <p className="flex gap-2 items-center font-thin text-xs underline">{BaseScan(18, 20)}<Link target="_blank" href={`https://basescan.org/address/${collection.primaryContract}`}>View on BaseScan</Link></p>
+            <p className="font-thin text-sm absolute bottom-0 left-0">put box here</p>
+          </div>
+          
+          <div className="sm:w-1/2 w-full relative max-h-[380px] aspect-square sm:ml-2">
+            <Link href={`/mint/${collection.primaryContract}`}>
+              <Image className="rounded-md hover:opacity-80 cursor-pointer" src={collection.image} fill alt="nft image" />
+            </Link>
+          </div>
+        </div>
       </div>
-      
-      <div className="h-full sm:w-1/2 w-full relative h-full ml-2">
+
+      <div className='w-full sm:hidden flex justify-start pt-4'>
         <Link href={`/mint/${collection.primaryContract}`}>
-          <Image className="rounded-md hover:opacity-80 cursor-pointer" src={collection.image} fill alt="nft image" />
+          <p className='text-right font-thin text-xs hover:opacity-80'>{'∟'} Click to mint <span className="font-thin font-medium">{collection.name}</span></p>
         </Link>
       </div>
     </div>

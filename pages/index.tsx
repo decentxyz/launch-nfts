@@ -5,13 +5,13 @@ import { useChainData } from '../lib/nftData/useChainData';
 import { useNftData } from '../lib/nftData/useNftData';
 import Navbar from '../components/Navbars/Navbar';
 import FeaturedNftContainer from "../components/NFTs/FeaturedNftContainer";
-import { FeaturedNftContextProvider } from '../lib/contexts/FeaturedNftContext';
+import { FeaturedNftContextProvider, useFeaturedNftContext } from '../lib/contexts/FeaturedNftContext';
 import { SearchContextProvider } from '../lib/contexts/SearchContext';
 import Footer from '../components/Footers/Footer';
 
 const Home: NextPage = () => {
   const today = new Date().toLocaleDateString();
-  const { chainData } = useChainData(today);
+  const { chainData, loadingChainData } = useChainData(today);
   // Pull out to separate component where I can manage these
   const { nftData, loadingNftData, errorNftData } = useNftData([
     '0xC85f505B43FcbFFBF7808A55bC4E8ceCAC18D85B', 
@@ -30,18 +30,18 @@ const Home: NextPage = () => {
       />
       <link rel="icon" href={""} />
       <meta property='og:type' content="website" />
-      <meta property='og:url' content={"https://featured.decent.xyz/"} />
-      <meta property='og:image' content={""} />
-      <meta property='og:title' content={""} />
-      <meta property='og:description' content={""} />
+      <meta property='og:url' content={"https://basednfts.co/"} />
+      <meta property='og:image' content={nftData ? nftData[0]?.image : ""} />
+      <meta property='og:title' content={"Based NFTs"} />
+      <meta property='og:description' content={"Mint NFTs on Base without bridging."} />
       <meta name='twitter:card' content={"summary_large_image"} />
-      <meta name='twitter:url' content={"https://featured.decent.xyz/"} />
-      <meta name='twitter:title' content={""} />
-      <meta name='twitter:description' content={""} />
-      <meta name='twitter:image' content={""} />
+      <meta name='twitter:url' content={"https://basednfts.co/"} />
+      <meta name='twitter:title' content={"Based NFTs"} />
+      <meta name='twitter:description' content={"Mint NFTs on Base without bridging."} />
+      <meta name='twitter:image' content={nftData ? nftData[0]?.image : ""} />
     </Head>
     <SearchContextProvider>
-      <Navbar oneDay={chainData?.targetDateStats["1day"]} sevenDay={chainData?.targetDateStats["7day"]} />
+      <Navbar oneDay={chainData?.targetDateStats["1day"]} sevenDay={chainData?.targetDateStats["7day"]} isLoading={loadingChainData} />
     
       <FeaturedNftContextProvider>
         <main className={`${styles.main} relative`} style={{ minHeight: '100vh' }}>
@@ -50,9 +50,6 @@ const Home: NextPage = () => {
           </div>
           {!loadingNftData && !errorNftData && <>
             <FeaturedNftContainer nftData={nftData} />
-            <div className='w-full sm:hidden flex justify-start pl-[24px]'>
-              <p className='text-right font-thin text-xs'>{'∟'} Click to mint</p>
-            </div>
             <Footer nftData={nftData} isLoading={loadingNftData} error={errorNftData} />
           </>}
         </main>
