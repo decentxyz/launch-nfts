@@ -42,7 +42,7 @@ export const ConnectWallet = () => {
 
               if (chain.unsupported) {
                 return (
-                  <button className="text-red-500 text-lg font-light p-4 hover:opacity-80" onClick={openChainModal} type="button">
+                  <button className="text-red-500 text-sm font-light p-4 hover:opacity-80" onClick={openChainModal} type="button">
                     Wrong network
                   </button>
                 );

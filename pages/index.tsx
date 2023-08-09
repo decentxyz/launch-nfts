@@ -45,8 +45,14 @@ const Home: NextPage = () => {
     
       <FeaturedNftContextProvider>
         <main className={`${styles.main} relative`} style={{ minHeight: '100vh' }}>
+          <div className='w-full sm:hidden flex justify-end pr-[24px]'>
+            <p className='text-right font-thin text-xs'>Swipe {'→'}</p>
+          </div>
           {!loadingNftData && !errorNftData && <>
             <FeaturedNftContainer nftData={nftData} />
+            <div className='w-full sm:hidden flex justify-start pl-[24px]'>
+              <p className='text-right font-thin text-xs'>{'∟'} Click to mint</p>
+            </div>
             <Footer nftData={nftData} isLoading={loadingNftData} error={errorNftData} />
           </>}
         </main>

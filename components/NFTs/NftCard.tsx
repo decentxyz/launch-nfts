@@ -20,7 +20,7 @@ const NftCard = (props: any) => {
       </div>
       <div ref={blurRef} className={`${styles.blurrer} rounded-[6px]`}></div>
 
-      <div className="w-1/2 h-full z-10 mr-2 text-left max-h-[400px] space-y-3 relative overflow-y-auto">
+      <div className="w-1/2 h-full z-10 mr-2 text-left max-h-[400px] space-y-3 relative overflow-y-auto hidden sm:inline-block">
         <Link href={`/mint/${collection.primaryContract}`}><p className="text-6xl hover:text-[#0052FF] cursor-pointer">{collection.name}</p></Link>
         <p className="font-medium text-xs">{collection.createdAt}</p>
         <p className="flex gap-2 items-center font-thin text-xs underline">{BaseScan(18, 20)}<Link target="_blank" href={`https://basescan.org/address/${collection.primaryContract}`}>View on BaseScan</Link></p>
