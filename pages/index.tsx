@@ -5,9 +5,10 @@ import { useChainData } from '../lib/nftData/useChainData';
 import { useNftData } from '../lib/nftData/useNftData';
 import Navbar from '../components/Navbars/Navbar';
 import FeaturedNftContainer from "../components/NFTs/FeaturedNftContainer";
-import { FeaturedNftContextProvider, useFeaturedNftContext } from '../lib/contexts/FeaturedNftContext';
+import { FeaturedNftContextProvider } from '../lib/contexts/FeaturedNftContext';
 import { SearchContextProvider } from '../lib/contexts/SearchContext';
 import Footer from '../components/Footers/Footer';
+import Link from 'next/link';
 
 const Home: NextPage = () => {
   const today = new Date().toLocaleDateString();
@@ -18,7 +19,8 @@ const Home: NextPage = () => {
     '0xECDE63c35a69F378b4fa83b5D5506F64e3DaBbbC', 
     '0x90fb81ca2fec713c9c6b4b2694eded668b85d5ed',
     '0x8b559fba48051ca930a646493ca3fcf1c7fe1bf9', 
-    '0x1a126d5d53815e44d8635f3a7e4547cf3dedced9'
+    '0x1a126d5d53815e44d8635f3a7e4547cf3dedced9',
+    '0x7d5861cfe1C74Aaa0999b7E2651Bf2ebD2A62D89'
   ]);
 
   return <>
@@ -45,8 +47,13 @@ const Home: NextPage = () => {
     
       <FeaturedNftContextProvider>
         <main className={`${styles.main} relative`} style={{ minHeight: '100vh' }}>
-          <div className='w-full sm:hidden flex justify-end pr-[24px]'>
-            <p className='text-right font-thin text-xs'>Swipe {'→'}</p>
+          <div className='flex w-full px-[24px]'>
+            <div className='w-full sm:hidden flex justify-start'>
+              <p className='text-right font-thin text-xs'>Swipe {'→'}</p>
+            </div>
+            <div className='w-full flex justify-end'>
+              <Link href="/all" className='text-right font-thin text-xs hover:text-[#0052FF]'>View All {'→'}</Link>
+            </div>
           </div>
           {!loadingNftData && !errorNftData && <>
             <FeaturedNftContainer nftData={nftData} />

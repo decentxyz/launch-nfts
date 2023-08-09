@@ -1,5 +1,4 @@
 import axios from "axios";
-import absoluteUrl from "../utils/absoluteUrl";
 
 export const fetchNftData = async (contractArray: string[]) => {
   try {
