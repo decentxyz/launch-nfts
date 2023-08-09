@@ -1,7 +1,5 @@
 const MintFooter = (props: any) => {
-  const { contractData, inputs } = props;
-
-  console.log(contractData)
+  const { contractData } = props;
 
   return <>
     <div className="sm:absolute sm:bottom-0 sm:mt-0 mt-12 w-full h-24 py-[12px] px-[24px]">
