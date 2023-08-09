@@ -29,8 +29,6 @@ const FeaturedNftContainer = ({ nftData }: any) => {
       const cardWidth =
         screenWidth > 768
           ? container.offsetWidth * 0.5
-          : screenWidth > 640
-          ? container.offsetWidth * 0.75
           : container.offsetWidth;
       setCardSize(cardWidth);
     }
@@ -40,7 +38,11 @@ const FeaturedNftContainer = ({ nftData }: any) => {
       if (container) {
         container.scrollLeft += e.deltaY
         const middleCardIndex = Math.round(container.scrollLeft / cardSize);
-        setMiddleIndex(middleCardIndex);
+        if (middleCardIndex < nftData.length) {
+          setMiddleIndex(middleCardIndex);
+        } else {
+          setMiddleIndex(nftData.length-1);
+        };
       };
     };
 
@@ -67,11 +69,11 @@ const FeaturedNftContainer = ({ nftData }: any) => {
 
   return <>
     <div className={`${styles.featuredContainer}`} ref={containerRef}>
-      <div className={`${styles.emptyItem}`} />
+      <div className={`${styles.emptyItem} md:w-1/4 w-1/2`} />
         {sortedNftData.map((collection: any, i:number) => {
-          return <NftCard key={i} screenWidth={screenWidth} collection={collection} />
+          return <NftCard key={i} index={i} screenWidth={screenWidth} collection={collection} />
         })}
-      <div className={`${styles.emptyItem}`} />
+      <div className={`${styles.emptyItem} md:w-1/4 w-1/2`} />
     </div>
   </>
 }

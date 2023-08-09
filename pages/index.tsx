@@ -3,11 +3,11 @@ import Head from 'next/head';
 import styles from '../styles/Home.module.css';
 import { useChainData } from '../lib/nftData/useChainData';
 import { useNftData } from '../lib/nftData/useNftData';
-import Navbar from '../components/Navbar/Navbar';
+import Navbar from '../components/Navbars/Navbar';
 import FeaturedNftContainer from "../components/NFTs/FeaturedNftContainer";
 import { FeaturedNftContextProvider } from '../lib/contexts/FeaturedNftContext';
 import { SearchContextProvider } from '../lib/contexts/SearchContext';
-import Footer from '../components/Footer';
+import Footer from '../components/Footers/Footer';
 
 const Home: NextPage = () => {
   const today = new Date().toLocaleDateString();
@@ -45,10 +45,10 @@ const Home: NextPage = () => {
     
       <FeaturedNftContextProvider>
         <main className={`${styles.main} relative`} style={{ minHeight: '100vh' }}>
-          {!loadingNftData && !errorNftData &&
+          {nftData && <>
             <FeaturedNftContainer nftData={nftData} />
-          }
-          <Footer nftData={nftData} isLoading={loadingNftData} error={errorNftData} />
+            <Footer nftData={nftData} isLoading={loadingNftData} error={errorNftData} />
+          </>}
         </main>
       </FeaturedNftContextProvider>
 

@@ -1,11 +1,9 @@
-import { useState } from "react";
 import styles from "./navbar.module.css";
 import ConnectWallet from "./ConnectWallet";
 import { BaseLogoBlack } from "../../lib/utils/logos";
 import Link from "next/link";
 
 const MintNavbar = (props: any) => {
-
   return (
     <>
       <nav className={`${styles.navbar} w-full flex flex-wrap items-center sm:justify-between justify-center`} >

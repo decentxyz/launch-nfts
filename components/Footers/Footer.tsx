@@ -1,8 +1,9 @@
-import { useFeaturedNftContext } from "../lib/contexts/FeaturedNftContext";
+import { useFeaturedNftContext } from "../../lib/contexts/FeaturedNftContext";
 
 const Footer = (props: any) => {
   const { nftData } = props;
   const { middleIndex } = useFeaturedNftContext();
+  const activeNft = nftData[middleIndex];
 
   return <>
     <div className="absolute bottom-0 w-full h-24 py-[12px] px-[24px]">
@@ -16,19 +17,19 @@ const Footer = (props: any) => {
       {nftData && 
         <div className="flex items-center justify-between pt-1">
           <p className="w-1/5 text-[#0052FF]">
-            {nftData[middleIndex].name}
+            {activeNft?.name}
           </p>
           <p className="w-1/5 text-center text-[#0052FF]">
-            {parseInt(nftData[middleIndex].tokenCount).toLocaleString()}
+            {parseInt(activeNft?.tokenCount).toLocaleString()}
           </p>
           <p className="w-1/5 text-center text-[#0052FF]">
-            {((nftData[middleIndex].ownerCount / parseInt(nftData[middleIndex].tokenCount))*100).toFixed(2)+"%"}
+            {((activeNft?.ownerCount / parseInt(activeNft?.tokenCount))*100).toFixed(2)+ "%"}
           </p>
           <p className="w-1/5 text-center text-[#0052FF]">
-            {((parseInt(nftData[middleIndex].onSaleCount) / parseInt(nftData[middleIndex].tokenCount))*100).toFixed(2)+"%"}
+            {((parseInt(activeNft?.onSaleCount) / parseInt(activeNft?.tokenCount))*100).toFixed(2) || "" + "%"}
           </p>
           <p className="w-1/5 text-right text-[#0052FF]">
-            {nftData[middleIndex].volume.allTime.toFixed(2).toLocaleString()} ETH
+            {activeNft?.volume?.allTime?.toFixed(2).toLocaleString()} ETH
           </p>
         </div>
       }
