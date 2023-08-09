@@ -3,14 +3,13 @@ import Head from 'next/head';
 import styles from '../styles/Home.module.css';
 import { useChainData } from '../lib/nftData/useChainData';
 import { useNftData } from '../lib/nftData/useNftData';
-import Navbar from '../components/Navbar/Navbar';
-import { useRef, useEffect } from 'react';
+import Navbar from '../components/Navbars/Navbar';
 import FeaturedNftContainer from "../components/NFTs/FeaturedNftContainer";
 import { FeaturedNftContextProvider } from '../lib/contexts/FeaturedNftContext';
-import Footer from '../components/Footer';
+import { SearchContextProvider } from '../lib/contexts/SearchContext';
+import Footer from '../components/Footers/Footer';
 
-const Home: NextPage = (props: any) => {
-
+const Home: NextPage = () => {
   const today = new Date().toLocaleDateString();
   const { chainData } = useChainData(today);
   // Pull out to separate component where I can manage these
@@ -21,8 +20,6 @@ const Home: NextPage = (props: any) => {
     '0x8b559fba48051ca930a646493ca3fcf1c7fe1bf9', 
     '0x1a126d5d53815e44d8635f3a7e4547cf3dedced9'
   ]);
-
-  console.log(nftData)
 
   return <>
     <Head>
@@ -43,16 +40,25 @@ const Home: NextPage = (props: any) => {
       <meta name='twitter:description' content={""} />
       <meta name='twitter:image' content={""} />
     </Head>
-    <Navbar oneDay={chainData?.targetDateStats["1day"]} sevenDay={chainData?.targetDateStats["7day"]} />
+    <SearchContextProvider>
+      <Navbar oneDay={chainData?.targetDateStats["1day"]} sevenDay={chainData?.targetDateStats["7day"]} />
+    
+      <FeaturedNftContextProvider>
+        <main className={`${styles.main} relative`} style={{ minHeight: '100vh' }}>
+          <div className='w-full sm:hidden flex justify-end pr-[24px]'>
+            <p className='text-right font-thin text-xs'>Swipe {'→'}</p>
+          </div>
+          {!loadingNftData && !errorNftData && <>
+            <FeaturedNftContainer nftData={nftData} />
+            <div className='w-full sm:hidden flex justify-start pl-[24px]'>
+              <p className='text-right font-thin text-xs'>{'∟'} Click to mint</p>
+            </div>
+            <Footer nftData={nftData} isLoading={loadingNftData} error={errorNftData} />
+          </>}
+        </main>
+      </FeaturedNftContextProvider>
 
-    <FeaturedNftContextProvider>
-      <main className={`${styles.main} relative`} style={{ minHeight: '100vh' }}>
-        {!loadingNftData && !errorNftData &&
-          <FeaturedNftContainer nftData={nftData} />
-        }
-        <Footer nftData={nftData} isLoading={loadingNftData} error={errorNftData} />
-      </main>
-    </FeaturedNftContextProvider>
+    </SearchContextProvider>
   </>
 };
 

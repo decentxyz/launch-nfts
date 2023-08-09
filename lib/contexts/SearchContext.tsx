@@ -14,7 +14,7 @@ interface SearchContext {
 
 export const SearchContext = createContext<SearchContext>({
   search: "",
-  setSearch: () => {}
+  setSearch: () => {},
 });
 
 export const SearchContextProvider = ({ children }: { children: ReactNode }) => {

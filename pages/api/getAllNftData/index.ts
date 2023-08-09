@@ -1,29 +1,8 @@
 import { NextApiRequest, NextApiResponse, NextApiHandler } from 'next';
-import axios from 'axios';
+import { fetchNftData } from '../../../lib/nftData/fetchNftData';
 
 const cache: { [key: string]: any } = {};
 let isDataFetched = false;
-
-const fetchData = async (contractArray: string[]) => {
-  try {
-    const { data: contractData } = await axios.get(
-      "https://api-base.reservoir.tools/collections/v6", {
-        headers: {
-          method: "GET",
-          accept: "*/*",
-          "x-api-key": process.env.RESERVOIR_API_KEY as string,
-        },
-        params: {
-          contract: contractArray
-        }
-      });
-
-    return contractData.collections;
-  } catch (e) {
-    console.error(e);
-    throw new Error('Error getting nft data.');
-  };
-};
 
 const handler: NextApiHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   const addresses = req.query.addresses as string;
@@ -31,7 +10,7 @@ const handler: NextApiHandler = async (req: NextApiRequest, res: NextApiResponse
 
   if (!isDataFetched) {
     try {
-      const collections = await fetchData(contractArray);
+      const collections = await fetchNftData(contractArray);
       cache['data'] = collections;
       isDataFetched = true;
     } catch (error) {
