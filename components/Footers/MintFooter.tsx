@@ -29,6 +29,7 @@ const MintFooter = (props: any) => {
           </p>
         </div>
       }
+      <div className='absolute bottom-0 right-0'>🟦</div>
     </div>
   </>
 }

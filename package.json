@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@decent.xyz/the-box": "^1.0.2",
     "@rainbow-me/rainbowkit": "^1.0.8",
     "@vercel/analytics": "^0.1.5",
     "axios": "^1.4.0",
