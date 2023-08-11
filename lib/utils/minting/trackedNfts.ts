@@ -11,6 +11,7 @@ export interface ParamProps {
 export const contractAddresses = [
   { address: '0x7d5861cfe1C74Aaa0999b7E2651Bf2ebD2A62D89', ocs: true },
   { address: '0xea2a41c02fa86a4901826615f9796e603c6a4491', ocs: true },
+  { address: '0x05b8ee5658F3AD6C268C08B7A70f2FB4B10cf348', ocs: true },
   // { address: '0xC85f505B43FcbFFBF7808A55bC4E8ceCAC18D85B', ocs: false },
   // { address: '0x454C9aC1dFd5F0b4DD2887818be9624b26c848A4', ocs: false },
   // { address: '0x1a126d5d53815e44d8635f3a7e4547cf3dedced9', ocs: false },
@@ -26,6 +27,8 @@ export const contractAddresses = [
   // { address: '0xeFc3F45706639e186F154976C97aA89AfCD90F05', ocs: false },
   // { address: '0x836198F984431EcdC97A7549C1Bd6B3Cd9E7a89B', ocs: false },
   // { address: '0xD6592C787815e378c45e6F83950450E0957078ab', ocs: false },
+  // { address: '0x540d5fd1292cc916d56fb31cce3beddb724dbab3', ocs: false },
+  // { address: '0x89518f11346c761c48cb7086bbd2008806f75149', ocs: false },
 ]
 
 export const getOcsNfts = () => {
@@ -34,52 +37,59 @@ export const getOcsNfts = () => {
     .map(item => item.address);
 }
 
+export interface MintInfo {
+  mintMethod: string;
+  params: any;
+  startDate?: number;
+  endDate?: number;
+  maxTokens?: number;
+  price: string;
+}
+
 export const getMintInfo = (contractAddress: Address, userAddress: Address, quantity: number) => {
-  let mintInfo: {
-    mintMethod: string;
-    params: any;
-    startDate?: number;
-    endDate?: number;
-    maxTokens?: number;
-    price: string;
-  } = {
+  let mintInfo: MintInfo = {
     mintMethod: "",
     params: [],
     startDate: 0,
     endDate: 0,
     maxTokens: 0,
-    price: ''
+    price: '0.0'
   };
   switch (contractAddress) {
-    case contractAddresses[0].address:
+    case contractAddresses[0].address.toLowerCase():
       mintInfo.mintMethod = mintSig.Zora;
-      mintInfo.params = [userAddress, quantity, "Minted using The Box.", "0xAcCC1fe6537eb8EB56b31CcFC48Eb9363e8dd32E"];
+      mintInfo.params = [userAddress, 1, "Minted using The Box on basednfts.co.", "0xAcCC1fe6537eb8EB56b31CcFC48Eb9363e8dd32E"];
       mintInfo.startDate = 1691593200;
-      mintInfo.endDate = 1693540800;
-      mintInfo.price = "0.0";
+      mintInfo.endDate = 4294967295;
+      mintInfo.maxTokens =4294967295;
+      mintInfo.price = "0.000777";
 
       break;
-    case contractAddresses[1].address:
+    case contractAddresses[1].address.toLowerCase():
       mintInfo.mintMethod = mintSig.ThirdWeb;
-      mintInfo.params = [userAddress, quantity, "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE", parseUnits("0", 18), [["115792089237316195423570985008687907853269984665640564039457584007913129639935"], parseUnits("0", 18), "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE"], "0x"];
-      mintInfo.startDate = 1691593200;
-      mintInfo.endDate = 1693540800;
+      mintInfo.params = [userAddress, 1, '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE', 0, [[],'115792089237316195423570985008687907853269984665640564039457584007913129639935n', 0, '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE',], '0x', ];
+      mintInfo.startDate = 1690999814;
       mintInfo.price = "0.0";
 
       break;
-    // case contractAddresses[2].address:
+    case contractAddresses[2].address.toLowerCase():
+      mintInfo.mintMethod = mintSig.ThirdWeb;
+      mintInfo.params = [userAddress, 1, '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE', parseUnits('0.01', 18), [[],'115792089237316195423570985008687907853269984665640564039457584007913129639935n', parseUnits('0.01', 18), '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE',], '0x00', ];
+      mintInfo.startDate = 1691593200;
+      mintInfo.endDate = 1693540800;
+      mintInfo.price = "0.01";
+
+      break;
+    // case contractAddresses[3].address.toLowerCase():
 
     //   break;
-    // case contractAddresses[3].address:
+    // case contractAddresses[4].address.toLowerCase():
 
     //   break;
-    // case contractAddresses[4].address:
+    // case contractAddresses[5].address.toLowerCase():
 
     //   break;
-    // case contractAddresses[5].address:
-
-    //   break;
-    // case contractAddresses[6].address:
+    // case contractAddresses[6].address.toLowerCase():
 
     //   break;
     
