@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse, NextApiHandler } from 'next';
 import axios from 'axios';
 import { ChainStats } from '../../../lib/types/Stats';
 import { RedisClient } from '../../../lib/database/RedisClient';
- 
+
 const handler: NextApiHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   const datePosted = new Date();
   try {
@@ -27,11 +27,8 @@ const handler: NextApiHandler = async (req: NextApiRequest, res: NextApiResponse
       // Update the execution timestamp in Redis
       await RedisClient.set('noderedis:dateUpdated', datePosted.toLocaleDateString());
 
-      // Store data in Redis
-      await RedisClient.json.set('noderedis:chainStats', '$', {
-        Date: datePosted.toLocaleDateString(),
-        Stats: statsJson
-      });
+      // Store data in Redis Hash
+      await RedisClient.hSet('noderedis:chainStats', datePosted.toLocaleDateString(), statsJson);
 
       console.log('Successfully stored data.');
       res.status(200).json(chainData);

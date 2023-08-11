@@ -19,7 +19,7 @@ const MintFooter = (props: any) => {
           <p className="w-1/4 text-center text-[#0052FF]">
             
             {/* * inputs.price */}
-            {parseInt(contractData[0].tokenCount)}
+            {parseInt(contractData[0].tokenCount).toLocaleString()}
           </p>
           <p className="w-1/4 text-center text-[#0052FF] hidden sm:inline-block">
             {contractData[0].floorAsk?.price?.amount?.decimal || 0} ETH
@@ -29,6 +29,7 @@ const MintFooter = (props: any) => {
           </p>
         </div>
       }
+      <div className='absolute bottom-0 right-0'>🟦</div>
     </div>
   </>
 }

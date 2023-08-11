@@ -1,7 +1,9 @@
+import "@decent.xyz/the-box/dist/the-box-base.css";
 import '@rainbow-me/rainbowkit/styles.css'; 
 import '../styles/globals.css';
 import type { AppProps } from 'next/app';
 import { ToastContainer } from 'react-toastify';
+import { BoxThemeProvider } from "@decent.xyz/the-box";
 import 'react-toastify/dist/ReactToastify.css';
 import { Analytics } from "@vercel/analytics/react";
 import {
@@ -27,7 +29,14 @@ import {
 } from 'wagmi/chains';
 import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
- 
+import Metadata from '../components/Metadata';
+
+const myBoxTheme = {
+  mainBgColor: "bg-none",
+  boxSubtleColor2: '#000000',
+  boxDialogBgColor: '#FFFFFF',
+  boxLoadingBadgeColor: '#F0EFEF'
+}
 
 const { chains, publicClient } = configureChains(
   [mainnet, polygon, optimism, arbitrum, base],
@@ -72,7 +81,10 @@ function MyApp({ Component, pageProps }: AppProps) {
           overlayBlur: 'small',
         })}
         >
-        <Component {...pageProps} />
+        <Metadata />
+        <BoxThemeProvider theme={myBoxTheme}>
+          <Component {...pageProps} />
+        </BoxThemeProvider>
         <Analytics />
         <ToastContainer />
       </RainbowKitProvider>
