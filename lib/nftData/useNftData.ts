@@ -4,11 +4,13 @@ import absoluteUrl from '../utils/absoluteUrl';
 
 export const useNftData = (addresses: string[]) => {
   const fetcher = (url: string) => axios.get(url).then(res => res.data);
-  const { data, isLoading, error } = useSWR(`${absoluteUrl().origin}/api/getAllNftData?addresses=${addresses}`, fetcher);
+  const apiUrl = `${absoluteUrl().origin}/api/getNftData?addresses=${addresses}`;
+  
+  const { data: nftData, error: errorNftData } = useSWR(apiUrl, fetcher);
 
   return {
-    nftData: data,
-    loadingNftData: isLoading,
-    errorNftData: error,
+    nftData,
+    loadingNftData: !nftData && !errorNftData,
+    errorNftData,
   };
 };

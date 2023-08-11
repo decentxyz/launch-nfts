@@ -1,5 +1,5 @@
 import { NextPage } from 'next';
-import { getSingleContractData } from '../../lib/nftData/getContractData';
+import { getContractData } from '../../lib/nftData/getContractData';
 import MintNavbar from '../../components/Navbars/MintNavbar';
 import styles from "../../styles/Home.module.css";
 import Image from 'next/image';
@@ -89,7 +89,7 @@ export async function getServerSideProps(context: any) {
   let nftData: any;
 
   if (address) {
-    nftData = await getSingleContractData(address)
+    nftData = await getContractData([address])
   }
 
   return {
