@@ -1,12 +1,21 @@
 import axios from 'axios';
-import absoluteUrl from '../utils/absoluteUrl';
+import { Address } from 'viem';
 
-export const getContractData = async (addresses: string[]) => {
+export const getContractData = async (addresses: Address[]) => {
   try {
-    const response = await axios.get(`${absoluteUrl().origin}/api/getNftData?addresses=${addresses}`);
+    const { data: contractData } = await axios.get(
+      "https://api-base.reservoir.tools/collections/v6", {
+        headers: {
+          "x-api-key": process.env.RESERVOIR_API_KEY as string,
+        },
+        params: {
+          contract: addresses
+        }
+      });
 
-    return response.data;
+    return contractData.collections;
   } catch (e) {
-    console.log("Error getting all contract data.")
-  }
+    console.error(e);
+    throw new Error('Error getting nft data.');
+  };
 }

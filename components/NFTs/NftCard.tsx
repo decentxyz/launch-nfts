@@ -12,7 +12,7 @@ const NftCard = (props: any) => {
   const blurRef = useRef<HTMLDivElement | null>(null);
   const { address: account } = useAccount();
 
-  const mintInfo = account && getMintInfo(collection.primaryContract, account, 1);
+  const mintInfo = account && getMintInfo(collection.primaryContract, 1, account);
 
   useEffect(() => {
     if (blurRef.current) blurRef.current.style.display = "none";

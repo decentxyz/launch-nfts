@@ -28,13 +28,14 @@ const All: NextPage = (props: any) => {
 
 export default All;
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
   const addresses = contractAddresses.map(item => item.address);
   const nftData = await getContractData(addresses);
 
   return {
     props: {
       contractData: nftData || null
-    }
+    },
+    revalidate: 3600
   }
 };

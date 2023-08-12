@@ -21,7 +21,7 @@ const Mint: NextPage = (props: any) => {
 
   useEffect(() => {
     if (account) {
-      const data = getMintInfo(contractData[0].primaryContract.toLowerCase(), account, 1);
+      const data = getMintInfo(contractData[0].primaryContract.toLowerCase(), 1, account);
       setMintInfo(data)
     }
   }, [account, contractData]);

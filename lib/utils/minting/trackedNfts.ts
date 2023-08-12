@@ -1,6 +1,5 @@
 import { mintSig } from "./abiRegistry";
-import { Address } from 'wagmi';
-import { parseUnits } from "viem";
+import { parseUnits, Address } from "viem";
 
 export interface ParamProps {
   contractAddress: Address,
@@ -8,7 +7,12 @@ export interface ParamProps {
   quantity: number
 }
 
-export const contractAddresses = [
+interface ContractAddress {
+  address: Address;
+  ocs: boolean;
+} 
+
+export const contractAddresses: ContractAddress[] = [
   { address: '0x7d5861cfe1C74Aaa0999b7E2651Bf2ebD2A62D89', ocs: true },
   { address: '0xea2a41c02fa86a4901826615f9796e603c6a4491', ocs: true },
   { address: '0x05b8ee5658F3AD6C268C08B7A70f2FB4B10cf348', ocs: true },
@@ -46,7 +50,7 @@ export interface MintInfo {
   price: string;
 }
 
-export const getMintInfo = (contractAddress: Address, userAddress: Address, quantity: number) => {
+export const getMintInfo = (contractAddress: Address, quantity: number, userAddress?: Address, ) => {
   let mintInfo: MintInfo = {
     mintMethod: "",
     params: [],

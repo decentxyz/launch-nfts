@@ -1,8 +1,6 @@
 import type { NextPage } from 'next';
-import Head from 'next/head';
 import styles from '../styles/Home.module.css';
 import { useChainData } from '../lib/nftData/useChainData';
-import { useNftData } from '../lib/nftData/useNftData';
 import Navbar from '../components/Navbars/Navbar';
 import FeaturedNftContainer from "../components/NFTs/FeaturedNftContainer";
 import { FeaturedNftContextProvider } from '../lib/contexts/FeaturedNftContext';
@@ -10,13 +8,12 @@ import { SearchContextProvider } from '../lib/contexts/SearchContext';
 import Footer from '../components/Footers/Footer';
 import Link from 'next/link';
 import { getOcsNfts } from '../lib/utils/minting/trackedNfts';
+import { getContractData } from '../lib/nftData/getContractData';
 
-const Home: NextPage = () => {
+const Home: NextPage = (props: any) => {
   const today = new Date().toLocaleDateString();
   const { chainData, loadingChainData } = useChainData(today);
-  const ocsAddresses = getOcsNfts();
-  // Only featuring OCS NFTs on this page
-  const { nftData, loadingNftData, errorNftData } = useNftData(ocsAddresses);
+  const { contractData } = props;
 
   return <>
     <SearchContextProvider>
@@ -32,9 +29,9 @@ const Home: NextPage = () => {
               <Link href="/all" className='text-right font-thin text-xs hover:text-[#0052FF]'>View All {'→'}</Link>
             </div>
           </div>
-          {!loadingNftData && !errorNftData && <>
-            <FeaturedNftContainer nftData={nftData} />
-            <Footer nftData={nftData} isLoading={loadingNftData} error={errorNftData} />
+          {props.contractData && <>
+            <FeaturedNftContainer nftData={contractData} />
+            <Footer nftData={contractData} />
           </>}
         </main>
       </FeaturedNftContextProvider>
@@ -44,3 +41,15 @@ const Home: NextPage = () => {
 };
 
 export default Home;
+
+export async function getStaticProps() {
+  const ocsAddresses = getOcsNfts();
+  const nftData = await getContractData(ocsAddresses);
+
+  return {
+    props: {
+      contractData: nftData || null
+    },
+    revalidate: 300
+  }
+};
