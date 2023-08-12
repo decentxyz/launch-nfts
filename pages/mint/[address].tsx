@@ -14,7 +14,10 @@ import { useState, useEffect } from 'react';
 import { convertTimestamp } from '../../lib/utils/convertTimestamp';
 
 const Mint: NextPage = (props: any) => {
-  const { address, contractData } = props;
+  const {
+    query: { address },
+    contractData
+  } = props;
   const { address: account } = useAccount();
   const [activeTab, setActiveTab] = useState('Mint');
   const [mintInfo, setMintInfo] = useState<MintInfo>();
@@ -94,8 +97,8 @@ export async function getServerSideProps(context: any) {
 
   return {
     props: {
-      address,
-      contractData: nftData || null
+      contractData: nftData || null,
+      query: context.query,
     }
   }
 };
