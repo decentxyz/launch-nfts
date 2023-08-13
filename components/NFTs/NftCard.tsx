@@ -37,7 +37,7 @@ const NftCard = (props: any) => {
             <p className="font-medium text-xs xl:inline-block hidden">{collection?.createdAt}</p>
             {/* <TheBox
               className="text-xs min-w-[350px] absolute bottom-0 left-0"
-              actionType={ActionType.NftMint}
+              actionType={ActionType.NftPreferMint}
               actionConfig={{
                 contractAddress: collection.primaryContract,
                 chainId: ChainId.BASE,

@@ -7,11 +7,11 @@ import Link from 'next/link';
 import MintFooter from '../../components/Footers/MintFooter';
 import { getMintInfo, MintInfo } from "../../lib/utils/minting/trackedNfts";
 import { useAccount } from "wagmi";
-// import { TheBox, ActionType, ChainId } from "@decent.xyz/the-box";
-// import { parseUnits } from "viem";
 import { BaseScan } from "../../lib/utils/logos";
 import { useState, useEffect } from 'react';
 import { convertTimestamp } from '../../lib/utils/convertTimestamp';
+// import { TheBox, ActionType, ChainId } from "@decent.xyz/the-box";
+// import { parseUnits } from "viem";
 
 const Mint: NextPage = (props: any) => {
   const {
@@ -42,19 +42,19 @@ const Mint: NextPage = (props: any) => {
             </div>
           </div>
           <div>
-            {activeTab === 'Mint' ? <>
+            {activeTab === 'Mint' && mintInfo ? <>
               {/* <TheBox
                 className="text-xs md:max-w-[500px] bg-white bg-opacity-50"
                 paymentButtonText="Pay now"
-                actionType={ActionType.NftMint}
+                actionType={ActionType.NftPreferMint}
                 actionConfig={{
                   contractAddress: contractData[0].primaryContract,
                   chainId: ChainId.BASE,
-                  signature: mintInfo?.mintMethod,
-                  args: mintInfo?.params,
+                  signature: mintInfo.mintMethod,
+                  args: mintInfo.params,
                   cost: {
                     isNative: true,
-                    amount: parseUnits(mintInfo?.price || '0.00', 18),
+                    amount: parseUnits(mintInfo.price, 18),
                   },
                 }}
                 apiKey={process.env.NEXT_PUBLIC_DECENT_API_KEY as string}

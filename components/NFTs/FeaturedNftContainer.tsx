@@ -11,30 +11,30 @@ const FeaturedNftContainer = ({ nftData }: any) => {
   const { setMiddleIndex } = useFeaturedNftContext();
   const { search } = useSearchContext();
 
-  // const handleResize = () => {
-  //   if (typeof window !== 'undefined') {
-  //     setScreenWidth(window.innerWidth);
-  //   }
-  // };
+  const handleResize = () => {
+    if (typeof window !== 'undefined') {
+      setScreenWidth(window.innerWidth);
+    }
+  };
 
-  // useEffect(() => {
-  //   if (typeof window !== 'undefined') {
-  //     setScreenWidth(window.innerWidth);
-  //     window.addEventListener('resize', handleResize);
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setScreenWidth(window.innerWidth);
+      window.addEventListener('resize', handleResize);
 
-  //     return () => {
-  //       window.removeEventListener('resize', handleResize);
-  //     };
-  //   }
-  // }, []);
+      return () => {
+        window.removeEventListener('resize', handleResize);
+      };
+    }
+  }, []);
 
-  // useEffect(() => {
-  //   window.addEventListener('resize', handleResize);
+  useEffect(() => {
+    window.addEventListener('resize', handleResize);
 
-  //   return () => {
-  //     window.removeEventListener('resize', handleResize);
-  //   };
-  // }, []);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -46,17 +46,29 @@ const FeaturedNftContainer = ({ nftData }: any) => {
       setCardSize(cardWidth);
     }
 
+
     const handleScroll = (e: WheelEvent) => {
       const container = containerRef.current;
       if (container) {
-        container.scrollLeft += e.deltaY
-        const middleCardIndex = Math.round(container.scrollLeft / cardSize);
+        const maxScrollLeft = container.scrollWidth - container.clientWidth;
+      
+        let newScrollLeft = container.scrollLeft + e.deltaY;
+        
+        if (newScrollLeft < 0) {
+          newScrollLeft = 0;
+        } else if (newScrollLeft > maxScrollLeft) {
+          newScrollLeft = maxScrollLeft;
+        }
+        
+        container.scrollLeft = newScrollLeft;
+        
+        const middleCardIndex = Math.round(newScrollLeft / cardSize);
         if (middleCardIndex < nftData.length) {
           setMiddleIndex(middleCardIndex);
         } else {
-          setMiddleIndex(nftData.length-1);
-        };
-      };
+          setMiddleIndex(nftData.length - 1);
+        }
+      }
     };
 
     if (container) {

@@ -16,6 +16,10 @@ export const contractAddresses: ContractAddress[] = [
   { address: '0x7d5861cfe1C74Aaa0999b7E2651Bf2ebD2A62D89', ocs: true },
   { address: '0xea2a41c02fa86a4901826615f9796e603c6a4491', ocs: true },
   { address: '0x05b8ee5658F3AD6C268C08B7A70f2FB4B10cf348', ocs: true },
+  { address: '0x8b2937eAD425CCC91Fc0ad884638Dc2129c51CB2', ocs: true },
+  { address: '0x33eD5107f821bb1465da30B7dCe4Fb7105B0Ad16', ocs: true },
+  { address: '0x0c664A85521d5721bca047d29238d9E2a9E9e861', ocs: true },
+  
   // { address: '0xC85f505B43FcbFFBF7808A55bC4E8ceCAC18D85B', ocs: false },
   // { address: '0x454C9aC1dFd5F0b4DD2887818be9624b26c848A4', ocs: false },
   // { address: '0x1a126d5d53815e44d8635f3a7e4547cf3dedced9', ocs: false },
@@ -84,19 +88,30 @@ export const getMintInfo = (contractAddress: Address, quantity: number, userAddr
       mintInfo.price = "0.01";
 
       break;
-    // case contractAddresses[3].address.toLowerCase():
+    case contractAddresses[3].address.toLowerCase():
+      mintInfo.mintMethod = mintSig.Anotherblock;
+      mintInfo.params = [userAddress, 0, quantity, '0x0000000000000000000000000000000000000000000000000000000000000000'];
+      mintInfo.startDate = 1691856000;
+      mintInfo.endDate = 1692028800;
+      mintInfo.price = "0.0022";
 
-    //   break;
-    // case contractAddresses[4].address.toLowerCase():
+      break;
+    case contractAddresses[4].address.toLowerCase():
+      mintInfo.mintMethod = mintSig.Anotherblock;
+      mintInfo.params = [userAddress, 0, quantity, '0x0000000000000000000000000000000000000000000000000000000000000000'];
+      mintInfo.startDate = 1691856000;
+      mintInfo.endDate = 1692028800;
+      mintInfo.price = "0.0011";
 
-    //   break;
-    // case contractAddresses[5].address.toLowerCase():
+      break;
+    case contractAddresses[5].address.toLowerCase():
+      mintInfo.mintMethod = mintSig.Anotherblock;
+      mintInfo.params = [userAddress, 0, quantity, '0x0000000000000000000000000000000000000000000000000000000000000000'];
+      mintInfo.startDate = 1691856000;
+      mintInfo.endDate = 1692028800;
+      mintInfo.price = "0.00055";
 
-    //   break;
-    // case contractAddresses[6].address.toLowerCase():
-
-    //   break;
-    
+      break;
   };
   return mintInfo;
 };

@@ -5,5 +5,7 @@ export const mintSig = {
 
   Zora: "function mintWithRewards(address recipient,uint256 quantity,string comment,address mintReferral)",
 
-  Decent:  "function mint(address to,uint256 numberOfTokens) payable"
+  Decent:  "function mint(address to,uint256 numberOfTokens) payable",
+
+  Anotherblock:  "function mint(address _to,uint256 _phaseId,uint256 _quantity,bytes _signature)"
 };
