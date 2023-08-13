@@ -43,7 +43,7 @@ const Mint: NextPage = (props: any) => {
           </div>
           <div>
             {activeTab === 'Mint' ? <>
-              {/* <TheBox
+              <TheBox
                 className="text-xs md:max-w-[500px] bg-white bg-opacity-50"
                 paymentButtonText="Pay now"
                 actionType={ActionType.NftMint}
@@ -58,7 +58,7 @@ const Mint: NextPage = (props: any) => {
                   },
                 }}
                 apiKey={process.env.NEXT_PUBLIC_DECENT_API_KEY as string}
-              /> */}
+              />
             </> : <>
               <div className='flex items-center md:w-[500px] justify-between flex-wrap gap-2 text-sm font-thin py-4'>
                 <p>Mint start: {convertTimestamp(mintInfo?.startDate)}</p>
