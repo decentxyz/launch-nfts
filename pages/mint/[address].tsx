@@ -1,4 +1,4 @@
-import { NextPage } from 'next';
+import { GetServerSideProps, NextPage } from 'next';
 import { getContractData } from '../../lib/nftData/getContractData';
 import MintNavbar from '../../components/Navbars/MintNavbar';
 import styles from "../../styles/Home.module.css";
@@ -23,10 +23,8 @@ const Mint: NextPage = (props: any) => {
   const [mintInfo, setMintInfo] = useState<MintInfo>();
 
   useEffect(() => {
-    if (account) {
-      const data = getMintInfo(contractData[0].primaryContract.toLowerCase(), 1, account);
-      setMintInfo(data)
-    }
+    const data = getMintInfo(contractData[0].primaryContract.toLowerCase(), 1, account);
+    setMintInfo(data)
   }, [account, contractData]);
 
   return (
@@ -86,13 +84,12 @@ const Mint: NextPage = (props: any) => {
 
 export default Mint;
 
-export async function getServerSideProps(context: any) {
+export const getServerSideProps: GetServerSideProps = async (context: any) => {
   const { address } = context.query
-
   let nftData: any;
 
   if (address) {
-    nftData = await getContractData([address])
+    nftData = await getContractData(['0x05b8ee5658f3ad6c268c08b7a70f2fb4b10cf348'])
   }
 
   return {
