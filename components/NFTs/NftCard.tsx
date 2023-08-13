@@ -4,8 +4,8 @@ import { useRef, useEffect } from "react";
 import Link from "next/link";
 import { getMintInfo } from "../../lib/utils/minting/trackedNfts";
 import { useAccount } from "wagmi";
-import { TheBox, ActionType, ChainId } from "@decent.xyz/the-box";
-import { parseUnits } from "viem";
+// import { TheBox, ActionType, ChainId } from "@decent.xyz/the-box";
+// import { parseUnits } from "viem";
 
 const NftCard = (props: any) => {
   const { collection, screenWidth, cardView } = props;
@@ -35,7 +35,7 @@ const NftCard = (props: any) => {
             </Link>
             <div>
             <p className="font-medium text-xs xl:inline-block hidden">{collection?.createdAt}</p>
-            <TheBox
+            {/* <TheBox
               className="text-xs min-w-[350px] absolute bottom-0 left-0"
               actionType={ActionType.NftMint}
               actionConfig={{
@@ -52,7 +52,7 @@ const NftCard = (props: any) => {
                 },
               }}
               apiKey={process.env.NEXT_PUBLIC_DECENT_API_KEY as string}
-            />
+            /> */}
           </div>
           </div>
           }

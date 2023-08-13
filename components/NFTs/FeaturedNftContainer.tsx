@@ -11,30 +11,30 @@ const FeaturedNftContainer = ({ nftData }: any) => {
   const { setMiddleIndex } = useFeaturedNftContext();
   const { search } = useSearchContext();
 
-  const handleResize = () => {
-    if (typeof window !== 'undefined') {
-      setScreenWidth(window.innerWidth);
-    }
-  };
+  // const handleResize = () => {
+  //   if (typeof window !== 'undefined') {
+  //     setScreenWidth(window.innerWidth);
+  //   }
+  // };
 
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      setScreenWidth(window.innerWidth);
-      window.addEventListener('resize', handleResize);
+  // useEffect(() => {
+  //   if (typeof window !== 'undefined') {
+  //     setScreenWidth(window.innerWidth);
+  //     window.addEventListener('resize', handleResize);
 
-      return () => {
-        window.removeEventListener('resize', handleResize);
-      };
-    }
-  }, []);
+  //     return () => {
+  //       window.removeEventListener('resize', handleResize);
+  //     };
+  //   }
+  // }, []);
 
-  useEffect(() => {
-    window.addEventListener('resize', handleResize);
+  // useEffect(() => {
+  //   window.addEventListener('resize', handleResize);
 
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
+  //   return () => {
+  //     window.removeEventListener('resize', handleResize);
+  //   };
+  // }, []);
 
   useEffect(() => {
     const container = containerRef.current;

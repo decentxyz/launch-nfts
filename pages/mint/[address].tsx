@@ -7,8 +7,8 @@ import Link from 'next/link';
 import MintFooter from '../../components/Footers/MintFooter';
 import { getMintInfo, MintInfo } from "../../lib/utils/minting/trackedNfts";
 import { useAccount } from "wagmi";
-import { TheBox, ActionType, ChainId } from "@decent.xyz/the-box";
-import { parseUnits } from "viem";
+// import { TheBox, ActionType, ChainId } from "@decent.xyz/the-box";
+// import { parseUnits } from "viem";
 import { BaseScan } from "../../lib/utils/logos";
 import { useState, useEffect } from 'react';
 import { convertTimestamp } from '../../lib/utils/convertTimestamp';
@@ -43,7 +43,7 @@ const Mint: NextPage = (props: any) => {
           </div>
           <div>
             {activeTab === 'Mint' ? <>
-              <TheBox
+              {/* <TheBox
                 className="text-xs md:max-w-[500px] bg-white bg-opacity-50"
                 paymentButtonText="Pay now"
                 actionType={ActionType.NftMint}
@@ -58,7 +58,7 @@ const Mint: NextPage = (props: any) => {
                   },
                 }}
                 apiKey={process.env.NEXT_PUBLIC_DECENT_API_KEY as string}
-              />
+              /> */}
             </> : <>
               <div className='flex items-center md:w-[500px] justify-between flex-wrap gap-2 text-sm font-thin py-4'>
                 <p>Mint start: {convertTimestamp(mintInfo?.startDate)}</p>
