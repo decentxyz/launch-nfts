@@ -3,7 +3,7 @@ import axios from 'axios';
 import { ChainStats } from '../../../lib/types/Stats';
 import { RedisClient } from '../../../lib/database/RedisClient';
 
-const handler: NextApiHandler = async (req: NextApiRequest, res: NextApiResponse) => {
+const cron: NextApiHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   const datePosted = new Date();
   try {
     await RedisClient.connect();
@@ -12,7 +12,6 @@ const handler: NextApiHandler = async (req: NextApiRequest, res: NextApiResponse
     const lastUpdateTimestamp = await RedisClient.get('noderedis:dateUpdated');
 
     if (!lastUpdateTimestamp || datePosted.getTime() - new Date(lastUpdateTimestamp).getTime() >= 24 * 60 * 60 * 1000) {
-
       const { data: chainData }: { data: ChainStats } = await axios.get(
         "https://api-base.reservoir.tools/chain/stats/v1", {
         headers: {
@@ -30,7 +29,6 @@ const handler: NextApiHandler = async (req: NextApiRequest, res: NextApiResponse
       // Store data in Redis Hash
       await RedisClient.hSet('noderedis:chainStats', datePosted.toLocaleDateString(), statsJson);
 
-      console.log('Successfully stored data.');
       res.status(200).json(chainData);
     } else {
       console.log('Code already executed within the last 24 hours.');
@@ -44,4 +42,4 @@ const handler: NextApiHandler = async (req: NextApiRequest, res: NextApiResponse
   }
 };
 
-export default handler;
+export default cron;

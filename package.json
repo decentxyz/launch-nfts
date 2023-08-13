@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "@rainbow-me/rainbowkit": "^1.0.8",
-    "@solana/web3.js": "^1.78.4",
     "@vercel/analytics": "^0.1.5",
     "axios": "^1.4.0",
     "ethers": "^5.7.2",
