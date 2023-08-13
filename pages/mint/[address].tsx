@@ -43,7 +43,7 @@ const Mint: NextPage = (props: any) => {
           </div>
           <div>
             {activeTab === 'Mint' ? <>
-              <TheBox
+              {/* <TheBox
                 className="text-xs md:max-w-[500px] bg-white bg-opacity-50"
                 paymentButtonText="Pay now"
                 actionType={ActionType.NftMint}
@@ -58,7 +58,7 @@ const Mint: NextPage = (props: any) => {
                   },
                 }}
                 apiKey={process.env.NEXT_PUBLIC_DECENT_API_KEY as string}
-              />
+              /> */}
             </> : <>
               <div className='flex items-center md:w-[500px] justify-between flex-wrap gap-2 text-sm font-thin py-4'>
                 <p>Mint start: {convertTimestamp(mintInfo?.startDate)}</p>
@@ -89,7 +89,7 @@ export const getServerSideProps: GetServerSideProps = async (context: any) => {
   let nftData: any;
 
   if (address) {
-    nftData = await getContractData(['0x05b8ee5658f3ad6c268c08b7a70f2fb4b10cf348'])
+    nftData = await getContractData([address])
   }
 
   return {
