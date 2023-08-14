@@ -13,11 +13,13 @@ import { convertTimestamp } from '../../lib/utils/convertTimestamp';
 import { TheBox, ActionType, ChainId } from "@decent.xyz/the-box";
 import { parseUnits } from "viem";
 
-const Mint: NextPage = (props: any) => {
+export default function MintPage(props: any) {
   const {
-    address,
+    query: { address },
+    // cachedContract,
     // contractData
   } = props;
+  
   const { address: account } = useAccount();
   const [activeTab, setActiveTab] = useState('Mint');
   const [mintInfo, setMintInfo] = useState<MintInfo>();
@@ -95,31 +97,27 @@ const Mint: NextPage = (props: any) => {
   )
 }
 
-export default Mint;
+export const getServerSideProps: GetServerSideProps = async (context: any) => {
+  const { chainId, address } = context.query;
 
-export const getServerSideProps = async (context: any) => {
-  const { address } = context.query;
+  let cachedContract;
+  let contractData;
 
-  // try {
-  //   let nftData = null;
-
-  //   if (address) {
-  //     nftData = await getContractData([address]);
+  // if (chainId && address) {
+  //   try {
+  //     cachedContract = await getContractInfo(chainId, address);
+  //     contractData = await getContractData(chainId, address, "Editions")
+  //   } catch (e) {
+  //     console.log("contract not yet indexed: ", e);
   //   }
-
-  //   return {
-  //     props: {
-  //       contractData: nftData,
-  //       query: context.query,
-  //     },
-  //   };
-  // } catch (error) {
-  //   console.error(error);
-    return {
-      props: {
-        // contractData: null,
-        address,
-      },
-    };
   // }
+
+  return {
+    props: {
+      notFound: process.env.NODE_ENV !== "development",
+      query: context.query,
+      // cachedContract: cachedContract || null,
+      // contractData: contractData || null,
+    },
+  };
 };
