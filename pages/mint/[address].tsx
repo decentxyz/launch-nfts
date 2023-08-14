@@ -14,74 +14,13 @@ import { TheBox, ActionType, ChainId } from "@decent.xyz/the-box";
 import { parseUnits } from "viem";
 
 const Mint: NextPage = (props: any) => {
-  // const {
-  //   query: { address },
-  //   contractData
-  // } = props;
+  const {
+    query: { address },
+    contractData
+  } = props;
   const { address: account } = useAccount();
   const [activeTab, setActiveTab] = useState('Mint');
   const [mintInfo, setMintInfo] = useState<MintInfo>();
-
-  const contractData = [
-  {
-    id: '0x05b8ee5658f3ad6c268c08b7a70f2fb4b10cf348',
-    slug: 'deekay-motion-new-era-btc',
-    createdAt: '2023-08-09T16:42:20.655Z',
-    name: 'DeeKay Motion - New Era BTC',
-    image: 'https://lh3.googleusercontent.com/icLlCsZu3XGpN2YSUuIXGzFeoCSlHz2cc1roSsJGfvvXdI7EMqJY_eymXdc12NByZ22uDRSVb5r67kReYAHo9pz9AZuVqyrb9Q',
-    banner: null,
-    discordUrl: null,
-    externalUrl: null,
-    twitterUsername: null,
-    openseaVerificationStatus: null,
-    description: null,
-    sampleImages: [
-      'https://lh3.googleusercontent.com/icLlCsZu3XGpN2YSUuIXGzFeoCSlHz2cc1roSsJGfvvXdI7EMqJY_eymXdc12NByZ22uDRSVb5r67kReYAHo9pz9AZuVqyrb9Q',
-      'https://lh3.googleusercontent.com/icLlCsZu3XGpN2YSUuIXGzFeoCSlHz2cc1roSsJGfvvXdI7EMqJY_eymXdc12NByZ22uDRSVb5r67kReYAHo9pz9AZuVqyrb9Q',
-      'https://lh3.googleusercontent.com/icLlCsZu3XGpN2YSUuIXGzFeoCSlHz2cc1roSsJGfvvXdI7EMqJY_eymXdc12NByZ22uDRSVb5r67kReYAHo9pz9AZuVqyrb9Q',
-      'https://ipfs.io/ipfs/QmQh9g4QtmFBcHV97Wenpbcq4xT5p33RDRx7W13nmyvXeb/photo_4_2023-08-09_11-04-12.jpg'
-    ],
-    tokenCount: '26221',
-    onSaleCount: '433',
-    primaryContract: '0x05b8ee5658f3ad6c268c08b7a70f2fb4b10cf348',
-    tokenSetId: 'contract:0x05b8ee5658f3ad6c268c08b7a70f2fb4b10cf348',
-    creator: null,
-    royalties: null,
-    allRoyalties: null,
-    floorAsk: {
-      id: '0x48060bd93a146fea1f3c7db974462db952a29fa67e7d08cb7fc513d561b81a14',
-      sourceDomain: 'opensea.io',
-      price: [Object],
-      maker: '0xf18ca3753c5bba51b97fd410542ca739b4de5e71',
-      validFrom: 1692041222,
-      validUntil: 1694440260,
-      token: [Object]
-    },
-    topBid: {
-      id: null,
-      sourceDomain: null,
-      price: null,
-      maker: null,
-      validFrom: null,
-      validUntil: null
-    },
-    rank: { '1day': 8, '7day': null, '30day': null, allTime: 3 },
-    volume: {
-      '1day': 1.13452,
-      '7day': 11.55279,
-      '30day': 11.55279,
-      allTime: 11.55279
-    },
-    volumeChange: { '1day': 1.4836054762512851, '7day': null, '30day': null },
-    floorSale: { '1day': 0.0035, '7day': null, '30day': null },
-    floorSaleChange: { '1day': 2.277142857142857, '7day': null, '30day': null },
-    collectionBidSupported: true,
-    ownerCount: 15849,
-    contractKind: 'erc721',
-    mintedTimestamp: null,
-    mintStages: []
-  }
-]
 
   useEffect(() => {
     const data = getMintInfo('0x05b8ee5658f3ad6c268c08b7a70f2fb4b10cf348', 1, account);
@@ -90,7 +29,7 @@ const Mint: NextPage = (props: any) => {
 
   return (
     <>
-    <MintNavbar address={'0x05b8ee5658f3ad6c268c08b7a70f2fb4b10cf348'} />
+    <MintNavbar address={address} />
     <div className={`${styles.main} px-[24px] py-[12px] relative`}>
       <div className='flex md:flex-wrap flex-wrap-reverse md:gap-0 gap-12 md:mt-0 mt-40 w-full relative'>
         <div className='md:w-1/2 w-full h-full pr-8 relative'>
@@ -145,20 +84,20 @@ const Mint: NextPage = (props: any) => {
 
 export default Mint;
 
-// export const getServerSideProps: GetServerSideProps = async (context: any) => {
-//   const { address } = context.query
-//   let nftData: any;
+export const getServerSideProps: GetServerSideProps = async (context: any) => {
+  const { address } = context.query
+  let nftData: any;
 
-//   if (address) {
-//     nftData = await getContractData([address])
-//   }
+  if (address) {
+    nftData = await getContractData([address])
+  }
 
-//   console.log(nftData)
+  console.log(nftData)
 
-//   return {
-//     props: {
-//       contractData: nftData || null,
-//       query: context.query,
-//     }
-//   }
-// };
+  return {
+    props: {
+      contractData: nftData || null,
+      query: context.query,
+    }
+  }
+};
