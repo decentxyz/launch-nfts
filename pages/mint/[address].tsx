@@ -83,14 +83,14 @@ const Mint: NextPage = (props: any) => {
   }
 ]
 
-  // useEffect(() => {
-  //   const data = getMintInfo(contractData[0].primaryContract.toLowerCase(), 1, account);
-  //   setMintInfo(data)
-  // }, [account, contractData]);
+  useEffect(() => {
+    const data = getMintInfo('0x05b8ee5658f3ad6c268c08b7a70f2fb4b10cf348', 1, account);
+    setMintInfo(data)
+  }, [account]);
 
   return (
     <>
-    <MintNavbar address={'0x05b8ee5658f3ad6c268c08b7a70f2fb4b10cf348'} all />
+    <MintNavbar address={'0x05b8ee5658f3ad6c268c08b7a70f2fb4b10cf348'} />
     <div className={`${styles.main} px-[24px] py-[12px] relative`}>
       <div className='flex md:flex-wrap flex-wrap-reverse md:gap-0 gap-12 md:mt-0 mt-40 w-full relative'>
         <div className='md:w-1/2 w-full h-full pr-8 relative'>
