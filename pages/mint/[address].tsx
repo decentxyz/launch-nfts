@@ -15,7 +15,7 @@ import { parseUnits } from "viem";
 
 const Mint: NextPage = (props: any) => {
   const {
-    query: { address },
+    address,
     // contractData
   } = props;
   const { address: account } = useAccount();
@@ -118,7 +118,7 @@ export const getServerSideProps = async (context: any) => {
     return {
       props: {
         // contractData: null,
-        query: context.query,
+        address,
       },
     };
   // }
