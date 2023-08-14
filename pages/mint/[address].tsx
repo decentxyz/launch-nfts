@@ -84,20 +84,29 @@ const Mint: NextPage = (props: any) => {
 
 export default Mint;
 
-export const getServerSideProps: GetServerSideProps = async (context: any) => {
-  const { address } = context.query
-  let nftData: any;
+export const getServerSideProps = async (context: any) => {
+  const { address } = context.query;
 
-  if (address) {
-    nftData = await getContractData([address])
-  }
+  try {
+    let nftData = null;
 
-  console.log(nftData)
-
-  return {
-    props: {
-      contractData: nftData || null,
-      query: context.query,
+    if (address) {
+      nftData = await getContractData([address]);
     }
+
+    return {
+      props: {
+        contractData: nftData,
+        query: context.query,
+      },
+    };
+  } catch (error) {
+    console.error(error);
+    return {
+      props: {
+        contractData: null,
+        query: context.query,
+      },
+    };
   }
 };
