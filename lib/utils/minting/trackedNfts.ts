@@ -14,8 +14,10 @@ interface ContractAddress {
 
 export const contractAddresses: ContractAddress[] = [
   { address: '0x7d5861cfe1C74Aaa0999b7E2651Bf2ebD2A62D89', ocs: true },
-  { address: '0xea2a41c02fa86a4901826615f9796e603c6a4491', ocs: true },
-  { address: '0x05b8ee5658F3AD6C268C08B7A70f2FB4B10cf348', ocs: true },
+  // Bridge to Base
+  { address: '0xea2a41c02fa86a4901826615f9796e603c6a4491', ocs: false },
+  //FWB
+  { address: '0xc9cca8e570f81a7476760279b5b19cc1130b7580', ocs: true },
   // anotherblock
   { address: '0x8b2937eAD425CCC91Fc0ad884638Dc2129c51CB2', ocs: true },
   { address: '0x33eD5107f821bb1465da30B7dCe4Fb7105B0Ad16', ocs: true },
@@ -50,12 +52,15 @@ export const getMintInfo = (contractAddress: Address, quantity: number, userAddr
     maxTokens: 0,
     price: '0.0'
   };
+
+  const alwaysOpen = 4294967295;
+
   switch (contractAddress) {
     case contractAddresses[0].address.toLowerCase():
       mintInfo.mintMethod = mintSig.Zora;
       mintInfo.params = [userAddress, 1, "Minted using The Box on basednfts.co.", "0xAcCC1fe6537eb8EB56b31CcFC48Eb9363e8dd32E"];
       mintInfo.startDate = 1691593200;
-      mintInfo.endDate = 4294967295;
+      mintInfo.endDate = alwaysOpen;
       mintInfo.price = "0.000777";
 
       break;
@@ -63,6 +68,7 @@ export const getMintInfo = (contractAddress: Address, quantity: number, userAddr
       mintInfo.mintMethod = mintSig.ThirdWeb;
       mintInfo.params = [userAddress, 1, '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE', 0, [[],'115792089237316195423570985008687907853269984665640564039457584007913129639935n', 0, '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE',], '0x', ];
       mintInfo.startDate = 1690999814;
+      mintInfo.endDate = alwaysOpen;
       mintInfo.price = "0.0";
 
       break;
@@ -70,7 +76,7 @@ export const getMintInfo = (contractAddress: Address, quantity: number, userAddr
       mintInfo.mintMethod = mintSig.ThirdWeb;
       mintInfo.params = [userAddress, 1, '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE', parseUnits('0.01', 18), [[],'115792089237316195423570985008687907853269984665640564039457584007913129639935n', parseUnits('0.01', 18), '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE',], '0x00', ];
       mintInfo.startDate = 1691593200;
-      mintInfo.endDate = 1693540800;
+      mintInfo.endDate = 1691769600;
       mintInfo.price = "0.01";
 
       break;
@@ -87,6 +93,8 @@ export const getMintInfo = (contractAddress: Address, quantity: number, userAddr
       mintInfo.params = [userAddress, 0, quantity, '0x0000000000000000000000000000000000000000000000000000000000000000'];
       mintInfo.startDate = 1691856000;
       mintInfo.endDate = 1692028800;
+
+      mintInfo.maxTokens = 10000;
       mintInfo.price = "0.0011";
 
       break;
@@ -95,6 +103,8 @@ export const getMintInfo = (contractAddress: Address, quantity: number, userAddr
       mintInfo.params = [userAddress, 0, quantity, '0x0000000000000000000000000000000000000000000000000000000000000000'];
       mintInfo.startDate = 1691856000;
       mintInfo.endDate = 1692028800;
+
+      mintInfo.maxTokens = 10000;
       mintInfo.price = "0.00055";
 
       break;
@@ -102,6 +112,9 @@ export const getMintInfo = (contractAddress: Address, quantity: number, userAddr
       mintInfo.mintMethod = mintSig.ThirdWeb;
       mintInfo.params = [userAddress, 1, '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE', parseUnits('0.014', 18), [[],'115792089237316195423570985008687907853269984665640564039457584007913129639935n', parseUnits('0.014', 18), '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE',], '0x00', ];
       mintInfo.startDate = 1691938800;
+
+      mintInfo.endDate = 4294967295;
+      mintInfo.maxTokens = 10000;
       mintInfo.price = "0.014";
 
       break;
@@ -109,6 +122,9 @@ export const getMintInfo = (contractAddress: Address, quantity: number, userAddr
       mintInfo.mintMethod = mintSig.ThirdWeb;
       mintInfo.params = [userAddress, 1, '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE', parseUnits('0.0435', 18), [[],'115792089237316195423570985008687907853269984665640564039457584007913129639935n', parseUnits('0.0435', 18), '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE',], '0x00', ];
       mintInfo.startDate = 1691766000;
+
+      mintInfo.endDate = 4294967295;
+      mintInfo.maxTokens = 10000;
       mintInfo.price = "0.0435";
 
       break;

@@ -56,6 +56,9 @@ const Mint: NextPage = (props: any) => {
                     isNative: true,
                     amount: parseUnits(mintInfo?.price || '0.00', 18),
                   },
+                  supplyConfig: {
+                    sellOutDate: mintInfo?.endDate,
+                  },
                 }}
                 apiKey={process.env.NEXT_PUBLIC_DECENT_API_KEY as string}
               />
@@ -76,7 +79,7 @@ const Mint: NextPage = (props: any) => {
           <Image src={contractData[0].image} height={500} width={500} alt="nft image" className='rounded-md' />
         </div>
       </div>
-      <MintFooter contractData={contractData} />
+      <MintFooter contractData={contractData} mintPrice={mintInfo?.price} />
     </div>
     </>
   )
@@ -90,7 +93,7 @@ export const getServerSideProps: GetServerSideProps = async (context: any) => {
 
   if (address) {
     nftData = await getContractData([address])
-  }
+  };
 
   return {
     props: {

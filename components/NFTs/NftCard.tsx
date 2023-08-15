@@ -45,6 +45,7 @@ const NftCard = (props: any) => {
                 args: mintInfo?.params,
                 supplyConfig: {
                   maxCap: mintInfo?.maxTokens,
+                  sellOutDate: mintInfo?.endDate
                 },
                 cost: {
                   isNative: true,

@@ -26,7 +26,7 @@ const Footer = (props: any) => {
             {((activeNft?.ownerCount / parseInt(activeNft?.tokenCount))*100).toFixed(2)+ "%"}
           </p>
           <p className="w-1/5 text-center text-[#0052FF] hidden sm:inline-block">
-            {((parseInt(activeNft?.onSaleCount) / parseInt(activeNft?.tokenCount))*100).toFixed(2) || "" + "%"}
+            {((parseInt(activeNft?.onSaleCount) / parseInt(activeNft?.tokenCount))*100).toFixed(2)+ "%"}
           </p>
           <p className="w-1/5 text-right text-[#0052FF]">
             {activeNft?.volume?.allTime?.toFixed(2).toLocaleString()} ETH
