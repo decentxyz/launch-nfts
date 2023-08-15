@@ -93,8 +93,6 @@ export const getMintInfo = (contractAddress: Address, quantity: number, userAddr
       mintInfo.params = [userAddress, 0, quantity, '0x0000000000000000000000000000000000000000000000000000000000000000'];
       mintInfo.startDate = 1691856000;
       mintInfo.endDate = 1692028800;
-
-      mintInfo.maxTokens = 10000;
       mintInfo.price = "0.0011";
 
       break;
@@ -103,8 +101,6 @@ export const getMintInfo = (contractAddress: Address, quantity: number, userAddr
       mintInfo.params = [userAddress, 0, quantity, '0x0000000000000000000000000000000000000000000000000000000000000000'];
       mintInfo.startDate = 1691856000;
       mintInfo.endDate = 1692028800;
-
-      mintInfo.maxTokens = 10000;
       mintInfo.price = "0.00055";
 
       break;
@@ -112,9 +108,7 @@ export const getMintInfo = (contractAddress: Address, quantity: number, userAddr
       mintInfo.mintMethod = mintSig.ThirdWeb;
       mintInfo.params = [userAddress, 1, '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE', parseUnits('0.014', 18), [[],'115792089237316195423570985008687907853269984665640564039457584007913129639935n', parseUnits('0.014', 18), '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE',], '0x00', ];
       mintInfo.startDate = 1691938800;
-
       mintInfo.endDate = 1692201600;
-      mintInfo.maxTokens = 10000;
       mintInfo.price = "0.014";
 
       break;
@@ -122,9 +116,7 @@ export const getMintInfo = (contractAddress: Address, quantity: number, userAddr
       mintInfo.mintMethod = mintSig.ThirdWeb;
       mintInfo.params = [userAddress, 1, '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE', parseUnits('0.0435', 18), [[],'115792089237316195423570985008687907853269984665640564039457584007913129639935n', parseUnits('0.0435', 18), '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE',], '0x00', ];
       mintInfo.startDate = 1691766000;
-
       mintInfo.endDate = 4294967295;
-      mintInfo.maxTokens = 10000;
       mintInfo.price = "0.0435";
 
       break;
