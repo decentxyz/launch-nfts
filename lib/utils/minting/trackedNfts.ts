@@ -10,7 +10,22 @@ export interface ParamProps {
 interface ContractAddress {
   address: Address;
   ocs: boolean;
-} 
+}
+
+export interface MintInfo {
+  mintMethod: string;
+  params: any;
+  startDate?: number;
+  endDate?: number;
+  maxTokens?: number;
+  price: string;
+}
+
+export const getOcsNfts = () => {
+  return contractAddresses
+    .filter(item => item.ocs === true)
+    .map(item => item.address);
+}
 
 export const contractAddresses: ContractAddress[] = [
   { address: '0x7d5861cfe1C74Aaa0999b7E2651Bf2ebD2A62D89', ocs: true },
@@ -27,21 +42,6 @@ export const contractAddresses: ContractAddress[] = [
   // stand with crypto
   { address: '0x874ad7c13935f73c7bbe94efbd8e766de2a585eb', ocs: false },
 ]
-
-export const getOcsNfts = () => {
-  return contractAddresses
-    .filter(item => item.ocs === true)
-    .map(item => item.address);
-}
-
-export interface MintInfo {
-  mintMethod: string;
-  params: any;
-  startDate?: number;
-  endDate?: number;
-  maxTokens?: number;
-  price: string;
-}
 
 export const getMintInfo = (contractAddress: Address, quantity: number, userAddress?: Address, ) => {
   let mintInfo: MintInfo = {
@@ -113,12 +113,12 @@ export const getMintInfo = (contractAddress: Address, quantity: number, userAddr
       mintInfo.params = [userAddress, 1, '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE', parseUnits('0.014', 18), [[],'115792089237316195423570985008687907853269984665640564039457584007913129639935n', parseUnits('0.014', 18), '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE',], '0x00', ];
       mintInfo.startDate = 1691938800;
 
-      mintInfo.endDate = 4294967295;
+      mintInfo.endDate = 1692201600;
       mintInfo.maxTokens = 10000;
       mintInfo.price = "0.014";
 
       break;
-    case contractAddresses[6].address.toLowerCase():
+    case contractAddresses[7].address.toLowerCase():
       mintInfo.mintMethod = mintSig.ThirdWeb;
       mintInfo.params = [userAddress, 1, '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE', parseUnits('0.0435', 18), [[],'115792089237316195423570985008687907853269984665640564039457584007913129639935n', parseUnits('0.0435', 18), '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE',], '0x00', ];
       mintInfo.startDate = 1691766000;
