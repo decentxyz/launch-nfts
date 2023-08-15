@@ -46,7 +46,7 @@ const Mint: NextPage = (props: any) => {
               <TheBox
                 className="text-xs md:max-w-[500px] bg-white"
                 paymentButtonText="Pay now"
-                actionType={ActionType.NftMint}
+                actionType={ActionType.NftPreferMint}
                 actionConfig={{
                   contractAddress: contractData[0].primaryContract,
                   chainId: ChainId.BASE,
