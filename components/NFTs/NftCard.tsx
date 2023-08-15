@@ -31,7 +31,7 @@ const NftCard = (props: any) => {
           {!cardView && 
           <div className={`w-full h-[400px] flex z-10 mr-2 text-left space-y-3 relative overflow-y-auto overflow-x-hidden hidden sm:inline-block`}>
             <Link href={`/mint/${collection?.primaryContract}`}>
-              <p className="text-6xl hover:text-[#0052FF] cursor-pointer">{collection?.name}</p>
+              <p className="text-5xl hover:text-[#0052FF] cursor-pointer">{collection?.name}</p>
             </Link>
             <div>
             <p className="font-medium text-xs xl:inline-block hidden">{collection?.createdAt}</p>

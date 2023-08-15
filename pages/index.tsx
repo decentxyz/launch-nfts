@@ -44,7 +44,7 @@ export default Home;
 
 export async function getStaticProps() {
   const ocsAddresses = getOcsNfts();
-  const nftData = await getContractData(ocsAddresses.slice(-3));
+  const nftData = await getContractData(ocsAddresses.slice(-5));
 
   return {
     props: {

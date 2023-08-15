@@ -3,7 +3,7 @@ import '@rainbow-me/rainbowkit/styles.css';
 import '../styles/globals.css';
 import type { AppProps } from 'next/app';
 import { ToastContainer } from 'react-toastify';
-// import { BoxThemeProvider } from "@decent.xyz/the-box";
+import { BoxThemeProvider } from "@decent.xyz/the-box";
 import 'react-toastify/dist/ReactToastify.css';
 import { Analytics } from "@vercel/analytics/react";
 import {
@@ -82,9 +82,9 @@ function MyApp({ Component, pageProps }: AppProps) {
         })}
         >
         <Metadata />
-        {/* <BoxThemeProvider theme={myBoxTheme}> */}
+        <BoxThemeProvider theme={myBoxTheme}>
           <Component {...pageProps} />
-        {/* </BoxThemeProvider> */}
+        </BoxThemeProvider>
         <Analytics />
         <ToastContainer />
       </RainbowKitProvider>

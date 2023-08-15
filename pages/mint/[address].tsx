@@ -44,7 +44,7 @@ const Mint: NextPage = (props: any) => {
           <div>
             {activeTab === 'Mint' ? <>
               <TheBox
-                className="text-xs md:max-w-[500px] bg-white bg-opacity-50"
+                className="text-xs md:max-w-[500px] bg-white"
                 paymentButtonText="Pay now"
                 actionType={ActionType.NftMint}
                 actionConfig={{

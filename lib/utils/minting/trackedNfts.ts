@@ -16,27 +16,14 @@ export const contractAddresses: ContractAddress[] = [
   { address: '0x7d5861cfe1C74Aaa0999b7E2651Bf2ebD2A62D89', ocs: true },
   { address: '0xea2a41c02fa86a4901826615f9796e603c6a4491', ocs: true },
   { address: '0x05b8ee5658F3AD6C268C08B7A70f2FB4B10cf348', ocs: true },
+  // anotherblock
   { address: '0x8b2937eAD425CCC91Fc0ad884638Dc2129c51CB2', ocs: true },
   { address: '0x33eD5107f821bb1465da30B7dCe4Fb7105B0Ad16', ocs: true },
   { address: '0x0c664A85521d5721bca047d29238d9E2a9E9e861', ocs: true },
-  
-  // { address: '0xC85f505B43FcbFFBF7808A55bC4E8ceCAC18D85B', ocs: false },
-  // { address: '0x454C9aC1dFd5F0b4DD2887818be9624b26c848A4', ocs: false },
-  // { address: '0x1a126d5d53815e44d8635f3a7e4547cf3dedced9', ocs: false },
-  // { address: '0xcf512c90887f195f64ae2d0ded42c98a5aa466fb', ocs: false },
-  // { address: '0xe9030896cf8acd38d3a9a8484a16d29d6f9ddc78', ocs: false },
-  // { address: '0x23548a31f191d2619c52c79f9d7c6d50b2508d99', ocs: false },
-  // { address: '0xaf8000cec22904c8e3fbdd0bbd6e459ba4d95ac0', ocs: false },
-  // { address: '0xfd683cf95e380526d25017b40180d381d0c6ee9d', ocs: false },
-  // { address: '0xB311Ec23c4A7578a4c18F66774a5d7b51DD1DD07', ocs: false },
-  // { address: '0x167e861Af4f113af4b48F0879d136A0f983c1322', ocs: false },
-  // { address: '0x146790446c5D37A89D0F6b33809DDF7D68E57892', ocs: false },
-  // { address: '0x12213A4Aa03E139dCD71B36Bc612C7f02800B03e', ocs: false },
-  // { address: '0xeFc3F45706639e186F154976C97aA89AfCD90F05', ocs: false },
-  // { address: '0x836198F984431EcdC97A7549C1Bd6B3Cd9E7a89B', ocs: false },
-  // { address: '0xD6592C787815e378c45e6F83950450E0957078ab', ocs: false },
-  // { address: '0x540d5fd1292cc916d56fb31cce3beddb724dbab3', ocs: false },
-  // { address: '0x89518f11346c761c48cb7086bbd2008806f75149', ocs: false },
+  // coke
+  { address: '0x916555cd5f02e159b84d5247f8660531a4525d2d', ocs: true },
+  // stand with crypto
+  { address: '0x874ad7c13935f73c7bbe94efbd8e766de2a585eb', ocs: false },
 ]
 
 export const getOcsNfts = () => {
@@ -69,7 +56,6 @@ export const getMintInfo = (contractAddress: Address, quantity: number, userAddr
       mintInfo.params = [userAddress, 1, "Minted using The Box on basednfts.co.", "0xAcCC1fe6537eb8EB56b31CcFC48Eb9363e8dd32E"];
       mintInfo.startDate = 1691593200;
       mintInfo.endDate = 4294967295;
-      mintInfo.maxTokens =4294967295;
       mintInfo.price = "0.000777";
 
       break;
@@ -110,6 +96,20 @@ export const getMintInfo = (contractAddress: Address, quantity: number, userAddr
       mintInfo.startDate = 1691856000;
       mintInfo.endDate = 1692028800;
       mintInfo.price = "0.00055";
+
+      break;
+    case contractAddresses[6].address.toLowerCase():
+      mintInfo.mintMethod = mintSig.ThirdWeb;
+      mintInfo.params = [userAddress, 1, '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE', parseUnits('0.014', 18), [[],'115792089237316195423570985008687907853269984665640564039457584007913129639935n', parseUnits('0.014', 18), '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE',], '0x00', ];
+      mintInfo.startDate = 1691938800;
+      mintInfo.price = "0.014";
+
+      break;
+    case contractAddresses[6].address.toLowerCase():
+      mintInfo.mintMethod = mintSig.ThirdWeb;
+      mintInfo.params = [userAddress, 1, '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE', parseUnits('0.0435', 18), [[],'115792089237316195423570985008687907853269984665640564039457584007913129639935n', parseUnits('0.0435', 18), '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE',], '0x00', ];
+      mintInfo.startDate = 1691766000;
+      mintInfo.price = "0.0435";
 
       break;
   };
