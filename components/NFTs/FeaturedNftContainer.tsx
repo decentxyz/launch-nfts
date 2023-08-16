@@ -93,7 +93,7 @@ const FeaturedNftContainer = ({ nftData }: any) => {
   const sortedNftData = nftData.sort(searchSort);
 
   return <>
-    <div className={`${styles.featuredContainer} relative`} ref={containerRef}>
+    <div className={`${styles.featuredContainer} relative overflow-x-scroll`} ref={containerRef}>
       <div className="absolute left-6 font-thin top-1/2 transform -translate-y-1/2 w-40">
         Mint NFTs on Base.<span className="text-[#0052FF]">With any token. No bridging required.</span>
       </div>
