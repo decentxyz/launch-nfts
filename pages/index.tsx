@@ -18,7 +18,6 @@ const Home: NextPage = (props: any) => {
   return <>
     <SearchContextProvider>
       <Navbar oneDay={chainData?.oneDay} sevenDay={chainData?.sevenDay} isLoading={loadingChainData} />
-    
       <FeaturedNftContextProvider>
         <main className={`${styles.main} relative`} style={{ minHeight: '100vh' }}>
           <div className='flex w-full px-[24px]'>

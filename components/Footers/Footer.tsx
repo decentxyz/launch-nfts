@@ -1,4 +1,5 @@
 import { useFeaturedNftContext } from "../../lib/contexts/FeaturedNftContext";
+import Link from "next/link";
 
 const Footer = (props: any) => {
   const { nftData } = props;
@@ -33,7 +34,9 @@ const Footer = (props: any) => {
           </p>
         </div>
       }
-      <div className='absolute bottom-0 right-0'>🟦</div>
+      <Link href="https://decent.xyz/" target="_blank">
+        <div className='absolute bottom-0 right-0'>🟦</div>
+      </Link>
     </div>
   </>
 }

@@ -32,7 +32,7 @@ import { publicProvider } from 'wagmi/providers/public';
 import Metadata from '../components/Metadata';
 
 const myBoxTheme = {
-  mainBgColor: "none",
+  mainBgColor: "#FFFFFF",
   boxSubtleColor2: '#000000',
   boxDialogBgColor: '#FFFFFF',
   boxLoadingBadgeColor: '#F0EFEF'
