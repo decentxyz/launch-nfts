@@ -55,9 +55,6 @@ function Modal(props: ModalProps) {
                 </button>
               </div>
               <div className="mt-1 mb-4">{props.children}</div>
-              <div className="absolute left-1/2 text-[#0052FF] transform -translate-x-1/2 text-[10px] font-thin w-full text-center">
-                Mint NFTs on Base. With any token. No bridging required.
-              </div>
             </div>
           </Transition.Child>
         </div>
