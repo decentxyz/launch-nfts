@@ -16,7 +16,7 @@ import {
   rainbowWallet,
   metaMaskWallet,
   coinbaseWallet,
-  phantomWallet,
+  // phantomWallet,
   walletConnectWallet,
 } from '@rainbow-me/rainbowkit/wallets';
 import { configureChains, createConfig, WagmiConfig } from 'wagmi';
@@ -52,7 +52,7 @@ const connectors = connectorsForWallets([
     groupName: 'Box Based Wallets',
     wallets: [
       injectedWallet({ chains }),
-      phantomWallet({ chains }),
+      // phantomWallet({ chains }),
       rainbowWallet({ projectId: walletConnectId, chains }),
       metaMaskWallet({ projectId: walletConnectId, chains }),
       coinbaseWallet({ chains, appName: 'Based NFTs' }),

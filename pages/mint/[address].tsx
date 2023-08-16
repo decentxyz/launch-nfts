@@ -12,6 +12,7 @@ import { parseUnits } from "viem";
 import { BaseScan } from "../../lib/utils/logos";
 import { useState, useEffect } from 'react';
 import { convertTimestamp } from '../../lib/utils/convertTimestamp';
+import NumberTicker from '../../components/NumberTicker';
 
 const Mint: NextPage = (props: any) => {
   const {
@@ -21,12 +22,21 @@ const Mint: NextPage = (props: any) => {
   const { address: account } = useAccount();
   const [activeTab, setActiveTab] = useState('Mint');
   const [mintInfo, setMintInfo] = useState<MintInfo>();
+  const [quantity, setQuantity] = useState(1);
 
   useEffect(() => {
-    const data = getMintInfo(contractData[0].primaryContract.toLowerCase(), 1, account);
-    setMintInfo(data)
-  }, [account, contractData]);
-
+    async function fetchMintInfo() {
+      const data = getMintInfo(
+        contractData[0].primaryContract.toLowerCase(),
+        quantity,
+        account
+      );
+      setMintInfo(data);
+    }
+  
+    fetchMintInfo();
+  }, [account, contractData, quantity]);
+  
   return (
     <>
     <MintNavbar address={address} all />
@@ -62,6 +72,9 @@ const Mint: NextPage = (props: any) => {
                 }}
                 apiKey={process.env.NEXT_PUBLIC_DECENT_API_KEY as string}
               />
+              <div className="px-4 max-w-[500px]">
+                <NumberTicker quantity={quantity} setQuantity={setQuantity} />
+              </div>
             </> : <>
               <div className='flex items-center md:w-[500px] justify-between flex-wrap gap-2 text-sm font-thin py-4'>
                 <p>Mint start: {convertTimestamp(mintInfo?.startDate)}</p>
@@ -75,7 +88,7 @@ const Mint: NextPage = (props: any) => {
           </div>
         </div>
 
-        <div className='md:w-1/2 w-full flex justify-center'>
+        <div className='md:w-1/2 w-full flex justify-center max-h-[500px]'>
           <Image src={contractData[0].image} height={500} width={500} alt="nft image" className='rounded-md' />
         </div>
       </div>

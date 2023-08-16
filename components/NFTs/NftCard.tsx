@@ -17,7 +17,7 @@ const NftCard = (props: any) => {
   const [isOpen, setIsOpen] = useState(false);
   const [quantity, setQuantity] = useState(1);
 
-  const mintInfo = account && getMintInfo(collection.primaryContract, 1, account);
+  const mintInfo = account && getMintInfo(collection.primaryContract, quantity, account);
 
   useEffect(() => {
     if (blurRef.current) blurRef.current.style.display = "none";

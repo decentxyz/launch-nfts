@@ -5,7 +5,9 @@
 @tailwind components;
 @tailwind utilities;
 
-html
+html {
+  overscroll-behavior-y: none;
+}
 body {
   font-family: 'Inter Tight', sans-serif;
   @apply tracking-widest;
