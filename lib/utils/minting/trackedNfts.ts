@@ -28,6 +28,7 @@ export const getOcsNfts = () => {
 }
 
 export const contractAddresses: ContractAddress[] = [
+  // Base Day 1
   { address: '0x7d5861cfe1C74Aaa0999b7E2651Bf2ebD2A62D89', ocs: true },
   // Bridge to Base
   { address: '0xea2a41c02fa86a4901826615f9796e603c6a4491', ocs: false },
@@ -40,7 +41,7 @@ export const contractAddresses: ContractAddress[] = [
   // coke
   { address: '0x916555cd5f02e159b84d5247f8660531a4525d2d', ocs: true },
   // stand with crypto
-  { address: '0x874ad7c13935f73c7bbe94efbd8e766de2a585eb', ocs: false },
+  { address: '0x874ad7c13935f73c7bbe94efbd8e766de2a585eb', ocs: true },
 ]
 
 export const getMintInfo = (contractAddress: Address, quantity: number, userAddress?: Address, ) => {
@@ -53,14 +54,12 @@ export const getMintInfo = (contractAddress: Address, quantity: number, userAddr
     price: '0.0'
   };
 
-  const alwaysOpen = 4294967295;
-
   switch (contractAddress) {
     case contractAddresses[0].address.toLowerCase():
       mintInfo.mintMethod = mintSig.Zora;
       mintInfo.params = [userAddress, 1, "Minted using The Box on basednfts.co.", "0xAcCC1fe6537eb8EB56b31CcFC48Eb9363e8dd32E"];
       mintInfo.startDate = 1691593200;
-      mintInfo.endDate = alwaysOpen;
+      mintInfo.endDate = 1693540800;
       mintInfo.price = "0.000777";
 
       break;
@@ -68,7 +67,7 @@ export const getMintInfo = (contractAddress: Address, quantity: number, userAddr
       mintInfo.mintMethod = mintSig.ThirdWeb;
       mintInfo.params = [userAddress, 1, '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE', 0, [[],'115792089237316195423570985008687907853269984665640564039457584007913129639935n', 0, '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE',], '0x', ];
       mintInfo.startDate = 1690999814;
-      mintInfo.endDate = alwaysOpen;
+      mintInfo.endDate = 1693551600;
       mintInfo.price = "0.0";
 
       break;
