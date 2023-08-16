@@ -113,10 +113,10 @@ export const getMintInfo = (contractAddress: Address, quantity: number, userAddr
       break;
     case contractAddresses[7].address.toLowerCase():
       mintInfo.mintMethod = mintSig.ThirdWeb;
-      mintInfo.params = [userAddress, 1, '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE', parseUnits('0.0435', 18), [[],'115792089237316195423570985008687907853269984665640564039457584007913129639935n', parseUnits('0.0435', 18), '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE',], '0x00', ];
+      mintInfo.params = [userAddress, 1, '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE', parseUnits('0.00', 18), [[],'115792089237316195423570985008687907853269984665640564039457584007913129639935n', parseUnits('0.00', 18), '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE',], '0x00', ];
       mintInfo.startDate = 1691766000;
       mintInfo.endDate = 4294967295;
-      mintInfo.price = "0.0435";
+      mintInfo.price = "0.0";
 
       break;
   };
