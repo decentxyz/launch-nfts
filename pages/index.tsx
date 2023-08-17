@@ -10,10 +10,9 @@ import Link from 'next/link';
 import { getOcsNfts } from '../lib/utils/minting/trackedNfts';
 import { getContractData } from '../lib/nftData/getContractData';
 
-const Home: NextPage = (props: any) => {
+const Home: NextPage = ({ contractData }: any) => {
   const today = new Date().toLocaleDateString();
   const { chainData, loadingChainData } = useChainData(today);
-  const { contractData } = props;
 
   return <>
     <SearchContextProvider>
@@ -28,7 +27,7 @@ const Home: NextPage = (props: any) => {
               <Link href="/all" className='text-right font-thin text-xs hover:text-[#0052FF]'>View All {'→'}</Link>
             </div>
           </div>
-          {props.contractData && <>
+          {contractData && <>
             <FeaturedNftContainer nftData={contractData} />
             <Footer nftData={contractData} />
           </>}
@@ -44,10 +43,9 @@ export default Home;
 export async function getStaticProps() {
   const ocsAddresses = getOcsNfts();
   const nftData = await getContractData(ocsAddresses.slice(-5));
-
   return {
     props: {
-      contractData: nftData || null
+      contractData: nftData || null,
     },
     revalidate: 300
   }

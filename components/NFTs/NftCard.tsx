@@ -11,7 +11,7 @@ import NumberTicker from "../NumberTicker";
 import { BaseScan } from "../../lib/utils/logos";
 
 const NftCard = (props: any) => {
-  const { collection, screenWidth, cardView } = props;
+  const { collection, cardView } = props;
   const blurRef = useRef<HTMLDivElement | null>(null);
   const { address: account } = useAccount();
   const [isOpen, setIsOpen] = useState(false);
@@ -47,11 +47,15 @@ const NftCard = (props: any) => {
         apiKey={process.env.NEXT_PUBLIC_DECENT_API_KEY as string}
       />
       <div className="px-4">
-      <NumberTicker quantity={quantity} setQuantity={setQuantity} />
+        <NumberTicker quantity={quantity} setQuantity={setQuantity} />
       </div>
     </Modal>
 
-    <div className={`${styles.nftCard} ${screenWidth < 768 || cardView ? "w-full" : cardView ? 'w-1/2' : "xl:w-1/2 lg:w-3/5"}`}>
+    <div
+      id={"nft-" + props.index}
+      data-idx={props.index}
+      className={`${styles.nftCard} ${cardView ? 'w-full' : "w-full md:w-[50vw]"}`}
+    >
       <div className={`${styles.containerFlex} rounded-[6px]`}>
         <div>
           <Image className="rounded-md" src={collection?.image || ''} fill alt="nft image" />
@@ -59,23 +63,23 @@ const NftCard = (props: any) => {
         <div ref={blurRef} className={`${styles.blurrer} rounded-[6px]`}></div>
 
         <div className="sm:flex p-6 justify-center items-center">
-          {!cardView && 
-          <div className={`w-full h-[400px] flex z-10 mr-2 text-left space-y-3 relative overflow-x-hidden hidden sm:inline-block`}>
-            <Link href={`/mint/${collection?.primaryContract}`}>
-              <p className="text-6xl hover:text-[#0052FF] cursor-pointer">{collection?.name}</p>
-            </Link>
-            <div>
-            <p className="font-medium text-xs xl:inline-block hidden pt-2">{collection?.createdAt}</p>
-            <div className="xl:inline-block w-full hidden">
-              <Link target="_blank" className='flex gap-2 text-xs pt-2' href={`https://basescan.org/address/${collection.primaryContract || ''}`}>{BaseScan(18, 20)} <span className='underline'> View on Basescan</span></Link>
-            </div> 
-            <div className="absolute bottom-2 left-0">
-              <button className="text-xl px-16 py-2 bg-white bg-opacity-60 drop-shadow-md rounded-full hover:opacity-80" onClick={() => setIsOpen(true)}>Mint</button>
+          {!cardView &&
+            <div className={`w-full h-[400px] flex z-10 mr-2 text-left space-y-3 relative overflow-x-hidden hidden sm:inline-block`}>
+              <Link href={`/mint/${collection?.primaryContract}`}>
+                <p className="text-6xl hover:text-[#0052FF] cursor-pointer">{collection?.name}</p>
+              </Link>
+              <div>
+                <p className="font-medium text-xs xl:inline-block hidden pt-2">{collection?.createdAt}</p>
+                <div className="xl:inline-block w-full hidden">
+                  <Link target="_blank" className='flex gap-2 text-xs pt-2' href={`https://basescan.org/address/${collection.primaryContract || ''}`}>{BaseScan(18, 20)} <span className='underline'> View on Basescan</span></Link>
+                </div>
+                <div className="absolute bottom-2 left-0">
+                  <button className="text-xl px-16 py-2 bg-white bg-opacity-60 drop-shadow-md rounded-full hover:opacity-80" onClick={() => setIsOpen(true)}>Mint</button>
+                </div>
+              </div>
             </div>
-          </div>
-          </div>
           }
-          
+
           <div className={`${cardView ? "w-[310px] md:max-w-[380px]" : "w-full max-h-[400px] md:max-w-[400px]"} relative aspect-square `}>
             <Link href={`/mint/${collection?.primaryContract}`}>
               <Image className="rounded-md hover:opacity-80 cursor-pointer" src={collection?.image || ''} fill alt="nft image" />
