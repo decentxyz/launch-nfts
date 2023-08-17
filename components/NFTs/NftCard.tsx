@@ -57,9 +57,13 @@ const NftCard = (props: any) => {
       className={`${styles.nftCard} ${cardView ? 'w-full' : "w-full md:w-[50vw]"}`}
     >
       <div className={`${styles.containerFlex} rounded-[6px]`}>
-        <div>
-          <Image className="rounded-md" src={collection?.image || ''} fill alt="nft image" />
-        </div>
+        <Image
+          className="rounded-md absolute w-full h-full object-cover"
+          src={collection?.image || ''}
+          width={400}
+          height={400}
+          alt=""
+        />
         <div ref={blurRef} className={`${styles.blurrer} rounded-[6px]`}></div>
 
         <div className="sm:flex p-6 justify-center items-center">
@@ -82,7 +86,12 @@ const NftCard = (props: any) => {
 
           <div className={`${cardView ? "w-[310px] md:max-w-[380px]" : "w-full max-h-[400px] md:max-w-[400px]"} relative aspect-square `}>
             <Link href={`/mint/${collection?.primaryContract}`}>
-              <Image className="rounded-md hover:opacity-80 cursor-pointer" src={collection?.image || ''} fill alt="nft image" />
+              <Image
+                className="rounded-md hover:opacity-80 cursor-pointer"
+                src={collection?.image || ''}
+                width={400}
+                height={400}
+                alt="nft image" />
             </Link>
           </div>
         </div>
