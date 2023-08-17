@@ -16,7 +16,7 @@ const Footer = (props: any) => {
         <p className="w-1/5 text-right">Secondary Volume</p>
       </div>
       {nftData && 
-        <div className="flex items-center justify-between pt-1">
+        <div className="flex justify-between pt-1">
           <p className="w-1/5 text-[#0052FF]">
             {activeNft?.name}
           </p>
