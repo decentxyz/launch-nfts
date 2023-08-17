@@ -47,7 +47,7 @@ const FeaturedNftContainer = ({ nftData }: any) => {
 
   const [sortedNftData, setSortedNftData] = useState([]);
   useEffect(() => {
-    setSortedNftData(nftData.sort(searchSort));
+    setSortedNftData(nftData.reverse().sort(searchSort));
   }, [nftData])
 
   useEffect(() => {

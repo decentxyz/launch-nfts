@@ -48,6 +48,9 @@ export const contractAddresses: ContractAddress[] = [
   { address: '0x6eE6E88Eb8ae143bb9B4B4B0A2269A080a45ef7E', ocs: false },
   // Paragon
   { address: '0xb999Ec5E57000540cBF821aDdbc69C37bF506f9F', ocs: false },
+  // Decent (not OCS but do want featured)
+  { address: '0x0a1732C70C06c343cd10Be60ce63eFa492803224', ocs: true },
+
 ]
 
 export const getMintInfo = (contractAddress: Address, quantity: number, userAddress?: Address, ) => {
@@ -147,6 +150,14 @@ export const getMintInfo = (contractAddress: Address, quantity: number, userAddr
       mintInfo.startDate = 1692190800;
       mintInfo.endDate = 4294967295;
       mintInfo.price = (0.000777 * quantity).toString();
+      
+      break;
+    case contractAddresses[11].address.toLowerCase():
+      mintInfo.mintMethod = mintSig.Decent;
+      mintInfo.params = [userAddress, quantity];
+      mintInfo.startDate = 1692240100;
+      mintInfo.endDate = 1692934200;
+      mintInfo.price = (0.00044 * quantity).toString();
       
       break;
   };

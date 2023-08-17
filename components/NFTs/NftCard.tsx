@@ -26,7 +26,7 @@ const NftCard = (props: any) => {
 
   return <>
     <Modal className="relative max-w-[500px] bg-white rounded-md" isOpen={isOpen} setIsOpen={setIsOpen}>
-      <div className="pb-2 font-thin text-2xl">Purchase {collection.name} NFTs</div>
+      <div className="pb-2 font-thin text-xl font-medium">Purchase {collection.name}</div>
       <TheBox
         className="border border-black rounded-md my-2"
         paymentButtonText={`Purchase ${quantity}`}
