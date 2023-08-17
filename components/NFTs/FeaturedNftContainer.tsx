@@ -57,7 +57,6 @@ const FeaturedNftContainer = ({ nftData }: any) => {
         if (entry.intersectionRatio >= 1) {
           const idx = entry.target.getAttribute('data-idx') ?? '0';
           setMiddleIndex(parseInt(idx));
-          console.log(idx);
         }
       });
     }, {
