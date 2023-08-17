@@ -90,7 +90,7 @@ const FeaturedNftContainer = ({ nftData }: any) => {
     } else return 0;
   };
 
-  const sortedNftData = nftData.sort(searchSort);
+  const sortedNftData = nftData.reverse().sort(searchSort);
 
   return <>
     <div className={`${styles.featuredContainer} relative overflow-x-scroll`} ref={containerRef}>
