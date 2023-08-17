@@ -35,3 +35,9 @@ h1 {
 textarea:focus, input:focus{
   outline: none;
 }
+
+.the-box .box-popover-shift-down {
+  letter-spacing: 0;
+  top: -20px;
+  pointer-events: none;
+}
