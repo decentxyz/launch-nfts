@@ -43,8 +43,13 @@ const Mint: NextPage = (props: any) => {
     <div className={`${styles.main} px-[24px] py-[12px] relative`}>
       <div className='flex md:flex-wrap flex-wrap-reverse md:gap-0 gap-12 md:mt-0 mt-40 w-full relative'>
         <div className='md:w-1/2 w-full h-full pr-8 relative'>
-          <p className="font-thin text-7xl">{contractData[0].name}</p>
-
+          <p className="font-thin">
+            <span className={`${
+              contractData[0].name.length > 27 ? 'text-5xl' : 'text-7xl'
+            } overflow-hidden`}>
+              {contractData[0].name}
+            </span>
+          </p>
           <div className='pt-10 mb-2 md:w-[500px] border-b border-black flex justify-center'>
             <div className='pb-2 flex text-xl'>
               <button onClick={() => setActiveTab('Mint')} className={`${activeTab !== 'Mint' && 'text-gray-500 font-thin'} pr-16 border-r border-black hover:text-opacity-80`}>Mint</button>
@@ -82,7 +87,7 @@ const Mint: NextPage = (props: any) => {
                 <p>Max tokens: {mintInfo?.maxTokens || 'Open'}</p>
                 <Link target="_blank" className='flex gap-2' href={`https://basescan.org/address/${contractData[0].primaryContract || ''}`}>{BaseScan(18, 20)} <span className='underline'> View on Basescan</span></Link> 
               </div>
-              <p className='mt-8 md:w-[500px] overflow-y-auto max-h-[250px]'>{contractData[0].description}</p>
+              <p className='mt-8 md:w-[500px] overflow-y-auto max-h-[200px]'>{contractData[0].description}</p>
             </>
             }
           </div>

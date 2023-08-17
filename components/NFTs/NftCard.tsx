@@ -54,7 +54,7 @@ const NftCard = (props: any) => {
     <div
       id={"nft-" + props.index}
       data-idx={props.index}
-      className={`${styles.nftCard} ${cardView ? 'w-full' : "w-full md:w-[50vw]"}`}
+      className={`${styles.nftCard} ${cardView ? 'w-full' : "w-full md:w-[50vw]"} drop-shadow-md`}
     >
       <div className={`${styles.containerFlex} rounded-[6px]`}>
         <Image
@@ -87,11 +87,12 @@ const NftCard = (props: any) => {
           <div className={`${cardView ? "w-[310px] md:max-w-[380px]" : "w-full max-h-[400px] md:max-w-[400px]"} relative aspect-square `}>
             <Link href={`/mint/${collection?.primaryContract}`}>
               <Image
-                className="rounded-md hover:opacity-80 cursor-pointer"
+                className="absolute inset-0 w-full h-full object-cover"
                 src={collection?.image || ''}
                 width={400}
                 height={400}
-                alt="nft image" />
+                alt="nft image" 
+              />
             </Link>
           </div>
         </div>

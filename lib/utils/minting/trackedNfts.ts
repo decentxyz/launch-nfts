@@ -48,6 +48,8 @@ export const contractAddresses: ContractAddress[] = [
   { address: '0x6eE6E88Eb8ae143bb9B4B4B0A2269A080a45ef7E', ocs: false },
   // Paragon
   { address: '0xb999Ec5E57000540cBF821aDdbc69C37bF506f9F', ocs: false },
+  // Soulquest
+  { address: '0x4535a60b6f8f460fc8b69eb902c15d7db5e0425f', ocs: false },
   // Decent (not OCS but do want featured)
   { address: '0x0a1732C70C06c343cd10Be60ce63eFa492803224', ocs: true },
 
@@ -153,6 +155,14 @@ export const getMintInfo = (contractAddress: Address, quantity: number, userAddr
       
       break;
     case contractAddresses[11].address.toLowerCase():
+      mintInfo.mintMethod = mintSig.Zora;
+      mintInfo.params = [userAddress, quantity, "Minted using The Box on basednfts.co.", "0xAcCC1fe6537eb8EB56b31CcFC48Eb9363e8dd32E"];
+      mintInfo.startDate = 1692169313;
+      mintInfo.endDate = 1693492824;
+      mintInfo.price = (0.005777 * quantity).toString();
+      
+      break;
+    case contractAddresses[12].address.toLowerCase():
       mintInfo.mintMethod = mintSig.Decent;
       mintInfo.params = [userAddress, quantity];
       mintInfo.startDate = 1692240100;
