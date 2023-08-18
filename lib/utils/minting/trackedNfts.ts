@@ -52,6 +52,8 @@ export const contractAddresses: ContractAddress[] = [
   { address: '0x4535a60b6f8f460fc8b69eb902c15d7db5e0425f', ocs: false },
   // Base Builder
   { address: '0x7EDF39FB9cC5446590A674a3f571E4a99A211d80', ocs: false },
+  // Summer Kevin
+  // { address: '0x9d9c0C4e764117FccD2bc3548f0E95c806e6F996', ocs: true },
   // Decent (not OCS but do want featured)
   { address: '0x0a1732C70C06c343cd10Be60ce63eFa492803224', ocs: true },
 
@@ -172,6 +174,14 @@ export const getMintInfo = (contractAddress: Address, quantity: number, userAddr
       mintInfo.price = "0.0";
 
       break;  
+    // case contractAddresses[13].address.toLowerCase():
+    //   mintInfo.mintMethod = mintSig.ThirdWeb;
+    //   mintInfo.params = [userAddress, quantity, '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE', parseUnits((0.001 * quantity).toString(), 18), [[],'115792089237316195423570985008687907853269984665640564039457584007913129639935n', parseUnits((0.001 * quantity).toString(), 18), '0x0000000000000000000000000000000000000000',], '0x00', ];
+    //   mintInfo.startDate = 1692287700;
+    //   mintInfo.endDate = 4294967295;
+    //   mintInfo.price = (0.001 * quantity).toString();
+
+    //   break;  
     case contractAddresses[13].address.toLowerCase():
       mintInfo.mintMethod = mintSig.Decent;
       mintInfo.params = [userAddress, quantity];
