@@ -88,7 +88,7 @@ export const getMintInfo = (contractAddress: Address, quantity: number, userAddr
       break;
     case contractAddresses[2].address.toLowerCase():
       mintInfo.mintMethod = mintSig.ThirdWeb;
-      mintInfo.params = [userAddress, quantity, '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE', parseUnits(mintInfo.price, 18), [[],'115792089237316195423570985008687907853269984665640564039457584007913129639935n', parseUnits(mintInfo.price, 18), '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE',], '0x00', ];
+      mintInfo.params = [userAddress, quantity, '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE', parseUnits('0.01', 18), [[],'115792089237316195423570985008687907853269984665640564039457584007913129639935n', parseUnits('0.01', 18), '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE',], '0x00', ];
       mintInfo.startDate = 1691593200;
       mintInfo.endDate = 1691769600;
       mintInfo.price = (.01 * quantity).toString();
@@ -120,7 +120,7 @@ export const getMintInfo = (contractAddress: Address, quantity: number, userAddr
       break;
     case contractAddresses[6].address.toLowerCase():
       mintInfo.mintMethod = mintSig.ThirdWeb;
-      mintInfo.params = [userAddress, quantity, '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE', parseUnits(mintInfo.price, 18), [[],'115792089237316195423570985008687907853269984665640564039457584007913129639935n', parseUnits(mintInfo.price, 18), '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE',], '0x00', ];
+      mintInfo.params = [userAddress, quantity, '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE', parseUnits('0.014', 18), [[],'115792089237316195423570985008687907853269984665640564039457584007913129639935n', parseUnits('0.014', 18), '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE',], '0x00', ];
       mintInfo.startDate = 1691938800;
       mintInfo.endDate = 1692201600;
       mintInfo.price = (0.014 * quantity).toString();
@@ -128,10 +128,10 @@ export const getMintInfo = (contractAddress: Address, quantity: number, userAddr
       break;
     case contractAddresses[7].address.toLowerCase():
       mintInfo.mintMethod = mintSig.ThirdWeb;
-      mintInfo.params = [userAddress, quantity, '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE', parseUnits('0.00', 18), [[],'115792089237316195423570985008687907853269984665640564039457584007913129639935n', parseUnits('0.00', 18), '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE',], '0x00', ];
+      mintInfo.params = [userAddress, quantity, '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE', parseUnits('0.00435', 18), [[],'115792089237316195423570985008687907853269984665640564039457584007913129639935n', parseUnits('0.00435', 18), '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE',], '0x00', ];
       mintInfo.startDate = 1691766000;
       mintInfo.endDate = 4294967295;
-      mintInfo.price = "0.0";
+      mintInfo.price = (0.00435 * quantity).toString();
 
       break;
     case contractAddresses[8].address.toLowerCase():
