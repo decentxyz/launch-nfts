@@ -5,7 +5,7 @@ import styles from "../../styles/Home.module.css";
 import Image from 'next/image';
 import Link from 'next/link';
 import MintFooter from '../../components/Footers/MintFooter';
-import { getMintInfo, MintInfo } from "../../lib/utils/minting/trackedNfts";
+import { getMintInfo, MintInfoProps } from "../../lib/nftData/getMintInfo";
 import { useAccount } from "wagmi";
 import { TheBox, ActionType, ChainId } from "@decent.xyz/the-box";
 import { parseUnits } from "viem";
@@ -21,15 +21,18 @@ const Mint: NextPage = (props: any) => {
   } = props;
   const { address: account } = useAccount();
   const [activeTab, setActiveTab] = useState('Mint');
-  const [mintInfo, setMintInfo] = useState<MintInfo>();
+  const [mintInfo, setMintInfo] = useState<MintInfoProps>();
   const [quantity, setQuantity] = useState(1);
+
+  const rn = new Date();
 
   useEffect(() => {
     async function fetchMintInfo() {
       const data = getMintInfo(
         contractData[0].primaryContract.toLowerCase(),
         quantity,
-        account
+        account,
+        '0.000777'
       );
       setMintInfo(data);
     }
@@ -77,9 +80,11 @@ const Mint: NextPage = (props: any) => {
                 }}
                 apiKey={process.env.NEXT_PUBLIC_DECENT_API_KEY as string}
               />
+              {
               <div className="px-4 max-w-[500px]">
                 <NumberTicker quantity={quantity} setQuantity={setQuantity} />
               </div>
+              }
             </> : <>
               <div className='flex items-center md:w-[500px] justify-between flex-wrap gap-2 text-sm font-thin py-4'>
                 <p>Mint start: {convertTimestamp(mintInfo?.startDate)}</p>

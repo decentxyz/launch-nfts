@@ -3,7 +3,7 @@ import MintNavbar from '../components/Navbars/MintNavbar';
 import { getContractData } from '../lib/nftData/getContractData';
 import styles from "../styles/Home.module.css";
 import NftCard from '../components/NFTs/NftCard';
-import { contractAddresses } from '../lib/utils/minting/trackedNfts';
+import { trackedNfts } from '../lib/utils/minting/trackedNfts';
 
 const All: NextPage = (props: any) => {
   const { contractData } = props;
@@ -29,7 +29,7 @@ const All: NextPage = (props: any) => {
 export default All;
 
 export async function getStaticProps() {
-  const addresses = contractAddresses.map(item => item.address);
+  const addresses = trackedNfts.map(nft => nft.address);
   const nftData = await getContractData(addresses);
 
   return {

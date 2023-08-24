@@ -2,7 +2,7 @@ import Image from "next/image";
 import styles from "./nfts.module.css";
 import { useRef, useEffect, useState } from "react";
 import Link from "next/link";
-import { getMintInfo } from "../../lib/utils/minting/trackedNfts";
+import { getMintInfo } from "../../lib/nftData/getMintInfo";
 import { useAccount } from "wagmi";
 import { TheBox, ActionType, ChainId } from "@decent.xyz/the-box";
 import { parseUnits } from "viem";
