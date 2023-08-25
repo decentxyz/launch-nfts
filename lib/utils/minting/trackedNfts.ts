@@ -9,11 +9,14 @@ export interface ParamProps {
 interface ContractAddress {
   address: Address;
   ocs: boolean;
-  source: "Zora" | "Anotherblock" | "ThirdWeb" | "Decent";
+  source: "Zora" | "Anotherblock" | "ThirdWeb" | "Decent" | "Manifold" | "Highlight";
   price: string;
   startDate?: number;
   endDate?: number;
   maxTokens?: number;
+  id?: number;
+  token?: Address;
+  pattern?: 'proxy';
 }
 
 export interface MintInfoProps {
@@ -62,4 +65,16 @@ export const trackedNfts: ContractAddress[] = [
   // { address: '0xBd52c54aB5116b1D9326352F742E6544FfdEB2cB', ocs: true, startDate: 1691593200, endDate: 1693540800, price: "0.000777" },
   // Decent (not OCS but do want featured)
   { address: '0x0a1732C70C06c343cd10Be60ce63eFa492803224', ocs: true, startDate: 1692240100, endDate: 1692934200, price: "0.00044", source: "Decent" },
+  // Mirrors Wellness Club
+  { address: '0x6a55463a66e585767c6Cce622d2018572a0aa7D1', ocs: true, startDate: 1692240100, endDate: 1692389783, price: "0.005", source: "ThirdWeb" },
+  // Onboard - Sango: The Orisas & The Sonic Extension
+  { address: '0xeFfF9BA11AF7f7Dc7B13d8b7670400ccEEdec5c9', ocs: true, startDate: 1692240100, endDate: 1693065600, price: "0.003", source: "ThirdWeb" },
+  // Optimism - Onchain + Optimistic
+  { address: '0x6f4168C0207df6561527af1059D788BB0b09beB1', ocs: true, startDate: 1692892800, endDate: 1693497600, price: "0.001", source: "ThirdWeb" },
+
+  // // Manifold - CAV!TY : PROXY PATTERN I'M NOT SURE ABOUT
+  // { address: '0x1EB73FEE2090fB1C20105d5Ba887e3c3bA14a17E', ocs: true, startDate: 1692240100, endDate: 1692849410, price: "0.0044", source: "Manifold", id: 69609712, token: "0xF950F846B4393ED802569Ce993F27CECd5949673", pattern: 'proxy' },
+
+  // // Highlight - 1kTF : PROXY PATTERN I'M NOT SURE ABOUT
+  // { address: '0xC9D128f88a8d97342a37680F0CE0F34598F289D0', ocs: true, startDate: 1692240100, endDate: 1693298197, price: "0.005", source: "Highlight", id: 31 },
 ];

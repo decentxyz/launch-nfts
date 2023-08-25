@@ -22,13 +22,13 @@ class MintMethod {
 }
 
 class ZoraMintMethod extends MintMethod {
-  constructor(userAddress: Address, quantity: number, price: string) {
+  constructor(userAddress: Address, quantity: number) {
     super(mintSig.Zora, [userAddress, quantity, "Minted using The Box on basednfts.co.", "0xAcCC1fe6537eb8EB56b31CcFC48Eb9363e8dd32E"]);
   }
 }
 
 class DecentMintMethod extends MintMethod {
-  constructor(userAddress: Address, quantity: number, price: string) {
+  constructor(userAddress: Address, quantity: number) {
     super(mintSig.Decent, [userAddress, quantity]);
   }
 }
@@ -47,8 +47,20 @@ class ThirdWebMintMethod extends MintMethod {
 }
 
 class AnotherblockMintMethod extends MintMethod {
-  constructor(userAddress: Address, quantity: number, price: string) {
+  constructor(userAddress: Address, quantity: number) {
     super(mintSig.Anotherblock, [userAddress, 0, quantity, '0x0000000000000000000000000000000000000000000000000000000000000000']);
+  }
+}
+
+class ManifoldMintMethod extends MintMethod {
+  constructor(userAddress: Address, quantity: number, price: string, contractAddress: Address, id: number) {
+    super(mintSig.Manifold, [contractAddress, id, 0, [], userAddress]);
+  }
+}
+
+class HighlightMintMethod extends MintMethod {
+  constructor(userAddress: Address, quantity: number, price: string, contractAddress: Address, id: number) {
+    super(mintSig.Highlight, [id, quantity, userAddress]);
   }
 }
 
@@ -57,6 +69,8 @@ const mintMethodClasses = {
   'Decent': DecentMintMethod,
   'ThirdWeb': ThirdWebMintMethod,
   'Anotherblock': AnotherblockMintMethod,
+  'Manifold': ManifoldMintMethod,
+  "Highlight": HighlightMintMethod
 };
 
 export const getMintInfo = (contractAddress: Address, quantity: any, userAddress?: Address, price?: string) => {
@@ -80,7 +94,7 @@ export const getMintInfo = (contractAddress: Address, quantity: any, userAddress
   const MintMethodClass = mintMethodClasses[targetContract.source];
 
   // Create an instance of the mint method class
-  const mintMethodInstance = new MintMethodClass(userAddress || '0x', quantity, targetContract.price);
+  const mintMethodInstance = new MintMethodClass(userAddress || '0x', quantity, targetContract.price, targetContract.token || '0x', targetContract.id || 0);
 
   // Override the defaultMintInfo object with the mint method instance's properties
   const mintInfo: MintInfoProps = {
