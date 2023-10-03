@@ -24,8 +24,6 @@ const Mint: NextPage = (props: any) => {
   const [mintInfo, setMintInfo] = useState<MintInfoProps>();
   const [quantity, setQuantity] = useState(1);
 
-  const rn = new Date();
-
   useEffect(() => {
     async function fetchMintInfo() {
       const data = getMintInfo(
@@ -101,8 +99,11 @@ const Mint: NextPage = (props: any) => {
           </div>
         </div>
 
-        <div className='md:w-1/2 w-full flex justify-center max-h-[500px]'>
+        <div className='md:w-1/2 w-full flex justify-center max-h-[500px] relative'>
           <Image src={contractData[0].image} height={500} width={500} alt="nft image" className='rounded-md' />
+          <div className='absolute bottom-0'>
+            {address === "0x1dbfaaa746ac5aeda14c662cf2cd3bb229e1bf28" && <audio src="/audio/rac-nft-music.mp3" controls></audio>}
+          </div>
         </div>
       </div>
       <MintFooter contractData={contractData} mintPrice={mintInfo?.price} />

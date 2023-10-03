@@ -24,30 +24,32 @@ const NftCard = (props: any) => {
   }, []);
 
   return <>
-    <Modal className="relative max-w-[500px] bg-white rounded-md" isOpen={isOpen} setIsOpen={setIsOpen}>
+    <Modal className="relative sm:min-w-[500px] max-w-[500px] bg-white rounded-md" isOpen={isOpen} setIsOpen={setIsOpen}>
       <div className="pb-2 font-thin text-xl font-medium">Purchase {collection.name}</div>
-      <TheBox
-        className="border border-black rounded-md my-2"
-        paymentButtonText={`Purchase ${quantity}`}
-        //to do: add avax
-        chains={[ChainId.ARBITRUM, ChainId.OPTIMISM, ChainId.BASE, ChainId.ETHEREUM, ChainId.POLYGON]}
-        actionType={ActionType.NftPreferMint}
-        actionConfig={{
-          contractAddress: collection.primaryContract,
-          chainId: ChainId.BASE,
-          signature: mintInfo?.mintMethod,
-          args: mintInfo?.params,
-          supplyConfig: {
-            sellOutDate: mintInfo?.endDate,
-            maxCap: mintInfo?.maxTokens
-          },
-          cost: {
-            isNative: true,
-            amount: parseUnits(mintInfo?.price || '0', 18),
-          },
-        }}
-        apiKey={process.env.NEXT_PUBLIC_DECENT_API_KEY as string}
-      />
+      <div className="flex w-full justify-center">
+        <TheBox
+          className="border border-black rounded-md my-2 w-full"
+          paymentButtonText={`Purchase ${quantity}`}
+          //to do: add avax
+          chains={[ChainId.ARBITRUM, ChainId.OPTIMISM, ChainId.BASE, ChainId.ETHEREUM, ChainId.POLYGON]}
+          actionType={ActionType.NftPreferMint}
+          actionConfig={{
+            contractAddress: collection.primaryContract,
+            chainId: ChainId.BASE,
+            signature: mintInfo?.mintMethod,
+            args: mintInfo?.params,
+            supplyConfig: {
+              sellOutDate: mintInfo?.endDate,
+              maxCap: mintInfo?.maxTokens
+            },
+            cost: {
+              isNative: true,
+              amount: parseUnits(mintInfo?.price || '0', 18),
+            },
+          }}
+          apiKey={process.env.NEXT_PUBLIC_DECENT_API_KEY as string}
+        />
+      </div>
     </Modal>
 
     <div
