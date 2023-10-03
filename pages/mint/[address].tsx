@@ -39,7 +39,7 @@ const Mint: NextPage = (props: any) => {
   
     fetchMintInfo();
   }, [account, contractData, quantity]);
-  
+
   return (
     <>
     <MintNavbar address={address} all />

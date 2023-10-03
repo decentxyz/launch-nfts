@@ -7,7 +7,6 @@ import { useAccount } from "wagmi";
 import { TheBox, ActionType, ChainId } from "@decent.xyz/the-box";
 import { parseUnits } from "viem";
 import Modal from "../Modal";
-import NumberTicker from "../NumberTicker";
 import { BaseScan } from "../../lib/utils/logos";
 
 const NftCard = (props: any) => {
@@ -49,9 +48,6 @@ const NftCard = (props: any) => {
         }}
         apiKey={process.env.NEXT_PUBLIC_DECENT_API_KEY as string}
       />
-      <div className="px-4">
-        <NumberTicker endDate={mintInfo?.endDate} maxTokens={mintInfo?.maxTokens} tokenCount={collection.tokenCount} quantity={quantity} setQuantity={setQuantity} />
-      </div>
     </Modal>
 
     <div

@@ -46,7 +46,7 @@ export async function getStaticProps() {
   const nftData = await getContractData(addresses.slice(-4));
   return {
     props: {
-      contractData: nftData.reverse() || null,
+      contractData: nftData || null,
     },
     revalidate: 300
   }

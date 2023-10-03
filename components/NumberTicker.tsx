@@ -13,7 +13,7 @@ const NumberTicker = (props: any) => {
     props.setQuantity(value);
   }
 
-  if (props.endDate < (rn / 1000) || props.maxTokens === props.tokenCount) {
+  if (props.endDate < (rn / 1000) || props.maxTokens?.toString() === props.tokenCount) {
     return;
   }
 
