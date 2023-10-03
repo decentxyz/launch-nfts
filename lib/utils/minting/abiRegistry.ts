@@ -10,5 +10,7 @@ export const mintSig = {
 
   Manifold: "function mint(address creatorContractAddress,uint256 instanceId,uint32 mintIndex,bytes32[] merkleProof,address mintFor)",
 
-  Highlight: "function vectorMintSeries721(uint256 vectorId,uint48 numTokensToMint,address mintRecipient)"
+  Highlight: "function vectorMintSeries721(uint256 vectorId,uint48 numTokensToMint,address mintRecipient)",
+
+  Nfts2Me: "function mintTo(address to, uint256 amount, address affiliate) external payable"
 };

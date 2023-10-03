@@ -34,6 +34,7 @@ const handler: NextApiHandler = async (req: NextApiRequest, res: NextApiResponse
     res.status(500).json({ message: 'Error getting data from database.' });
   } finally {
     await RedisClient.quit();
+    console.log("Closed Redis.")
   }
 }
 

@@ -1,4 +1,5 @@
 const NumberTicker = (props: any) => {
+  const rn = Date.now();
 
   function handleChange(value: number) {
     if (isNaN(value)) {
@@ -10,6 +11,10 @@ const NumberTicker = (props: any) => {
       return;
     }
     props.setQuantity(value);
+  }
+
+  if (props.endDate < (rn / 1000) || props.maxTokens === props.tokenCount) {
+    return;
   }
 
   return (

@@ -39,7 +39,8 @@ const NftCard = (props: any) => {
           signature: mintInfo?.mintMethod,
           args: mintInfo?.params,
           supplyConfig: {
-            sellOutDate: mintInfo?.endDate
+            sellOutDate: mintInfo?.endDate,
+            maxCap: mintInfo?.maxTokens
           },
           cost: {
             isNative: true,
@@ -49,7 +50,7 @@ const NftCard = (props: any) => {
         apiKey={process.env.NEXT_PUBLIC_DECENT_API_KEY as string}
       />
       <div className="px-4">
-        <NumberTicker quantity={quantity} setQuantity={setQuantity} />
+        <NumberTicker endDate={mintInfo?.endDate} maxTokens={mintInfo?.maxTokens} tokenCount={collection.tokenCount} quantity={quantity} setQuantity={setQuantity} />
       </div>
     </Modal>
 

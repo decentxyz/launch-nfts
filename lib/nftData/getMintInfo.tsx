@@ -64,13 +64,20 @@ class HighlightMintMethod extends MintMethod {
   }
 }
 
+class Nfts2MeMintMethod extends MintMethod {
+  constructor(userAddress: Address, quantity: number) {
+    super(mintSig.Nfts2Me, [userAddress, quantity, "0xAcCC1fe6537eb8EB56b31CcFC48Eb9363e8dd32E"]);
+  }
+}
+
 const mintMethodClasses = {
   'Zora': ZoraMintMethod,
   'Decent': DecentMintMethod,
   'ThirdWeb': ThirdWebMintMethod,
   'Anotherblock': AnotherblockMintMethod,
   'Manifold': ManifoldMintMethod,
-  "Highlight": HighlightMintMethod
+  "Highlight": HighlightMintMethod,
+  "Nfts2Me": Nfts2MeMintMethod
 };
 
 export const getMintInfo = (contractAddress: Address, quantity: any, userAddress?: Address, price?: string) => {
