@@ -15,7 +15,7 @@ export const getContractData = async (addresses: Address[]) => {
 
     return contractData.collections;
   } catch (e) {
-    console.error(e);
+    console.error("Failed to get data from Reservoir: ", e);
     throw new Error('Error getting nft data.');
   };
 }

@@ -7,8 +7,9 @@ import { FeaturedNftContextProvider } from '../lib/contexts/FeaturedNftContext';
 import { SearchContextProvider } from '../lib/contexts/SearchContext';
 import Footer from '../components/Footers/Footer';
 import Link from 'next/link';
-import { getOcsNfts } from '../lib/utils/minting/trackedNfts';
 import { getContractData } from '../lib/nftData/getContractData';
+import { trackedNfts } from '../lib/utils/minting/trackedNfts';
+import { Address } from 'viem';
 
 const Home: NextPage = ({ contractData }: any) => {
   const today = new Date().toLocaleDateString();
@@ -41,8 +42,8 @@ const Home: NextPage = ({ contractData }: any) => {
 export default Home;
 
 export async function getStaticProps() {
-  const ocsAddresses = getOcsNfts();
-  const nftData = await getContractData(ocsAddresses.slice(-3));
+  const addresses = trackedNfts.map(nft => nft.pattern !== "proxy" ? nft.address : nft.token) as Address[];
+  const nftData = await getContractData(addresses.slice(-4));
   return {
     props: {
       contractData: nftData || null,
