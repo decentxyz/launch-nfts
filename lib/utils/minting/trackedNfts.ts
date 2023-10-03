@@ -49,4 +49,6 @@ export const trackedNfts: ContractAddress[] = [
   { address: '0xC9D128f88a8d97342a37680F0CE0F34598F289D0', startDate: 1692240100, endDate: 1693298197, price: "0.005", source: "Highlight", id: 31, pattern: "proxy" },
   // Nfts2Me - Colors; view details: https://0x481cf23d56113163c42f825f94af646f0e73222b_8453.nfts2.me/
   { address: "0x481cf23D56113163C42f825f94AF646f0E73222b", startDate: 1695471742, maxTokens: 5555, price: "0.00001", source: "Nfts2Me" },
+  // Decent - RAC
+  { address: "0x1DbFaaA746aC5aEdA14c662Cf2cd3BB229e1BF28", startDate: 1696341600, endDate: 1697252400, price: "0.00113", source: "Decent" },
 ];

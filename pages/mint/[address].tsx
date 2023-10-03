@@ -78,13 +78,14 @@ const Mint: NextPage = (props: any) => {
                   },
                   supplyConfig: {
                     sellOutDate: mintInfo?.endDate,
+                    maxCap: mintInfo?.maxTokens
                   },
                 }}
                 apiKey={process.env.NEXT_PUBLIC_DECENT_API_KEY as string}
               />
               {
               <div className="px-4 max-w-[500px]">
-                <NumberTicker quantity={quantity} setQuantity={setQuantity} />
+                <NumberTicker endDate={mintInfo?.endDate} maxTokens={mintInfo?.maxTokens} tokenCount={contractData[0].tokenCount} quantity={quantity} setQuantity={setQuantity} />
               </div>
               }
             </> : <>
