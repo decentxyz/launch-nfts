@@ -64,6 +64,8 @@ const Mint: NextPage = (props: any) => {
               <TheBox
                 className="text-xs md:max-w-[500px] bg-white"
                 paymentButtonText="Pay now"
+                //todo: add avax 
+                chains={[ChainId.ARBITRUM, ChainId.OPTIMISM, ChainId.BASE, ChainId.ETHEREUM, ChainId.POLYGON]}
                 actionType={ActionType.NftPreferMint}
                 actionConfig={{
                   contractAddress: contractData[0].primaryContract,

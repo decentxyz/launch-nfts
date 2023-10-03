@@ -30,6 +30,8 @@ const NftCard = (props: any) => {
       <TheBox
         className="border border-black rounded-md my-2"
         paymentButtonText={`Purchase ${quantity}`}
+        //to do: add avax
+        chains={[ChainId.ARBITRUM, ChainId.OPTIMISM, ChainId.BASE, ChainId.ETHEREUM, ChainId.POLYGON]}
         actionType={ActionType.NftPreferMint}
         actionConfig={{
           contractAddress: collection.primaryContract,
