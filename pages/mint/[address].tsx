@@ -20,7 +20,7 @@ const Mint: NextPage = (props: any) => {
     contractData
   } = props;
   const { address: account } = useAccount();
-  const [activeTab, setActiveTab] = useState('Mint');
+  const [activeTab, setActiveTab] = useState('Purchase');
   const [mintInfo, setMintInfo] = useState<MintInfoProps>();
   const [quantity, setQuantity] = useState(1);
 
@@ -53,12 +53,12 @@ const Mint: NextPage = (props: any) => {
           </p>
           <div className='pt-10 mb-2 md:w-[500px] border-b border-black flex justify-center'>
             <div className='pb-2 flex text-xl'>
-              <button onClick={() => setActiveTab('Mint')} className={`${activeTab !== 'Mint' && 'text-gray-500 font-thin'} pr-16 border-r border-black hover:text-opacity-80`}>Mint</button>
+              <button onClick={() => setActiveTab('Purchase')} className={`${activeTab !== 'Purchase' && 'text-gray-500 font-thin'} pr-16 border-r border-black hover:text-opacity-80`}>Purchase</button>
               <button onClick={() => setActiveTab('Details')} className={`${activeTab !== 'Details' && 'text-gray-500 font-thin'} pl-16 hover:text-opacity-80`}>Details</button>
             </div>
           </div>
           <div>
-            {activeTab === 'Mint' ? <>
+            {activeTab === 'Purchase' ? <>
               <TheBox
                 className="text-xs md:max-w-[500px] bg-white"
                 paymentButtonText="Pay now"

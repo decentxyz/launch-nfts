@@ -79,7 +79,7 @@ const NftCard = (props: any) => {
                   <Link target="_blank" className='flex gap-2 text-xs pt-2' href={`https://basescan.org/address/${collection.primaryContract || ''}`}>{BaseScan(18, 20)} <span className='underline'> View on Basescan</span></Link>
                 </div>
                 <div className="absolute bottom-2 left-0">
-                  <button className="text-xl px-16 py-2 bg-white bg-opacity-60 drop-shadow-md rounded-full hover:opacity-80" onClick={() => setIsOpen(true)}>Mint</button>
+                  <button className="text-xl px-16 py-2 bg-white bg-opacity-60 drop-shadow-md rounded-full hover:opacity-80" onClick={() => setIsOpen(true)}>Purchase</button>
                 </div>
               </div>
             </div>
