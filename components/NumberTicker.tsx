@@ -4,17 +4,17 @@ const NumberTicker = (props: any) => {
   function handleChange(value: number) {
     if (isNaN(value)) {
       props.setQuantity(0);
-      return;
+      return null;
     }
     if (value < 1) {
       props.setQuantity(1);
-      return;
+      return null;
     }
     props.setQuantity(value);
   }
 
   if (props.endDate < (rn / 1000) || props.maxTokens?.toString() === props.tokenCount) {
-    return;
+    return null;
   }
 
   return (
