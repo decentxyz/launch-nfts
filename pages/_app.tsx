@@ -34,7 +34,7 @@ const myBoxTheme = {
 }
 
 const { chains, publicClient } = configureChains(
-  [mainnet, polygon, optimism, arbitrum, base, avalanche, fantom, moonbeam],
+  [mainnet, polygon, optimism, arbitrum, base],
   [
     alchemyProvider({ apiKey: process.env.NEXT_PUBLIC_ALCHEMY_API_KEY as string }),
     publicProvider()
