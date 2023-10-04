@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@decent.xyz/the-box": "^1.1.50",
+    "@decent.xyz/the-box": "^1.1.51",
     "@headlessui/react": "^1.7.16",
     "@rainbow-me/rainbowkit": "^1.0.8",
     "@vercel/analytics": "^0.1.5",
