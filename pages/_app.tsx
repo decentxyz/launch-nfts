@@ -17,10 +17,7 @@ import {
   polygon,
   optimism,
   arbitrum,
-  base,
-  avalanche,
-  fantom,
-  moonbeam
+  base
 } from 'wagmi/chains';
 import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
@@ -34,7 +31,7 @@ const myBoxTheme = {
 }
 
 const { chains, publicClient } = configureChains(
-  [mainnet, polygon, optimism, arbitrum, base, avalanche, fantom, moonbeam],
+  [mainnet, polygon, optimism, arbitrum, base],
   [
     alchemyProvider({ apiKey: process.env.NEXT_PUBLIC_ALCHEMY_API_KEY as string }),
     publicProvider()
