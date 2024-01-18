@@ -45,7 +45,7 @@ const Mint: NextPage = (props: any) => {
 
   return (
     <>
-    <MintNavbar address={address} all partner={contractData[0].symbol} />
+    <MintNavbar address={address} partner={contractData[0].symbol} />
     <div className={`${styles.main} px-[24px] py-[12px] relative`}>
       <div className='flex md:flex-wrap flex-wrap-reverse md:gap-0 gap-12 md:mt-0 mt-40 w-full relative'>
         <div className='md:w-1/2 w-full h-full pr-8 relative'>
@@ -53,7 +53,7 @@ const Mint: NextPage = (props: any) => {
             <span className={`${
               contractData[0].name.length > 27 ? 'text-5xl' : 'text-7xl'
             } overflow-hidden`}>
-              {contractData[0].name}
+              {contractData[0].name === 'Human' ? 'RetroPGF' : contractData[0].name}
             </span>
           </p>
           <div className='pt-10 mb-2 md:w-[500px] border-b border-black flex justify-center'>
@@ -86,11 +86,14 @@ const Mint: NextPage = (props: any) => {
                 }}
                 apiKey={process.env.NEXT_PUBLIC_DECENT_API_KEY as string}
               />
-              {
-              <div className="px-4 max-w-[500px]">
+              <div className="px-4 max-w-[500px] relative">
                 <NumberTicker endDate={mintInfo?.endDate} maxTokens={mintInfo?.maxTokens} tokenCount={contractData[0].tokenCount} quantity={quantity} setQuantity={setQuantity} />
+                <div className='pt-6 pl-4'>
+                  <a target='_blank' href={`https://checkout.decent.xyz/?app=onramp&chain=${contractData[0].chainId}`}>
+                    <p className='font-thin text-xs hover:opacity-80 hover:text-primary'>{'∟'} Buy crypto</p>
+                  </a>
+                </div>
               </div>
-              }
             </> : <>
               <div className='flex items-center md:w-[500px] justify-between flex-wrap gap-2 text-sm font-thin py-4'>
                 <p>Mint start: {convertTimestamp(mintInfo?.startDate)}</p>
@@ -109,12 +112,10 @@ const Mint: NextPage = (props: any) => {
             <video src={VideoDict[contractData[0].symbol as keyof typeof VideoDict]} autoPlay loop muted className='rounded-md' />
             : <Image src={contractData[0].image} height={500} width={500} alt="nft image" className='rounded-md' />
           }
-          <div className='absolute bottom-0'>
-            {address === "0x1dbfaaa746ac5aeda14c662cf2cd3bb229e1bf28" && <audio src="/audio/rac-nft-music.mp3" controls></audio>}
-          </div>
         </div>
       </div>
-      <MintFooter contractData={contractData} mintPrice={mintInfo?.price} />
+      <div className='sm:inline-block sm:w-full sm:my-16 hidden md:hidden'></div>
+        <MintFooter contractData={contractData} mintPrice={mintInfo?.price} />
     </div>
     </>
   )

@@ -16,6 +16,8 @@ const Home: NextPage = ({ contractData }: any) => {
   const today = new Date().toLocaleDateString();
   const { chainData, loadingChainData } = useChainData(today);
 
+  console.log(contractData)
+
   function sortNFTsByMintedTimestamp(nfts: any) {
     return nfts.sort((a: any, b: any) => b.mintedTimestamp - a.mintedTimestamp);
   }

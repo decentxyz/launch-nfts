@@ -32,7 +32,7 @@ const MintFooter = (props: any) => {
         </div>
       }
       <Link href="https://decent.xyz/" target="_blank">
-        <div className='absolute bottom-0 right-0'>🟦</div>
+        <div className='absolute bottom-0 right-0'>⬛</div>
       </Link>
     </div>
   </>

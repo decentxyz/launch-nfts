@@ -75,7 +75,7 @@ const NftCard = (props: any) => {
           {!cardView &&
             <div className={`w-full h-[400px] flex z-10 mr-2 text-left space-y-3 relative overflow-x-hidden hidden sm:inline-block`}>
               <Link href={`/mint/${collection?.chainId}/${collection?.primaryContract}`}>
-                <p className="text-6xl truncate hover:text-primary cursor-pointer">{collection?.name}</p>
+                <p className="text-6xl truncate hover:text-primary cursor-pointer">{collection?.name === 'Human' ? "RetroPGF" : collection?.name}</p>
               </Link>
               <div>
                 <p className="font-medium text-xs xl:inline-block hidden pt-2">{collection?.createdAt}</p>
@@ -104,7 +104,7 @@ const NftCard = (props: any) => {
       </div>
 
       <div className={`${!cardView && 'sm:hidden'} w-full flex justify-start pt-4`}>
-        <Link href={`/mint/${collection?.primaryContract || ''}`}>
+        <Link href={`/mint/${collection?.chainId}/${collection?.primaryContract || ''}`}>
           <p className='text-right font-thin text-xs hover:opacity-80'>{'∟'} Click to mint <span className="font-thin font-medium">{collection?.name}</span></p>
         </Link>
       </div>
