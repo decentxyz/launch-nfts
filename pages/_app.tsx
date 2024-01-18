@@ -22,6 +22,8 @@ import {
 import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
 import Metadata from '../components/Metadata';
+import AtlasSnippet from "../components/CustomerSupport";
+import { SearchContextProvider } from "../lib/contexts/SearchContext";
 
 const myBoxTheme = {
   mainBgColor: "#FFFFFF",
@@ -65,8 +67,11 @@ function MyApp({ Component, pageProps }: AppProps) {
         })}
         >
         <Metadata />
+        <AtlasSnippet />
         <BoxThemeProvider theme={myBoxTheme}>
-          <Component {...pageProps} />
+          <SearchContextProvider>
+            <Component {...pageProps} />
+          </SearchContextProvider>
         </BoxThemeProvider>
         <Analytics />
         <ToastContainer />

@@ -89,8 +89,8 @@ const Mint: NextPage = (props: any) => {
               <div className="px-4 max-w-[500px] relative">
                 <NumberTicker endDate={mintInfo?.endDate} maxTokens={mintInfo?.maxTokens} tokenCount={contractData[0].tokenCount} quantity={quantity} setQuantity={setQuantity} />
                 <div className='pt-6 pl-4'>
-                  <a target='_blank' href={`https://checkout.decent.xyz/?app=onramp&chain=${contractData[0].chainId}`}>
-                    <p className='font-thin text-xs hover:opacity-80 hover:text-primary'>{'∟'} Buy crypto</p>
+                  <a target='_blank' href={`https://checkout.decent.xyz/?app=nft&chain=${contractData[0].chainId}&address=${contractData[0].primaryContract}%3A0`}>
+                    <p className='font-thin text-xs hover:opacity-80 hover:text-primary'>{'∟'} Buy with fiat</p>
                   </a>
                 </div>
               </div>

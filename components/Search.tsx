@@ -13,12 +13,12 @@ const Search = (props:any) => {
   }
 
   return <>
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke={showSearch ? "#0052FF" : "currentColor"} className="w-6 h-6">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke={showSearch ? "#A378FF" : "currentColor"} className={props.nav ? 'w-6 h-6' : 'w-4 h-4'}>
       <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
     </svg>
     {showSearch ?
       <>
-        <input
+      <input
         type="text"
         placeholder="Search by contract name or address..."
         className="font-thin pl-w py-1 px-2 text-primary w-80 text-sm"
@@ -32,7 +32,7 @@ const Search = (props:any) => {
           <p className="sm:text-xl font-thin">Contract</p>
           <p className="sm:text-lg text-sm font-thin">Search</p>
         </> :
-          <p className="sm:text-xl font-thin">Contract Search</p>
+          <p className="font-thin">Contract Search</p>
         }
       </div>
     }

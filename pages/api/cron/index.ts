@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse, NextApiHandler } from 'next';
 import axios from 'axios';
-import { ChainStats } from '../../../lib/types/Stats';
+import { ChainStats } from '../../../lib/types';
 import { RedisClient } from '../../../lib/database/RedisClient';
 
 const cron: NextApiHandler = async (req: NextApiRequest, res: NextApiResponse) => {

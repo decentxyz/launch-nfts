@@ -1,3 +1,9 @@
+declare global {
+  interface Window {
+    Atlas: any;
+  }
+}
+
 export interface ChainStats {
   "stats" : {
     "1day": {

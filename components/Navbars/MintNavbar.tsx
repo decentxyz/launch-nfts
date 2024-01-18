@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { PartnerLogos } from "../../lib/utils/minting/trackedNfts";
 import { DecentIcon } from "../../lib/utils/logos";
+import Search from "../Search";
 
 const MintNavbar = (props: any) => {
   return (
@@ -17,6 +18,9 @@ const MintNavbar = (props: any) => {
               : <><span>{DecentIcon("20", "20")}</span> <p className="pl-2">NFTs</p></>
             }
           </Link>
+          {props.all && <><p className="text-2xl">/</p>
+           <Search />
+          </>}
           <p className="text-2xl">/</p>
           <Link href="/all" className={`${props.all && 'text-primary'} hover:opacity-80`}>View all</Link>
           {!props.all && <><p className="text-2xl">/</p>

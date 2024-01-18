@@ -4,7 +4,6 @@ import { useChainData } from '../lib/nftData/useChainData';
 import Navbar from '../components/Navbars/Navbar';
 import FeaturedNftContainer from "../components/NFTs/FeaturedNftContainer";
 import { FeaturedNftContextProvider } from '../lib/contexts/FeaturedNftContext';
-import { SearchContextProvider } from '../lib/contexts/SearchContext';
 import Footer from '../components/Footers/Footer';
 import Link from 'next/link';
 import { getContractData } from '../lib/nftData/getContractData';
@@ -15,9 +14,7 @@ import { ChainId } from '@decent.xyz/box-common';
 const Home: NextPage = ({ contractData }: any) => {
   const today = new Date().toLocaleDateString();
   const { chainData, loadingChainData } = useChainData(today);
-
-  console.log(contractData)
-
+  
   function sortNFTsByMintedTimestamp(nfts: any) {
     return nfts.sort((a: any, b: any) => b.mintedTimestamp - a.mintedTimestamp);
   }
@@ -25,26 +22,23 @@ const Home: NextPage = ({ contractData }: any) => {
   const sortedContractData = sortNFTsByMintedTimestamp(contractData);
 
   return <>
-    <SearchContextProvider>
-      <Navbar oneDay={chainData?.oneDay} sevenDay={chainData?.sevenDay} isLoading={loadingChainData} />
-      <FeaturedNftContextProvider>
-        <main className={`${styles.main} relative`} style={{ minHeight: '100vh' }}>
-          <div className='flex w-full px-[24px]'>
-            <div className='w-full sm:hidden flex justify-start'>
-              <p className='text-right font-thin text-xs'>Swipe {'→'}</p>
-            </div>
-            <div className='w-full flex justify-end'>
-              <Link href="/all" className='text-right font-thin text-xs hover:text-primary'>View All {'→'}</Link>
-            </div>
+    <Navbar oneDay={chainData?.oneDay} sevenDay={chainData?.sevenDay} isLoading={loadingChainData} />
+    <FeaturedNftContextProvider>
+      <main className={`${styles.main} relative`} style={{ minHeight: '100vh' }}>
+        <div className='flex w-full px-[24px]'>
+          <div className='w-full sm:hidden flex justify-start'>
+            <p className='text-right font-thin text-xs'>Swipe {'→'}</p>
           </div>
-          {contractData && <>
-            <FeaturedNftContainer nftData={sortedContractData} />
-            <Footer nftData={contractData} />
-          </>}
-        </main>
-      </FeaturedNftContextProvider>
-
-    </SearchContextProvider>
+          <div className='w-full flex justify-end'>
+            <Link href="/all" className='text-right font-thin text-xs hover:text-primary'>View All {'→'}</Link>
+          </div>
+        </div>
+        {contractData && <>
+          <FeaturedNftContainer nftData={sortedContractData} />
+          <Footer nftData={contractData} />
+        </>}
+      </main>
+    </FeaturedNftContextProvider>    
   </>
 };
 

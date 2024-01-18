@@ -1,4 +1,5 @@
 import { NextPage } from 'next';
+import { useState } from 'react';
 import MintNavbar from '../components/Navbars/MintNavbar';
 import { getContractData } from '../lib/nftData/getContractData';
 import styles from "../styles/Home.module.css";
@@ -6,6 +7,8 @@ import NftCard from '../components/NFTs/NftCard';
 import { trackedNfts } from '../lib/utils/minting/trackedNfts';
 import { Address } from 'viem';
 import { ChainId } from '@decent.xyz/box-common';
+import { useRunSearch } from '../lib/runSearch';
+
 
 const All: NextPage = (props: any) => {
   const { contractData } = props;
@@ -15,6 +18,12 @@ const All: NextPage = (props: any) => {
   }
 
   const sortedContractData = sortNFTsByMintedTimestamp(contractData);
+  const [sortedNftData, setSortedNftData] = useState(sortedContractData); 
+  useRunSearch({
+    nftData: contractData,
+    sortedNfts: sortedNftData,
+    setSortedNfts: setSortedNftData
+  })
   
   return (
     <>
@@ -22,7 +31,7 @@ const All: NextPage = (props: any) => {
     {contractData ? 
       <div className={`${styles.main} px-[24px] py-40 relative`}>
         <div className='grid sm:grid-cols-2 gap-12 max-w-5xl'>
-          {sortedContractData.map((collection: any, i:number) => (
+          {sortedNftData.map((collection: any, i:number) => (
             <div key={i} className='w-[360px] h-[360px] md:w-[400px] md:h-[400px]'>
               <NftCard index={i} collection={collection} cardView={true} />
             </div>

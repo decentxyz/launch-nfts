@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { Address } from 'viem';
-import { ResEndpoint } from '../types/Stats';
+import { ResEndpoint } from '../types';
 import { ChainId } from '@decent.xyz/box-common';
 
 export const getContractData = async (addresses: Address[], chainId: ChainId) => {

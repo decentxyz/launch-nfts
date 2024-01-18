@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useFeaturedNftContext } from "../../lib/contexts/FeaturedNftContext";
 import { useSearchContext } from "../../lib/contexts/SearchContext";
 import { throttle } from "../../lib/utils/throttle";
+import { useRunSearch } from "../../lib/runSearch";
 
 const FeaturedNftContainer = ({ nftData }: any) => {
   const [screenWidth, setScreenWidth] = useState(0);
@@ -37,18 +38,12 @@ const FeaturedNftContainer = ({ nftData }: any) => {
     };
   }, []);
 
-  const searchSort = (a: any, b: any) => {
-    if (a.primaryContract.toLocaleLowerCase() === search.toLocaleLowerCase() || a.name.toLocaleLowerCase() === search.toLocaleLowerCase()) {
-      return -1;
-    } else if (b.primaryContract.toLocaleLowerCase() === search.toLocaleLowerCase() || b.name.toLocaleLowerCase() === search.toLocaleLowerCase()) {
-      return 1;
-    } else return 0;
-  };
-
-  const [sortedNftData, setSortedNftData] = useState([]);
-  useEffect(() => {
-    setSortedNftData(nftData.sort(searchSort));
-  }, [nftData])
+  const [sortedNftData, setSortedNftData] = useState(nftData); 
+  useRunSearch({
+    nftData,
+    sortedNfts: sortedNftData,
+    setSortedNfts: setSortedNftData
+  })
 
   useEffect(() => {
     if (!sortedNftData || sortedNftData.length === 0) return;
@@ -64,7 +59,7 @@ const FeaturedNftContainer = ({ nftData }: any) => {
       threshold: [0, 1]
     });
 
-    sortedNftData.forEach((_, i) => {
+    sortedNftData.forEach((_: any, i: any) => {
       const el = document.getElementById("nft-" + i);
       if (el) observer.observe(el);
     });
