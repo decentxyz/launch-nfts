@@ -18,9 +18,10 @@ const MintNavbar = (props: any) => {
             }
           </Link>
           <p className="text-2xl">/</p>
-          {props.all ? <Link href="/all" className="hover:opacity-80">View all</Link> : <p>Purchase</p>}
-          <p className="text-2xl">/</p>
-          <p className="text-primary">{props.address.slice(0,4)+"..."+props.address.slice(-4)}</p>
+          {props.all ? <Link href="/all" className="hover:opacity-80 text-primary">View all</Link> : <p>Purchase</p>}
+          {!props.all && <><p className="text-2xl">/</p>
+           <p className="text-primary">{props.address.slice(0,4)+"..."+props.address.slice(-4)}</p>
+          </>}
         </div>
 
         <ConnectWallet />

@@ -10,12 +10,12 @@ import { useAccount } from "wagmi";
 import { TheBox } from "@decent.xyz/the-box";
 import { ActionType, ChainId } from '@decent.xyz/box-common';
 import { parseUnits } from "viem";
-import { BaseScan } from "../../../lib/utils/logos";
+import { EtherscanScan } from "../../../lib/utils/logos";
 import { useState, useEffect } from 'react';
 import { convertTimestamp } from '../../../lib/utils/convertTimestamp';
 import NumberTicker from '../../../components/NumberTicker';
 import { VideoDict } from '../../../lib/utils/minting/trackedNfts';
-import { Blockscanners } from '../../../lib/utils/blockscanners';
+import { getBlockscanner } from '../../../lib/utils/blockscanners';
 
 const Mint: NextPage = (props: any) => {
   const {
@@ -41,12 +41,7 @@ const Mint: NextPage = (props: any) => {
     fetchMintInfo();
   }, [account, contractData, quantity]);
 
-  const blockscannerUrl = Blockscanners[contractData[0].chainId as keyof typeof Blockscanners];
-  const blockscannerName = blockscannerUrl.split('.')[0];
-  const cleanName = blockscannerName.charAt(0).toUpperCase() + blockscannerName.slice(1);
-
-  console.log(mintInfo)
-
+  const blockscanner = getBlockscanner(contractData[0].chainId);
 
   return (
     <>
@@ -101,7 +96,7 @@ const Mint: NextPage = (props: any) => {
                 <p>Mint start: {convertTimestamp(mintInfo?.startDate)}</p>
                 <p>Mint end: {convertTimestamp(mintInfo?.endDate) || 'Open'}</p>
                 <p>Max tokens: {mintInfo?.maxTokens || 'Open'}</p>
-                <Link target="_blank" className='flex gap-2' href={`https://${blockscannerUrl}/address/${contractData[0].primaryContract || ''}`}>{BaseScan(18, 20)} <span className='underline'> View on {cleanName}</span></Link> 
+                <Link target="_blank" className='flex gap-2' href={`https://${blockscanner.url}/address/${contractData[0].primaryContract || ''}`}>{EtherscanScan(18, 20)} <span className='underline'> View on {blockscanner.name}</span></Link> 
               </div>
               <p className='mt-8 md:w-[500px] overflow-y-auto max-h-[200px]'>{contractData[0].description}</p>
             </>

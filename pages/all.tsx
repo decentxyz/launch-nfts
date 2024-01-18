@@ -9,14 +9,20 @@ import { ChainId } from '@decent.xyz/box-common';
 
 const All: NextPage = (props: any) => {
   const { contractData } = props;
+
+  function sortNFTsByMintedTimestamp(nfts: any) {
+    return nfts.sort((a: any, b: any) => b.mintedTimestamp - a.mintedTimestamp);
+  }
+
+  const sortedContractData = sortNFTsByMintedTimestamp(contractData);
   
   return (
     <>
-    <MintNavbar address={"View All"} />
+    <MintNavbar all={true} />
     {contractData ? 
       <div className={`${styles.main} px-[24px] py-40 relative`}>
         <div className='grid sm:grid-cols-2 gap-12 max-w-5xl'>
-          {contractData.reverse().map((collection: any, i:number) => (
+          {sortedContractData.map((collection: any, i:number) => (
             <div key={i} className='w-[360px] h-[360px] md:w-[400px] md:h-[400px]'>
               <NftCard index={i} collection={collection} cardView={true} />
             </div>

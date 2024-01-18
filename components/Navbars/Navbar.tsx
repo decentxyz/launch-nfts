@@ -13,11 +13,11 @@ const Navbar = (props: any) => {
         </div>
   
         <div className="flex gap-2 w-1/5 hidden md:flex">
-          <p className="text-xs flex items-center">1 day <span className="text-2xl font-light"> {" {"}</span></p>
+          {/* <p className="text-xs flex items-center">1 day <span className="text-2xl font-light"> {" {"}</span></p>
           <div>
             <p className="text-[13px] text-primary">{!props.isLoading ? props.oneDay?.mintCount?.toLocaleString(): "..."} <span className="text-[12px] text-black">minted</span></p>
             <p className="text-[13px] text-primary">{!props.isLoading ? Math.ceil(props.oneDay?.mintVolume)?.toLocaleString() : "..."} ETH <span className="text-[12px] text-black">mint vol.</span></p>
-          </div>
+          </div> */}
         </div>
 
         <div className="hidden sm:flex items-center w-1/5">
@@ -25,11 +25,11 @@ const Navbar = (props: any) => {
         </div>
 
         <div className="flex gap-2 w-1/5 hidden md:flex">
-          <p className="text-xs flex items-center">7 day <span className="text-2xl font-light"> {" {"}</span></p>
+          {/* <p className="text-xs flex items-center">7 day <span className="text-2xl font-light"> {" {"}</span></p>
           <div>
             <p className="text-[13px] text-primary">{!props.isLoading ? props.sevenDay?.mintCount?.toLocaleString() : "..."} <span className="text-[12px] text-black">minted</span></p>
             <p className="text-[13px] text-primary">{!props.isLoading ? Math.ceil(props.sevenDay?.mintVolume)?.toLocaleString() : "..."} ETH <span className="text-[12px] text-black">mint vol.</span></p>
-          </div>
+          </div> */}
         </div>
 
         <ConnectWallet />

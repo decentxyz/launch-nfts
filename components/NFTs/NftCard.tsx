@@ -8,7 +8,8 @@ import { TheBox } from "@decent.xyz/the-box";
 import { ActionType, ChainId } from "@decent.xyz/box-common";
 import { parseUnits } from "viem";
 import Modal from "../Modal";
-import { BaseScan } from "../../lib/utils/logos";
+import { EtherscanScan } from "../../lib/utils/logos";
+import { getBlockscanner } from "../../lib/utils/blockscanners";
 
 const NftCard = (props: any) => {
   const { collection, cardView } = props;
@@ -24,6 +25,8 @@ const NftCard = (props: any) => {
     setTimeout(() => blurRef.current && (blurRef.current.style.display = "block"))
   }, []);
 
+  const blockscanner = getBlockscanner(collection.chainId)
+
   return <>
     <Modal className="relative sm:min-w-[500px] max-w-[500px] bg-white rounded-md" isOpen={isOpen} setIsOpen={setIsOpen}>
       <div className="pb-2 font-thin text-xl font-medium">Purchase {collection.name}</div>
@@ -36,7 +39,7 @@ const NftCard = (props: any) => {
           actionType={ActionType.NftPreferMint}
           actionConfig={{
             contractAddress: collection.primaryContract,
-            chainId: ChainId.BASE,
+            chainId: collection.chainId,
             signature: mintInfo?.mintMethod,
             args: mintInfo?.params,
             supplyConfig: {
@@ -72,12 +75,12 @@ const NftCard = (props: any) => {
           {!cardView &&
             <div className={`w-full h-[400px] flex z-10 mr-2 text-left space-y-3 relative overflow-x-hidden hidden sm:inline-block`}>
               <Link href={`/mint/${collection?.chainId}/${collection?.primaryContract}`}>
-                <p className="text-6xl hover:text-primary cursor-pointer">{collection?.name}</p>
+                <p className="text-6xl truncate hover:text-primary cursor-pointer">{collection?.name}</p>
               </Link>
               <div>
                 <p className="font-medium text-xs xl:inline-block hidden pt-2">{collection?.createdAt}</p>
                 <div className="xl:inline-block w-full hidden">
-                  <Link target="_blank" className='flex gap-2 text-xs pt-2' href={`https://basescan.org/address/${collection.primaryContract || ''}`}>{BaseScan(18, 20)} <span className='underline'> View on Basescan</span></Link>
+                  <Link target="_blank" className='flex gap-2 text-xs pt-2' href={`https://${blockscanner.url}/address/${collection.primaryContract || ''}`}>{EtherscanScan(18, 20)} <span className='underline'> View on {blockscanner.name}</span></Link>
                 </div>
                 <div className="absolute bottom-2 left-0">
                   <button className="text-xl px-16 py-2 bg-white bg-opacity-60 drop-shadow-md rounded-full hover:opacity-80" onClick={() => setIsOpen(true)}>Purchase</button>

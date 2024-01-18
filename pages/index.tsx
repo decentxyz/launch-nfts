@@ -16,6 +16,12 @@ const Home: NextPage = ({ contractData }: any) => {
   const today = new Date().toLocaleDateString();
   const { chainData, loadingChainData } = useChainData(today);
 
+  function sortNFTsByMintedTimestamp(nfts: any) {
+    return nfts.sort((a: any, b: any) => b.mintedTimestamp - a.mintedTimestamp);
+  }
+
+  const sortedContractData = sortNFTsByMintedTimestamp(contractData);
+
   return <>
     <SearchContextProvider>
       <Navbar oneDay={chainData?.oneDay} sevenDay={chainData?.sevenDay} isLoading={loadingChainData} />
@@ -30,7 +36,7 @@ const Home: NextPage = ({ contractData }: any) => {
             </div>
           </div>
           {contractData && <>
-            <FeaturedNftContainer nftData={contractData} />
+            <FeaturedNftContainer nftData={sortedContractData} />
             <Footer nftData={contractData} />
           </>}
         </main>

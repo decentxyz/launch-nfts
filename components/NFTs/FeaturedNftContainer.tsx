@@ -91,7 +91,7 @@ const FeaturedNftContainer = ({ nftData }: any) => {
   return <div className={`${styles.featuredContainer} relative overflow-x-scroll`} ref={outerRef}>
     <div className={`${styles.emptyItem} md:w-1/4 w-1/2 hidden md:inline-block`}>
       <div className="absolute left-6 font-thin top-1/2 transform -translate-y-1/2 w-40">
-        Purchase NFTs on Base.{' '}
+        Purchase NFTs.{' '}
         <span className="text-primary">With any token. No bridging required.</span>
       </div>
     </div>
