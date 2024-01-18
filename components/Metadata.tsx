@@ -4,21 +4,21 @@ const Metadata = () => {
 
   return <>
     <Head>
-      <title>{"Based NFTs"}</title>
+      <title>{"Launch Decent"}</title>
       <meta
         name="description"
-        content={"Purchase NFTs on Base without bridging. 🟦"}
+        content={"Mint NFTs from featured Decent partners. ⬛"}
       />
-      <link rel="icon" href={"/images/icon.png"} />
+      <link rel="icon" href={"/images/decent-icon.png"} />
       <meta property='og:type' content="website" />
-      <meta property='og:url' content={"https://basednfts.co/"} />
+      <meta property='og:url' content={"https://launch.decent.xyz/"} />
       {/* <meta property='og:image' content={''} /> */}
-      <meta property='og:title' content={"Based NFTs"} />
-      <meta property='og:description' content={"Purchase NFTs on Base without bridging."} />
+      <meta property='og:title' content={"Decent Launch"} />
+      <meta property='og:description' content={"Mint NFTs from featured Decent partners."} />
       <meta name='twitter:card' content={"summary_large_image"} />
-      <meta name='twitter:url' content={"https://basednfts.co/"} />
-      <meta name='twitter:title' content={"Based NFTs"} />
-      <meta name='twitter:description' content={"Purchase NFTs on Base without bridging. 🟦"} />
+      <meta name='twitter:url' content={"https://launch.decent.xyz"} />
+      <meta name='twitter:title' content={"Launch Decent"} />
+      <meta name='twitter:description' content={"Mint NFTs from featured Decent partners. ⬛"} />
       {/* <meta name='twitter:image' content={''} /> */}
     </Head>
   </>

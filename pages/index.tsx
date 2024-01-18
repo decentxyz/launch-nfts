@@ -15,7 +15,6 @@ import { ChainId } from '@decent.xyz/box-common';
 const Home: NextPage = ({ contractData }: any) => {
   const today = new Date().toLocaleDateString();
   const { chainData, loadingChainData } = useChainData(today);
-  console.log("HEREEE", contractData)
 
   return <>
     <SearchContextProvider>
