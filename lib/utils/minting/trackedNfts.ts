@@ -37,7 +37,7 @@ export enum PartnerLogos {
 
 export enum VideoDict {
   'CSCOPE' = '/nfts/caldera.mp4',
-  'SUPER' = 'nfts/superchain.mp4'
+  // 'SUPER' = 'nfts/superchain.MP4'
 }
 
 export const trackedNfts: ContractAddress[] = [

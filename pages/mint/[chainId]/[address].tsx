@@ -109,7 +109,7 @@ const Mint: NextPage = (props: any) => {
 
         <div className='md:w-1/2 w-full flex justify-center max-h-[500px] relative'>
           {VideoDict[contractData[0].symbol as keyof typeof VideoDict] ? 
-            <video src={VideoDict[contractData[0].symbol as keyof typeof VideoDict]} autoPlay loop muted className='rounded-md' />
+            <video src='/nfts/caldera.mp4' autoPlay loop muted className='rounded-md' />
             : <Image src={contractData[0].image} height={500} width={500} alt="nft image" className='rounded-md' />
           }
         </div>
