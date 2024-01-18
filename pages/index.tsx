@@ -10,10 +10,12 @@ import Link from 'next/link';
 import { getContractData } from '../lib/nftData/getContractData';
 import { trackedNfts } from '../lib/utils/minting/trackedNfts';
 import { Address } from 'viem';
+import { ChainId } from '@decent.xyz/box-common'; 
 
 const Home: NextPage = ({ contractData }: any) => {
   const today = new Date().toLocaleDateString();
   const { chainData, loadingChainData } = useChainData(today);
+  console.log("HEREEE", contractData)
 
   return <>
     <SearchContextProvider>
@@ -25,7 +27,7 @@ const Home: NextPage = ({ contractData }: any) => {
               <p className='text-right font-thin text-xs'>Swipe {'→'}</p>
             </div>
             <div className='w-full flex justify-end'>
-              <Link href="/all" className='text-right font-thin text-xs hover:text-[#0052FF]'>View All {'→'}</Link>
+              <Link href="/all" className='text-right font-thin text-xs hover:text-primary'>View All {'→'}</Link>
             </div>
           </div>
           {contractData && <>
@@ -42,11 +44,39 @@ const Home: NextPage = ({ contractData }: any) => {
 export default Home;
 
 export async function getStaticProps() {
-  const addresses = trackedNfts.map(nft => nft.pattern !== "proxy" ? nft.address : nft.token) as Address[];
-  const nftData = await getContractData(addresses.slice(-4));
+  // Group NFTs by chainId
+  const nftsByChainId: { [key in ChainId]?: string[] } = trackedNfts.reduce((acc: { [key in ChainId]?: Address[] }, nft) => {
+    const address = nft.pattern !== "proxy" ? nft.address : nft.token;
+    if (!acc[nft.chainId]) {
+      acc[nft.chainId] = [];
+    }
+    acc[nft.chainId]!.push(address!);
+    return acc;
+  }, {});
+
+  // Fetch contract data for each group
+  const contractDataPromises = Object.entries(nftsByChainId).map(([chainId, addresses]) => {
+    const cleanAddresses = addresses as `0x${string}`[];
+    const cleanChainId = chainId as unknown as ChainId;
+    return getContractData(cleanAddresses, cleanChainId).then(data => ({
+      chainId,
+      data
+    }));
+  });
+  
+
+  // Await all promises and combine results
+  type Data = any;
+  const contractDataResults = await Promise.all(contractDataPromises);
+  
+  const contractData = contractDataResults.reduce<Data[]>((acc, { chainId, data }) => {
+    data.forEach((item: any) => acc.push({ chainId, ...item }));
+    return acc;
+  }, []);
+
   return {
     props: {
-      contractData: nftData || null,
+      contractData: contractData || null,
     },
     revalidate: 300
   }

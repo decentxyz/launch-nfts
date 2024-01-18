@@ -47,7 +47,7 @@ const FeaturedNftContainer = ({ nftData }: any) => {
 
   const [sortedNftData, setSortedNftData] = useState([]);
   useEffect(() => {
-    setSortedNftData(nftData.reverse().sort(searchSort));
+    setSortedNftData(nftData.sort(searchSort));
   }, [nftData])
 
   useEffect(() => {
@@ -92,7 +92,7 @@ const FeaturedNftContainer = ({ nftData }: any) => {
     <div className={`${styles.emptyItem} md:w-1/4 w-1/2 hidden md:inline-block`}>
       <div className="absolute left-6 font-thin top-1/2 transform -translate-y-1/2 w-40">
         Purchase NFTs on Base.{' '}
-        <span className="text-[#0052FF]">With any token. No bridging required.</span>
+        <span className="text-primary">With any token. No bridging required.</span>
       </div>
     </div>
     {sortedNftData.map((collection: any, i: number) => {

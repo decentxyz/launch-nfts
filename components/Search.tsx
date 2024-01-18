@@ -21,7 +21,7 @@ const Search = (props:any) => {
         <input
         type="text"
         placeholder="Search by contract name or address..."
-        className="font-thin pl-w py-1 px-2 text-[#0052FF] w-80 text-sm"
+        className="font-thin pl-w py-1 px-2 text-primary w-80 text-sm"
         onSubmit={handleSubmit}
         onKeyDown={handleSubmit}
       />

@@ -4,7 +4,8 @@ import { useRef, useEffect, useState } from "react";
 import Link from "next/link";
 import { getMintInfo } from "../../lib/nftData/getMintInfo";
 import { useAccount } from "wagmi";
-import { TheBox, ActionType, ChainId } from "@decent.xyz/the-box";
+import { TheBox } from "@decent.xyz/the-box";
+import { ActionType, ChainId } from "@decent.xyz/box-common";
 import { parseUnits } from "viem";
 import Modal from "../Modal";
 import { BaseScan } from "../../lib/utils/logos";
@@ -70,8 +71,8 @@ const NftCard = (props: any) => {
         <div className="sm:flex p-6 justify-center items-center">
           {!cardView &&
             <div className={`w-full h-[400px] flex z-10 mr-2 text-left space-y-3 relative overflow-x-hidden hidden sm:inline-block`}>
-              <Link href={`/mint/${collection?.primaryContract}`}>
-                <p className="text-6xl hover:text-[#0052FF] cursor-pointer">{collection?.name}</p>
+              <Link href={`/mint/${collection?.chainId}/${collection?.primaryContract}`}>
+                <p className="text-6xl hover:text-primary cursor-pointer">{collection?.name}</p>
               </Link>
               <div>
                 <p className="font-medium text-xs xl:inline-block hidden pt-2">{collection?.createdAt}</p>
@@ -86,7 +87,7 @@ const NftCard = (props: any) => {
           }
 
           <div className={`${cardView ? "w-[310px] md:max-w-[380px]" : "w-full max-h-[400px] md:max-w-[400px]"} relative aspect-square `}>
-            <Link href={`/mint/${collection?.primaryContract}`}>
+            <Link href={`/mint/${collection?.chainId}/${collection?.primaryContract}`}>
               <Image
                 className="absolute inset-0 w-full h-full object-cover"
                 src={collection?.image || ''}

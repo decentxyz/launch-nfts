@@ -5,6 +5,7 @@ import styles from "../styles/Home.module.css";
 import NftCard from '../components/NFTs/NftCard';
 import { trackedNfts } from '../lib/utils/minting/trackedNfts';
 import { Address } from 'viem';
+import { ChainId } from '@decent.xyz/box-common';
 
 const All: NextPage = (props: any) => {
   const { contractData } = props;
@@ -30,13 +31,40 @@ const All: NextPage = (props: any) => {
 export default All;
 
 export async function getStaticProps() {
-  const addresses = trackedNfts.map(nft => nft.pattern !== "proxy" ? nft.address : nft.token) as Address[];
-  const nftData = await getContractData(addresses);
+  // Group NFTs by chainId
+  const nftsByChainId: { [key in ChainId]?: string[] } = trackedNfts.reduce((acc: { [key in ChainId]?: Address[] }, nft) => {
+    const address = nft.pattern !== "proxy" ? nft.address : nft.token;
+    if (!acc[nft.chainId]) {
+      acc[nft.chainId] = [];
+    }
+    acc[nft.chainId]!.push(address!);
+    return acc;
+  }, {});
+
+  // Fetch contract data for each group
+  const contractDataPromises = Object.entries(nftsByChainId).map(([chainId, addresses]) => {
+    const cleanAddresses = addresses as `0x${string}`[];
+    const cleanChainId = chainId as unknown as ChainId;
+    return getContractData(cleanAddresses, cleanChainId).then(data => ({
+      chainId,
+      data
+    }));
+  });
+  
+
+  // Await all promises and combine results
+  type Data = any;
+  const contractDataResults = await Promise.all(contractDataPromises);
+  
+  const contractData = contractDataResults.reduce<Data[]>((acc, { chainId, data }) => {
+    data.forEach((item: any) => acc.push({ chainId, ...item }));
+    return acc;
+  }, []);
 
   return {
     props: {
-      contractData: nftData || null
+      contractData: contractData || null,
     },
-    revalidate: 3600
+    revalidate: 300
   }
 };

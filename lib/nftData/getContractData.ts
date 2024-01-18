@@ -1,10 +1,12 @@
 import axios from 'axios';
 import { Address } from 'viem';
+import { ResEndpoint } from '../types/Stats';
+import { ChainId } from '@decent.xyz/box-common';
 
-export const getContractData = async (addresses: Address[]) => {
+export const getContractData = async (addresses: Address[], chainId: ChainId) => {
   try {
     const { data: contractData } = await axios.get(
-      "https://api-base.reservoir.tools/collections/v6", {
+      `https://${ResEndpoint[chainId]}.reservoir.tools/collections/v7`, {
         headers: {
           "x-api-key": process.env.RESERVOIR_API_KEY as string,
         },
@@ -12,7 +14,6 @@ export const getContractData = async (addresses: Address[]) => {
           contract: addresses
         }
       });
-
     return contractData.collections;
   } catch (e) {
     console.error("Failed to get data from Reservoir: ", e);

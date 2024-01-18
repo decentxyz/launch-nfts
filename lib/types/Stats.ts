@@ -18,3 +18,11 @@ export interface ChainStats {
     };
   };
 }
+
+export enum ResEndpoint {
+  "" = 1,
+  "api-optimism" = 10,
+  "api-polygon" = 137,
+  "api-arbitrum" = 42161,
+  "api-base" = 8453
+};

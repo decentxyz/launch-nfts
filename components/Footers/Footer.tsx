@@ -17,19 +17,19 @@ const Footer = (props: any) => {
       </div>
       {nftData && 
         <div className="flex justify-between pt-1">
-          <p className="w-1/5 text-[#0052FF]">
+          <p className="w-1/5 text-primary">
             {activeNft?.name}
           </p>
-          <p className="w-1/5 text-center text-[#0052FF]">
+          <p className="w-1/5 text-center text-primary">
             {parseInt(activeNft?.tokenCount).toLocaleString()}
           </p>
-          <p className="w-1/5 text-center text-[#0052FF] hidden sm:inline-block">
+          <p className="w-1/5 text-center text-primary hidden sm:inline-block">
             {((activeNft?.ownerCount / parseInt(activeNft?.tokenCount))*100).toFixed(2)+ "%"}
           </p>
-          <p className="w-1/5 text-center text-[#0052FF] hidden sm:inline-block">
+          <p className="w-1/5 text-center text-primary hidden sm:inline-block">
             {((parseInt(activeNft?.onSaleCount) / parseInt(activeNft?.tokenCount))*100).toFixed(2)+ "%"}
           </p>
-          <p className="w-1/5 text-right text-[#0052FF]">
+          <p className="w-1/5 text-right text-primary">
             {activeNft?.volume?.allTime?.toFixed(2).toLocaleString()} ETH
           </p>
         </div>
