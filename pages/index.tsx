@@ -9,9 +9,12 @@ import Link from 'next/link';
 import { getContractData } from '../lib/nftData/getContractData';
 import { trackedNfts } from '../lib/utils/minting/trackedNfts';
 import { Address } from 'viem';
-import { ChainId } from '@decent.xyz/box-common'; 
+import { ChainId } from '@decent.xyz/box-common';
+import { useEffect } from 'react';
+import { useAccount } from 'wagmi';
 
 const Home: NextPage = ({ contractData }: any) => {
+  const { address: account } = useAccount();
   const today = new Date().toLocaleDateString();
   const { chainData, loadingChainData } = useChainData(today);
   
@@ -20,6 +23,14 @@ const Home: NextPage = ({ contractData }: any) => {
   }
 
   const sortedContractData = sortNFTsByMintedTimestamp(contractData);
+
+  useEffect(() => {
+    if (account && window) {
+      window.Atlas.call("identify", {
+        userId: account,
+       })
+    }
+  }, [account]);
 
   return <>
     <Navbar oneDay={chainData?.oneDay} sevenDay={chainData?.sevenDay} isLoading={loadingChainData} />

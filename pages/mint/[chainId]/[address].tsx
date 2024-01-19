@@ -28,6 +28,14 @@ const Mint: NextPage = (props: any) => {
   const [quantity, setQuantity] = useState(1);
 
   useEffect(() => {
+    if (account && window) {
+      window.Atlas.call("identify", {
+        userId: account,
+       })
+    }
+  }, [account]);
+
+  useEffect(() => {
     async function fetchMintInfo() {
       const data = getMintInfo(
         contractData[0].primaryContract.toLowerCase(),
