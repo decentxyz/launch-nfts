@@ -26,14 +26,15 @@ const Mint: NextPage = (props: any) => {
   const [activeTab, setActiveTab] = useState('Purchase');
   const [mintInfo, setMintInfo] = useState<MintInfoProps>();
   const [quantity, setQuantity] = useState(1);
+  const [soldOut, setSoldOut] = useState(false);
 
   useEffect(() => {
-    if (account && window) {
+    if (account && window && Date.now() / 1000 < mintInfo?.endDate!) {
       window.Atlas.call("identify", {
         userId: account,
        })
     }
-  }, [account]);
+  }, [account, mintInfo?.endDate]);
 
   useEffect(() => {
     async function fetchMintInfo() {
@@ -49,6 +50,12 @@ const Mint: NextPage = (props: any) => {
     fetchMintInfo();
   }, [account, contractData, quantity]);
 
+  useEffect(() => {
+    if (Date.now() / 1000 > mintInfo?.endDate! && parseInt(contractData[0].onSaleCount) === 0) {
+      setSoldOut(true);
+    }
+  }, [contractData, mintInfo?.endDate]);
+
   const blockscanner = getBlockscanner(contractData[0].chainId);
 
   return (
@@ -63,6 +70,7 @@ const Mint: NextPage = (props: any) => {
             } overflow-hidden`}>
               {contractData[0].name === 'Human' ? 'RetroPGF' : contractData[0].name}
             </span>
+            {soldOut && <p className='uppercase text-red-500 text-xl pt-4'>sold out</p>}
           </p>
           <div className='pt-10 mb-2 md:w-[500px] border-b border-black flex justify-center'>
             <div className='pb-2 flex text-xl'>
