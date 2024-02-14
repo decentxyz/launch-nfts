@@ -13,7 +13,7 @@ const MintNavbar = (props: any) => {
 
         <div className="flex items-center gap-4">
           <Link href='/' className="flex items-center hover:opacity-80">
-            {props.partner ? 
+            {PartnerLogos[props.partner as keyof typeof PartnerLogos] ? 
               <Image src={PartnerLogos[props.partner as keyof typeof PartnerLogos]} height={50} width={80} alt='logo' />
               : <><span>{DecentIcon("20", "20")}</span> <p className="pl-2">NFTs</p></>
             }

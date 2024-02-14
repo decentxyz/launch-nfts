@@ -41,8 +41,10 @@ export enum VideoDict {
 }
 
 export const trackedNfts: ContractAddress[] = [
+  // V Day 2024
+  { address: '0x2F6AbB4259c0d4C865BB635FEcB5D7f43E7216c2', chainId: ChainId.BASE, startDate: 1707924600, endDate: 1709098200, price: "0.00044", source: 'Decent', partner: ''},
   // Calderascope
-  { address: '0x903bc2Bd67a31aA628B18CaB56bbB33Cd7Ce2d5c', chainId: ChainId.ARBITRUM, startDate: 1705546800, endDate: 1706848200, price: "0.00044", source: 'Decent', partner: 'Caldera'},
+  { address: '0x903bc2Bd67a31aA628B18CaB56bbB33Cd7Ce2d5c', chainId: ChainId.ARBITRUM, startDate: 1705546800, endDate: 1719780374, price: "0.00044", source: 'Decent', partner: 'Caldera'},
   // Optimism Superchain
   { address: '0xe736729Ee572CDF69df6A92eEb751C27311355a5', chainId: ChainId.OPTIMISM, startDate: 1703246400, endDate: 1705035600, price: "0.00044", source: 'Decent', partner: 'Optimism'},
   // Squid Stardance
