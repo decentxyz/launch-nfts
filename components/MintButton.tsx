@@ -21,7 +21,7 @@ import {
 import '@decent.xyz/box-ui/index.css';
 import { BoxHooksContextProvider } from '@decent.xyz/box-hooks';
 import { useNetwork, useSwitchNetwork } from 'wagmi';
-import { sendTransaction } from '@wagmi/core';
+import { sendTransaction, fetchBalance } from '@wagmi/core';
 import Image from 'next/image';
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import { toast } from 'react-toastify';
@@ -61,6 +61,7 @@ enum ChainNames {
 export default function MintButton({ mintConfig, account }: { mintConfig: BoxActionRequest, account: Address }) {
   const [srcToken, setSrcToken] = useState<TokenInfo | any>(ethGasToken);
   const [showBalanceSelector, setShowBalanceSelector] = useState(false);
+  const [ethBalance, setEthBalance] = useState('');
   const [txHash, setTxHash] = useState('');
   const { chain } = useNetwork();
   const { switchNetwork } = useSwitchNetwork();
@@ -96,6 +97,20 @@ export default function MintButton({ mintConfig, account }: { mintConfig: BoxAct
   useEffect(() => {
     fetchConfig();
   }, [fetchConfig]);
+
+  useEffect(() => {
+    async function loadBalance(){
+      if (account && chain) {
+        const balance = await fetchBalance({
+          address: account,
+          chainId: chain?.id,
+          formatUnits: 'ether'
+        })
+        setEthBalance(balance.formatted);
+      };
+    };
+    loadBalance();
+  }, [account, chain])
 
   const returnBlockExplorer = useMemo(() => {
     const { status, blockExplorers } = txStatus;
@@ -180,11 +195,11 @@ export default function MintButton({ mintConfig, account }: { mintConfig: BoxAct
         <div className='flex items-center gap-4 relative'>
         {/* TODO: add pre-mint disabled check that user has enough balance & error handling */}
           <button
-            disabled={loading || formatUnits(srcToken.balance || '', srcToken.decimals) < formatUnits(mintConfig.actionConfig.cost?.amount!, 18)}
+            disabled={loading || formatUnits(srcToken.balance || ethBalance, srcToken.decimals) < formatUnits(mintConfig.actionConfig.cost?.amount!, 18)}
             onClick={() => runTx()}
-            className={`${loading || srcToken.balance < mintConfig.actionConfig.cost?.amount! ? 'bg-gray-200 text-black' : 'bg-black text-white hover:opacity-80'} w-full py-2 rounded-full`}
+            className={`${loading || formatUnits(srcToken.balance || ethBalance, srcToken.decimals) < formatUnits(mintConfig.actionConfig.cost?.amount!, 18) ? 'bg-gray-200 text-black' : 'bg-black text-white hover:opacity-80'} w-full py-2 rounded-full`}
           >
-            {loading ? '...' : 'Mint'}
+            {loading ? '...' : (formatUnits(srcToken.balance || ethBalance, srcToken.decimals) < formatUnits(mintConfig.actionConfig.cost?.amount!, 18)) ? 'Insufficient Balance' : 'Mint'}
           </button>
           <div onClick={() => setShowBalanceSelector(!showBalanceSelector)} className='rounded-full border border-black py-1 px-2 bg-white flex items-center hover:opacity-80 cursor-pointer'>
             <div className="box-relative box-w-[30px] box-h-[30px] box-mr-[8px] box-flex box-items-center">
