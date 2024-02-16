@@ -26,6 +26,7 @@ import Image from 'next/image';
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import { toast } from 'react-toastify';
 import DropDownIcon from './DropdownIcon';
+import { formatUnits } from 'viem';
 
 interface BoxActionRequest {
   sender: Address;
@@ -58,7 +59,7 @@ enum ChainNames {
 }
 
 export default function MintButton({ mintConfig, account }: { mintConfig: BoxActionRequest, account: Address }) {
-  const [srcToken, setSrcToken] = useState<TokenInfo>(ethGasToken);
+  const [srcToken, setSrcToken] = useState<TokenInfo | any>(ethGasToken);
   const [showBalanceSelector, setShowBalanceSelector] = useState(false);
   const [txHash, setTxHash] = useState('');
   const { chain } = useNetwork();
@@ -179,8 +180,9 @@ export default function MintButton({ mintConfig, account }: { mintConfig: BoxAct
         <div className='flex items-center gap-4 relative'>
         {/* TODO: add pre-mint disabled check that user has enough balance & error handling */}
           <button
+            disabled={loading || formatUnits(srcToken.balance || '', srcToken.decimals) < formatUnits(mintConfig.actionConfig.cost?.amount!, 18)}
             onClick={() => runTx()}
-            className="bg-black w-full py-2 rounded-full text-white hover:opacity-80"
+            className={`${loading || srcToken.balance < mintConfig.actionConfig.cost?.amount! ? 'bg-gray-200 text-black' : 'bg-black text-white hover:opacity-80'} w-full py-2 rounded-full`}
           >
             {loading ? '...' : 'Mint'}
           </button>
