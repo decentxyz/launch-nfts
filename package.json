@@ -10,7 +10,8 @@
   },
   "dependencies": {
     "@decent.xyz/box-common": "^1.0.16",
-    "@decent.xyz/box-ui": "^1.0.46",
+    "@decent.xyz/box-hooks": "^1.0.50",
+    "@decent.xyz/box-ui": "^1.0.50",
     "@decent.xyz/the-box": "^1.1.64",
     "@headlessui/react": "^1.7.16",
     "@rainbow-me/rainbowkit": "^1.3.3",

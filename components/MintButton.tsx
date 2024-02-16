@@ -10,11 +10,22 @@ import {
   EvmTransaction,
   bigintSerializer,
   bigintDeserializer,
+  TokenInfo,
+  ethGasToken,
 } from '@decent.xyz/box-common';
+import { 
+  BalanceSelector,
+  ClientRendered,
+  ChainIcon
+} from '@decent.xyz/box-ui';
+import '@decent.xyz/box-ui/index.css';
+import { BoxHooksContextProvider } from '@decent.xyz/box-hooks';
 import { useNetwork, useSwitchNetwork } from 'wagmi';
 import { sendTransaction } from '@wagmi/core';
+import Image from 'next/image';
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import { toast } from 'react-toastify';
+import DropDownIcon from './DropdownIcon';
 
 interface BoxActionRequest {
   sender: Address;
@@ -47,6 +58,8 @@ enum ChainNames {
 }
 
 export default function MintButton({ mintConfig, account }: { mintConfig: BoxActionRequest, account: Address }) {
+  const [srcToken, setSrcToken] = useState<TokenInfo>(ethGasToken);
+  const [showBalanceSelector, setShowBalanceSelector] = useState(false);
   const [txHash, setTxHash] = useState('');
   const { chain } = useNetwork();
   const { switchNetwork } = useSwitchNetwork();
@@ -62,11 +75,22 @@ export default function MintButton({ mintConfig, account }: { mintConfig: BoxAct
   });
 
   const fetchConfig = useCallback(async () => {
-    if (account) {
+    if (account && srcToken) {
       const response = await generateResponse({ mintConfig, account });
-      setConfig(response.config ?? null);
+      if (response.config) {
+        const config: BoxActionRequest = {
+        ...response.config,
+        srcToken: srcToken.address as Address,
+        srcChainId: srcToken.chainId,
+        sender: account,
+        dstChainId: response.config.dstChainId,
+        actionType: response.config.actionType,
+        actionConfig: response.config.actionConfig,
+        slippage: response.config.slippage ?? 1,
+      }
+      setConfig(config);}
     }
-  }, [account, mintConfig]);
+  }, [account, mintConfig, srcToken]); 
 
   useEffect(() => {
     fetchConfig();
@@ -145,16 +169,44 @@ export default function MintButton({ mintConfig, account }: { mintConfig: BoxAct
       console.error('Error executing transaction', e);
     }
     setLoading(false);
-  }, [chain?.id, config, mintConfig, account, switchNetwork]);
+  }, [chain?.id, config, mintConfig, account, switchNetwork])
 
-  return (<>
-    <button
-      onClick={() => runTx()}
-      className="bg-black px-5 py-2 rounded-full text-white hover:opacity-80"
-    >
-      {loading ? '...' : 'Send a Tx'}
-    </button>
-  </>);
+  return (
+    <ClientRendered>
+      <BoxHooksContextProvider
+        apiKey={process.env.NEXT_PUBLIC_DECENT_API_KEY as string}
+      >
+        <div className='flex items-center gap-4 relative'>
+        {/* TODO: add pre-mint disabled check that user has enough balance & error handling */}
+          <button
+            onClick={() => runTx()}
+            className="bg-black w-full py-2 rounded-full text-white hover:opacity-80"
+          >
+            {loading ? '...' : 'Mint'}
+          </button>
+          <div onClick={() => setShowBalanceSelector(!showBalanceSelector)} className='rounded-full border border-black py-1 px-2 bg-white flex items-center hover:opacity-80 cursor-pointer'>
+            <div className="box-relative box-w-[30px] box-h-[30px] box-mr-[8px] box-flex box-items-center">
+              <Image src={srcToken.logo!} width={24} height={24} alt='token-logo' />
+              <ChainIcon chainId={srcToken.chainId} className="box-absolute box-right-0 box-bottom-0" />
+            </div>
+            <DropDownIcon />
+          </div>
+        </div>
+        {showBalanceSelector &&
+        <BalanceSelector
+          className='bg-white text-sm font-sans drop-shadow-lg max-h-96 w-full overflow-y-scroll absolute z-10 top-4 right-8  '
+          selectedToken={srcToken}
+          setSelectedToken={(tokeninfo: TokenInfo) => {
+            setSrcToken(tokeninfo);
+            setShowBalanceSelector(false)
+          }}
+          chainId={mintConfig.actionConfig.chainId}
+          address={account}
+          selectChains={[ChainId.ARBITRUM, ChainId.OPTIMISM, ChainId.BASE, ChainId.ETHEREUM, ChainId.POLYGON]}
+        />}
+      </BoxHooksContextProvider>
+    </ClientRendered>
+  );
 }
 
 // Prepare Transaction //
