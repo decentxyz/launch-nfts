@@ -6,7 +6,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import MintFooter from '../../../components/Footers/MintFooter';
 import { getMintInfo, MintInfoProps } from "../../../lib/nftData/getMintInfo";
-import { useAccount } from "wagmi";
+import { useAccount, useNetwork } from "wagmi";
 import { TheBox } from "@decent.xyz/the-box";
 import { ActionType, ChainId } from '@decent.xyz/box-common';
 import { parseUnits } from "viem";
@@ -16,6 +16,7 @@ import { convertTimestamp } from '../../../lib/utils/convertTimestamp';
 import NumberTicker from '../../../components/NumberTicker';
 import { VideoDict } from '../../../lib/utils/minting/trackedNfts';
 import { getBlockscanner } from '../../../lib/utils/blockscanners';
+import MintButton from '../../../components/MintButton';
 
 const Mint: NextPage = (props: any) => {
   const {
@@ -27,6 +28,7 @@ const Mint: NextPage = (props: any) => {
   const [mintInfo, setMintInfo] = useState<MintInfoProps>();
   const [quantity, setQuantity] = useState(1);
   const [soldOut, setSoldOut] = useState(false);
+  const { chain } = useNetwork();
 
   useEffect(() => {
     if (account && window && Date.now() / 1000 < mintInfo?.endDate!) {
@@ -72,54 +74,52 @@ const Mint: NextPage = (props: any) => {
             </span>
             {soldOut && <p className='uppercase text-red-500 text-xl pt-4'>sold out</p>}
           </p>
-          <div className='pt-10 mb-2 md:w-[500px] border-b border-black flex justify-center'>
-            <div className='pb-2 flex text-xl'>
-              <button onClick={() => setActiveTab('Purchase')} className={`${activeTab !== 'Purchase' && 'text-gray-500 font-thin'} pr-16 border-r border-black hover:text-opacity-80`}>Purchase</button>
-              <button onClick={() => setActiveTab('Details')} className={`${activeTab !== 'Details' && 'text-gray-500 font-thin'} pl-16 hover:text-opacity-80`}>Details</button>
-            </div>
-          </div>
-          <div>
-            {activeTab === 'Purchase' ? <>
-              <TheBox
-                className="text-xs md:max-w-[500px] bg-white"
-                paymentButtonText="Pay now"
-                //todo: add avax 
-                chains={[ChainId.ARBITRUM, ChainId.OPTIMISM, ChainId.BASE, ChainId.ETHEREUM, ChainId.POLYGON]}
-                actionType={ActionType.NftPreferMint}
-                actionConfig={{
-                  contractAddress: contractData[0].primaryContract,
-                  chainId: contractData[0].chainId,
-                  signature: mintInfo?.mintMethod,
-                  args: mintInfo?.params,
-                  cost: {
-                    isNative: true,
-                    amount: parseUnits(mintInfo?.price || '0.00', 18),
-                  },
-                  supplyConfig: {
-                    sellOutDate: mintInfo?.endDate,
-                    maxCap: mintInfo?.maxTokens
-                  },
-                }}
-                apiKey={process.env.NEXT_PUBLIC_DECENT_API_KEY as string}
-              />
-              <div className="px-4 max-w-[500px] relative">
-                <NumberTicker endDate={mintInfo?.endDate} maxTokens={mintInfo?.maxTokens} tokenCount={contractData[0].tokenCount} quantity={quantity} setQuantity={setQuantity} />
-                <div className='pt-6 pl-4'>
-                  <a target='_blank' href={`https://checkout.decent.xyz/?app=nft&chain=${contractData[0].chainId}&address=${contractData[0].primaryContract}%3A0`}>
-                    <p className='font-thin text-xs hover:opacity-80 hover:text-primary'>{'∟'} Buy with fiat</p>
-                  </a>
-                </div>
-              </div>
-            </> : <>
-              <div className='flex items-center md:w-[500px] justify-between flex-wrap gap-2 text-sm font-thin py-4'>
+          <div className='space-y-8'>
+            <div className='flex-wrap gap-2 text-sm font-thin py-4 pr-8'>
+              <div className='flex items-center justify-between'>
                 <p>Mint start: {convertTimestamp(mintInfo?.startDate)}</p>
                 <p>Mint end: {convertTimestamp(mintInfo?.endDate) || 'Open'}</p>
+              </div>
+              <div className='flex items-center justify-between pt-2'>
                 <p>Max tokens: {mintInfo?.maxTokens || 'Open'}</p>
                 <Link target="_blank" className='flex gap-2' href={`https://${blockscanner.url}/address/${contractData[0].primaryContract || ''}`}>{EtherscanScan(18, 20)} <span className='underline'> View on {blockscanner.name}</span></Link> 
               </div>
-              <p className='mt-8 md:w-[500px] overflow-y-auto max-h-[200px]'>{contractData[0].description}</p>
-            </>
-            }
+              <p className='mt-8 overflow-y-auto max-h-96'>{contractData[0].description}</p>
+            </div>
+            <div className='pt-8'>
+              <MintButton 
+                account={account!}
+                mintConfig={{
+                  sender: account!,
+                  srcChainId: chain?.id as ChainId,
+                  dstChainId: contractData[0].chainId as ChainId,
+                  slippage: 1,
+                  // srcToken: TO UPDATE WITH. BALANCE SELECTOR
+                  actionType: ActionType.NftPreferMint,
+                  actionConfig: {
+                    contractAddress: contractData[0].primaryContract,
+                    chainId: contractData[0].chainId,
+                    signature: mintInfo?.mintMethod,
+                    args: mintInfo?.params,
+                    cost: {
+                      isNative: true,
+                      amount: parseUnits(mintInfo?.price || '0.00', 18),
+                    },
+                    supplyConfig: {
+                      sellOutDate: mintInfo?.endDate,
+                      maxCap: mintInfo?.maxTokens
+                    },
+                  }
+                }}/>
+                <div className="px-4 pt-4 relative">
+                  <NumberTicker endDate={mintInfo?.endDate} maxTokens={mintInfo?.maxTokens} tokenCount={contractData[0].tokenCount} quantity={quantity} setQuantity={setQuantity} />
+                  <div className='pt-6 pl-4'>
+                    <a target='_blank' href={`https://checkout.decent.xyz/?app=nft&chain=${contractData[0].chainId}&address=${contractData[0].primaryContract}%3A0`}>
+                      <p className='font-thin text-xs hover:opacity-80 hover:text-primary'>{'∟'} Buy with fiat</p>
+                    </a>
+                  </div>
+                </div>
+              </div>
           </div>
         </div>
 
