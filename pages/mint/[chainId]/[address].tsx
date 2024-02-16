@@ -6,7 +6,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import MintFooter from '../../../components/Footers/MintFooter';
 import { getMintInfo, MintInfoProps } from "../../../lib/nftData/getMintInfo";
-import { useAccount } from "wagmi";
+import { useAccount, useNetwork } from "wagmi";
 import { TheBox } from "@decent.xyz/the-box";
 import { ActionType, ChainId } from '@decent.xyz/box-common';
 import { parseUnits } from "viem";
@@ -16,6 +16,7 @@ import { convertTimestamp } from '../../../lib/utils/convertTimestamp';
 import NumberTicker from '../../../components/NumberTicker';
 import { VideoDict } from '../../../lib/utils/minting/trackedNfts';
 import { getBlockscanner } from '../../../lib/utils/blockscanners';
+import MintButton from '../../../components/MintButton';
 
 const Mint: NextPage = (props: any) => {
   const {
@@ -27,6 +28,7 @@ const Mint: NextPage = (props: any) => {
   const [mintInfo, setMintInfo] = useState<MintInfoProps>();
   const [quantity, setQuantity] = useState(1);
   const [soldOut, setSoldOut] = useState(false);
+  const { chain } = useNetwork();
 
   useEffect(() => {
     if (account && window && Date.now() / 1000 < mintInfo?.endDate!) {
@@ -102,6 +104,30 @@ const Mint: NextPage = (props: any) => {
                 }}
                 apiKey={process.env.NEXT_PUBLIC_DECENT_API_KEY as string}
               />
+              <MintButton 
+                account={account!}
+                mintConfig={{
+                  sender: account!,
+                  srcChainId: chain?.id as ChainId,
+                  dstChainId: contractData[0].chainId as ChainId,
+                  slippage: 1,
+                  // srcToken: TO UPDATE WITH. BALANCE SELECTOR
+                  actionType: ActionType.NftPreferMint,
+                  actionConfig: {
+                    contractAddress: contractData[0].primaryContract,
+                    chainId: contractData[0].chainId,
+                    signature: mintInfo?.mintMethod,
+                    args: mintInfo?.params,
+                    cost: {
+                      isNative: true,
+                      amount: parseUnits(mintInfo?.price || '0.00', 18),
+                    },
+                    supplyConfig: {
+                      sellOutDate: mintInfo?.endDate,
+                      maxCap: mintInfo?.maxTokens
+                    },
+                  }
+                }}/>
               <div className="px-4 max-w-[500px] relative">
                 <NumberTicker endDate={mintInfo?.endDate} maxTokens={mintInfo?.maxTokens} tokenCount={contractData[0].tokenCount} quantity={quantity} setQuantity={setQuantity} />
                 <div className='pt-6 pl-4'>
