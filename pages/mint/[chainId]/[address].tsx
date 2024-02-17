@@ -63,9 +63,9 @@ const Mint: NextPage = (props: any) => {
       <MintNavbar address={address} partner={contractData[0].symbol} />
 
       <div className={`${styles.main} px-[24px] py-[12px] pt-[20vh] md:pt-0`}>
-        <div className={`flex md:flex-wrap flex-wrap-reverse md:gap-0 gap-12 md:h-[60vh]`}>
+        <div className={`flex md:flex-wrap flex-wrap-reverse md:gap-0 gap-12 md:h-[70vh]`}>
           
-          <div className='md:w-1/2 pr-8 flex-col justify-between'>
+          <div className='md:w-1/2 pr-8 flex-col justify-between relative'>
             <div className="font-thin h-[15vh]">
               <span className={`${
                 contractData[0].name.length > 27 ? 'text-5xl' : 'text-7xl'
@@ -75,7 +75,7 @@ const Mint: NextPage = (props: any) => {
               {soldOut && <p className='uppercase text-red-500 text-xl pt-4'>sold out</p>}
             </div>
             
-            <div className='flex-wrap gap-2 text-sm font-thin pr-8 h-[30vh]'>
+            <div className='flex-wrap gap-2 text-sm font-thin pr-8 h-[30vh] overflow-y-auto'>
               <div className='flex items-center justify-between'>
                 <p>Mint start: {convertTimestamp(mintInfo?.startDate)}</p>
                 <p>Mint end: {convertTimestamp(mintInfo?.endDate) || 'Open'}</p>
@@ -87,7 +87,7 @@ const Mint: NextPage = (props: any) => {
               <p className='mt-8 overflow-y-auto max-h-96'>{contractData[0].description}</p>
             </div>
             
-            <div className='h-15vh'>
+            <div className='h-[20vh] absolute bottom-0 w-full'>
               <MintButton 
                 account={account!}
                 mintConfig={{
