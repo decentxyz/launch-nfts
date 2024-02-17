@@ -7,7 +7,6 @@ import Link from 'next/link';
 import MintFooter from '../../../components/Footers/MintFooter';
 import { getMintInfo, MintInfoProps } from "../../../lib/nftData/getMintInfo";
 import { useAccount, useNetwork } from "wagmi";
-import { TheBox } from "@decent.xyz/the-box";
 import { ActionType, ChainId } from '@decent.xyz/box-common';
 import { parseUnits } from "viem";
 import { EtherscanScan } from "../../../lib/utils/logos";
@@ -24,7 +23,6 @@ const Mint: NextPage = (props: any) => {
     contractData
   } = props;
   const { address: account } = useAccount();
-  const [activeTab, setActiveTab] = useState('Purchase');
   const [mintInfo, setMintInfo] = useState<MintInfoProps>();
   const [quantity, setQuantity] = useState(1);
   const [soldOut, setSoldOut] = useState(false);
@@ -61,21 +59,23 @@ const Mint: NextPage = (props: any) => {
   const blockscanner = getBlockscanner(contractData[0].chainId);
 
   return (
-    <>
-    <MintNavbar address={address} partner={contractData[0].symbol} />
-    <div className={`${styles.main} px-[24px] py-[12px] relative`}>
-      <div className='flex md:flex-wrap flex-wrap-reverse md:gap-0 gap-12 md:mt-0 mt-40 w-full relative'>
-        <div className='md:w-1/2 w-full h-full pr-8 relative'>
-          <p className="font-thin">
-            <span className={`${
-              contractData[0].name.length > 27 ? 'text-5xl' : 'text-7xl'
-            } overflow-hidden`}>
-              {contractData[0].name === 'Human' ? 'RetroPGF' : contractData[0].name}
-            </span>
-            {soldOut && <p className='uppercase text-red-500 text-xl pt-4'>sold out</p>}
-          </p>
-          <div className='space-y-8'>
-            <div className='flex-wrap gap-2 text-sm font-thin py-4 pr-8'>
+    <div className='relative'>
+      <MintNavbar address={address} partner={contractData[0].symbol} />
+
+      <div className={`${styles.main} px-[24px] py-[12px] pt-[20vh] md:pt-0`}>
+        <div className={`flex md:flex-wrap flex-wrap-reverse md:gap-0 gap-12 md:h-[60vh]`}>
+          
+          <div className='md:w-1/2 pr-8 flex-col justify-between'>
+            <div className="font-thin h-[15vh]">
+              <span className={`${
+                contractData[0].name.length > 27 ? 'text-5xl' : 'text-7xl'
+              } overflow-hidden`}>
+                {contractData[0].name === 'Human' ? 'RetroPGF' : contractData[0].name}
+              </span>
+              {soldOut && <p className='uppercase text-red-500 text-xl pt-4'>sold out</p>}
+            </div>
+            
+            <div className='flex-wrap gap-2 text-sm font-thin pr-8 h-[30vh]'>
               <div className='flex items-center justify-between'>
                 <p>Mint start: {convertTimestamp(mintInfo?.startDate)}</p>
                 <p>Mint end: {convertTimestamp(mintInfo?.endDate) || 'Open'}</p>
@@ -86,7 +86,8 @@ const Mint: NextPage = (props: any) => {
               </div>
               <p className='mt-8 overflow-y-auto max-h-96'>{contractData[0].description}</p>
             </div>
-            <div className='pt-8'>
+            
+            <div className='h-15vh'>
               <MintButton 
                 account={account!}
                 mintConfig={{
@@ -121,19 +122,19 @@ const Mint: NextPage = (props: any) => {
                 </div>
               </div>
           </div>
-        </div>
 
-        <div className='md:w-1/2 w-full flex justify-center max-h-[500px] relative'>
-          {VideoDict[contractData[0].symbol as keyof typeof VideoDict] ? 
-            <video src={VideoDict[contractData[0].symbol as keyof typeof VideoDict]} autoPlay loop muted className='rounded-md' />
-            : <Image src={contractData[0].image} height={500} width={500} alt="nft image" className='rounded-md' />
-          }
+          <div className='md:w-1/2 w-full flex justify-center max-h-[500px] relative'>
+            {VideoDict[contractData[0].symbol as keyof typeof VideoDict] ? 
+              <video src={VideoDict[contractData[0].symbol as keyof typeof VideoDict]} autoPlay loop muted className='rounded-md' />
+              : <Image src={contractData[0].image} height={500} width={500} alt="nft image" className='rounded-md' />
+            }
+          </div>
         </div>
-      </div>
-      <div className='sm:inline-block sm:w-full sm:my-16 hidden md:hidden'></div>
+        
+        <div className='sm:inline-block sm:w-full sm:my-16 hidden md:hidden'></div>
         <MintFooter contractData={contractData} mintPrice={mintInfo?.price} />
+      </div>
     </div>
-    </>
   )
 }
 
