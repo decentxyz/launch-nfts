@@ -62,6 +62,7 @@ export default function MintButton({ mintConfig, account }: { mintConfig: BoxAct
   const [srcToken, setSrcToken] = useState<TokenInfo | any>(ethGasToken);
   const [showBalanceSelector, setShowBalanceSelector] = useState(false);
   const [ethBalance, setEthBalance] = useState('');
+  const [sufficientBalance, setSufficientBalance] = useState(true);
   const [txHash, setTxHash] = useState('');
   const { chain } = useNetwork();
   const { switchNetwork } = useSwitchNetwork();
@@ -107,6 +108,7 @@ export default function MintButton({ mintConfig, account }: { mintConfig: BoxAct
           formatUnits: 'ether'
         })
         setEthBalance(balance.formatted);
+        setSufficientBalance(formatUnits(srcToken.balance || ethBalance, srcToken.decimals) < formatUnits(mintConfig.actionConfig.cost?.amount!, 18));
       };
     };
     loadBalance();
@@ -195,32 +197,34 @@ export default function MintButton({ mintConfig, account }: { mintConfig: BoxAct
         <div className='flex items-center gap-4 relative'>
         {/* TODO: add pre-mint disabled check that user has enough balance & error handling */}
           <button
-            disabled={loading || formatUnits(srcToken.balance || ethBalance, srcToken.decimals) < formatUnits(mintConfig.actionConfig.cost?.amount!, 18)}
+            disabled={loading || !sufficientBalance}
             onClick={() => runTx()}
-            className={`${loading || formatUnits(srcToken.balance || ethBalance, srcToken.decimals) < formatUnits(mintConfig.actionConfig.cost?.amount!, 18) ? 'bg-gray-200 text-black' : 'bg-black text-white hover:opacity-80'} w-full py-2 rounded-full`}
+            className={`${loading || !sufficientBalance ? 'bg-gray-200 text-black' : 'bg-black text-white hover:opacity-80'} w-full py-2 rounded-full`}
           >
-            {loading ? '...' : (formatUnits(srcToken.balance || ethBalance, srcToken.decimals) < formatUnits(mintConfig.actionConfig.cost?.amount!, 18)) ? 'Insufficient Balance' : 'Mint'}
+            {loading ? '...' : !sufficientBalance ? 'Insufficient Balance' : 'Mint'}
           </button>
-          <div onClick={() => setShowBalanceSelector(!showBalanceSelector)} className='rounded-full border border-black py-1 px-2 bg-white flex items-center hover:opacity-80 cursor-pointer'>
-            <div className="box-relative box-w-[30px] box-h-[30px] box-mr-[8px] box-flex box-items-center">
-              <Image src={srcToken.logo!} width={24} height={24} alt='token-logo' />
-              <ChainIcon chainId={srcToken.chainId} className="box-absolute box-right-0 box-bottom-0" />
+          <div className='relative flex items-center gap-4'>
+            <div onClick={() => setShowBalanceSelector(!showBalanceSelector)} className='rounded-full border border-black py-1 px-2 bg-white flex items-center hover:opacity-80 cursor-pointer'>
+              <div className="box-relative box-w-[30px] box-h-[30px] box-mr-[8px] box-flex box-items-center">
+                <Image src={srcToken.logo!} width={24} height={24} alt='token-logo' />
+                <ChainIcon chainId={srcToken.chainId} className="box-absolute box-right-0 box-bottom-0" />
+              </div>
+              <DropDownIcon />
             </div>
-            <DropDownIcon />
+            {showBalanceSelector &&
+              <BalanceSelector
+                className='absolute bottom-full right-0 bg-white text-sm font-sans drop-shadow-lg max-h-96 w-full overflow-y-scroll z-10 mb-2'
+                selectedToken={srcToken}
+                setSelectedToken={(tokeninfo: TokenInfo) => {
+                  setSrcToken(tokeninfo);
+                  setShowBalanceSelector(false);
+                }}
+                chainId={mintConfig.actionConfig.chainId}
+                address={account}
+                selectChains={[ChainId.ARBITRUM, ChainId.OPTIMISM, ChainId.BASE, ChainId.ETHEREUM, ChainId.POLYGON]}
+              />}
           </div>
         </div>
-        {showBalanceSelector &&
-        <BalanceSelector
-          className='bg-white text-sm font-sans drop-shadow-lg max-h-96 w-full overflow-y-scroll absolute z-10 top-4 right-8  '
-          selectedToken={srcToken}
-          setSelectedToken={(tokeninfo: TokenInfo) => {
-            setSrcToken(tokeninfo);
-            setShowBalanceSelector(false)
-          }}
-          chainId={mintConfig.actionConfig.chainId}
-          address={account}
-          selectChains={[ChainId.ARBITRUM, ChainId.OPTIMISM, ChainId.BASE, ChainId.ETHEREUM, ChainId.POLYGON]}
-        />}
       </BoxHooksContextProvider>
     </ClientRendered>
   );

@@ -8,6 +8,11 @@
   color: rgb(0, 0, 0);
 }
 
+.descriptionContainer {
+  overflow-y: auto;
+  max-height: calc(100vh - 250px);
+}
+
 .footer {
   display: flex;
   flex: 1;
