@@ -7,7 +7,7 @@ import { FeaturedNftContextProvider } from '../lib/contexts/FeaturedNftContext';
 import Footer from '../components/Footers/Footer';
 import Link from 'next/link';
 import { getContractData } from '../lib/nftData/getContractData';
-import { trackedNfts } from '../lib/utils/minting/trackedNfts';
+import { trackedNfts } from '../lib/nftData/trackedNfts';
 import { Address } from 'viem';
 import { ChainId } from '@decent.xyz/box-common';
 import { useAccount } from 'wagmi';

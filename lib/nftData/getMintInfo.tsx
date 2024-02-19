@@ -1,6 +1,6 @@
-import { mintSig } from "../utils/minting/abiRegistry";
+import { mintSig } from "./abiRegistry";
 import { Address, parseUnits } from "viem";
-import { trackedNfts } from "../utils/minting/trackedNfts";
+import { trackedNfts } from "./trackedNfts";
 
 export interface MintInfoProps {
   mintMethod: string;

@@ -8,12 +8,12 @@ import MintFooter from '../../../components/Footers/MintFooter';
 import { getMintInfo, MintInfoProps } from "../../../lib/nftData/getMintInfo";
 import { useAccount, useNetwork } from "wagmi";
 import { ActionType, ChainId } from '@decent.xyz/box-common';
-import { parseUnits } from "viem";
+import { parseUnits, zeroAddress } from "viem";
 import { EtherscanScan } from "../../../lib/utils/logos";
 import { useState, useEffect } from 'react';
 import { convertTimestamp } from '../../../lib/utils/convertTimestamp';
 import NumberTicker from '../../../components/NumberTicker';
-import { VideoDict } from '../../../lib/utils/minting/trackedNfts';
+import { VideoDict } from '../../../lib/nftData/trackedNfts';
 import { getBlockscanner } from '../../../lib/utils/blockscanners';
 import MintButton from '../../../components/MintButton';
 
@@ -23,10 +23,10 @@ const Mint: NextPage = (props: any) => {
     contractData
   } = props;
   const { address: account } = useAccount();
+  const { chain } = useNetwork();
   const [mintInfo, setMintInfo] = useState<MintInfoProps>();
   const [quantity, setQuantity] = useState(1);
   const [soldOut, setSoldOut] = useState(false);
-  const { chain } = useNetwork();
 
   useEffect(() => {
     if (account && window && Date.now() / 1000 < mintInfo?.endDate!) {
@@ -86,16 +86,15 @@ const Mint: NextPage = (props: any) => {
               </div>
               <p className='mt-8 overflow-y-auto max-h-96'>{contractData[0].description}</p>
             </div>
-            
             <div className='h-[20vh] absolute bottom-0 w-full'>
               <MintButton 
                 account={account!}
+                dstTokenAddress={zeroAddress} // TODO: could update for different token denominations
                 mintConfig={{
                   sender: account!,
                   srcChainId: chain?.id as ChainId,
                   dstChainId: contractData[0].chainId as ChainId,
                   slippage: 1,
-                  // srcToken: TO UPDATE WITH. BALANCE SELECTOR
                   actionType: ActionType.NftPreferMint,
                   actionConfig: {
                     contractAddress: contractData[0].primaryContract,

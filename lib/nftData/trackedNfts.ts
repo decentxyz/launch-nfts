@@ -41,8 +41,8 @@ export enum VideoDict {
 }
 
 export const trackedNfts: ContractAddress[] = [
-  // V Day 2024
-  { address: '0x2F6AbB4259c0d4C865BB635FEcB5D7f43E7216c2', chainId: ChainId.BASE, startDate: 1707924600, endDate: 1709098200, price: "0.00044", source: 'Decent', partner: ''},
+  // Conduit Partnership
+  { address: '0x6e84581Ecf6FbfffAA309359EB067Ec2Df20e5B7', chainId: ChainId.OPTIMISM, startDate: 1708351200, endDate: 1719720000, price: "0.00044", source: 'Decent', partner: 'Conduit'},
   // Calderascope
   { address: '0x903bc2Bd67a31aA628B18CaB56bbB33Cd7Ce2d5c', chainId: ChainId.ARBITRUM, startDate: 1705546800, endDate: 1719780374, price: "0.00044", source: 'Decent', partner: 'Caldera'},
   // Optimism Superchain

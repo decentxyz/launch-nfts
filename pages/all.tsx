@@ -4,7 +4,7 @@ import MintNavbar from '../components/Navbars/MintNavbar';
 import { getContractData } from '../lib/nftData/getContractData';
 import styles from "../styles/Home.module.css";
 import NftCard from '../components/NFTs/NftCard';
-import { trackedNfts } from '../lib/utils/minting/trackedNfts';
+import { trackedNfts } from '../lib/nftData/trackedNfts';
 import { Address } from 'viem';
 import { ChainId } from '@decent.xyz/box-common';
 import { useRunSearch } from '../lib/runSearch';
