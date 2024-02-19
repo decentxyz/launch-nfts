@@ -99,11 +99,11 @@ const Mint: NextPage = (props: any) => {
                   actionConfig: {
                     contractAddress: contractData[0].primaryContract,
                     chainId: contractData[0].chainId,
-                    signature: mintInfo?.mintMethod,
-                    args: mintInfo?.params,
+                    signature: "function mint(address to,uint256 numberOfTokens) payable",
+                    args: [account! , quantity],
                     cost: {
                       isNative: true,
-                      amount: parseUnits(mintInfo?.price || '0.00', 18),
+                      amount: parseUnits(String(0.00044 * quantity) || '0.00', 18),
                     },
                     supplyConfig: {
                       sellOutDate: mintInfo?.endDate,
