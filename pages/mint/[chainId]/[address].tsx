@@ -75,7 +75,7 @@ const Mint: NextPage = (props: any) => {
               {soldOut && <p className='uppercase text-red-500 text-xl pt-4'>sold out</p>}
             </div>
             
-            <div className='flex-wrap gap-2 text-sm font-thin pr-8 h-[30vh] overflow-y-auto'>
+            <div className='flex-wrap gap-2 text-sm font-thin pr-8 sm:h-[30vh] h-[80vh] overflow-y-auto'>
               <div className='flex items-center justify-between'>
                 <p>Mint start: {convertTimestamp(mintInfo?.startDate)}</p>
                 <p>Mint end: {convertTimestamp(mintInfo?.endDate) || 'Open'}</p>
