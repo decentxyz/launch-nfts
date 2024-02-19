@@ -28,6 +28,7 @@ import { toast } from 'react-toastify';
 import DropDownIcon from './DropdownIcon';
 import { formatUnits } from 'viem';
 import LoadingSpinner from './Spinner';
+import { getBlockscanner } from '../lib/utils/blockscanners';
 
 interface BoxActionRequest {
   sender: Address;
@@ -70,7 +71,8 @@ export default function MintButton({ mintConfig, account, dstTokenAddress }: { m
     ...ethGasToken,
     chainId: chain?.id || 1,
   });
-  const [config, setConfig] = useState<BoxActionRequest>();
+  const [txConfig, setTxConfig] = useState<BoxActionRequest>();
+  const [activeTx, setActiveTx] = useState<EvmTransaction>();
   const [loading, setLoading] = useState(false);
   const [txStatus, setTxStatus] = useState({
     status: 'pending',
@@ -82,7 +84,7 @@ export default function MintButton({ mintConfig, account, dstTokenAddress }: { m
   });
 
   useEffect(() => {
-    setConfig({
+    setTxConfig({
       ...mintConfig,
       srcToken: srcToken.address as Address,
       srcChainId: srcToken.chainId,
@@ -91,48 +93,22 @@ export default function MintButton({ mintConfig, account, dstTokenAddress }: { m
   }, [dstTokenAddress, mintConfig, srcToken])
 
   const fetchConfig = useCallback(async () => {
-    if (account && srcToken && config) {
+    if (account && txConfig) {
       setLoading(true);
       try {
-        const response = await generateResponse({ txConfig: config, account });
-        if (response.config) {
-          const newConfig: BoxActionRequest = {
-          ...response.config,
-          srcToken: srcToken.address as Address,
-          srcChainId: srcToken.chainId,
-          dstToken: dstTokenAddress,
-          sender: account,
-          dstChainId: mintConfig.dstChainId,
-          actionType: mintConfig.actionType,
-          actionConfig: response.config.actionConfig,
-          slippage: mintConfig.slippage,
-        }
+        const { response, config } = await generateResponse({ txConfig: txConfig, account });
+        if (response?.tx) setActiveTx(response.tx as EvmTransaction);
         setLoading(false);
-        return newConfig;
-        }
       } catch (e) {
         console.log("Error getting tx response", e);
         setLoading(false);
       }
     }
-  }, [account, dstTokenAddress, mintConfig, srcToken]);
+  }, [account, txConfig]);
 
   useEffect(() => {
-    let isActive = true;
-  
-    const updateConfig = async () => {
-      const newConfig = await fetchConfig();
-      if (isActive && newConfig) {
-        setConfig(newConfig);
-      }
-    };
-  
-    updateConfig();
-  
-    return () => {
-      isActive = false;
-    };
-  }, [fetchConfig]);
+    fetchConfig();
+  }, [fetchConfig])
 
   useEffect(() => {
     async function loadBalance(){
@@ -167,67 +143,65 @@ export default function MintButton({ mintConfig, account, dstTokenAddress }: { m
 
   // Track Transaction //
 
-  // useEffect(() => {
-  //   let isSubscribed = true;
-  //   const trackTx = async () => {
-  //     let status = '';
-  //     while (isSubscribed && status !== 'Executed' && status !== 'Failed' && txHash) {
-  //       try {
-  //         const { transaction, status: newStatus } = await getTxStatus({ txHash, chainId: mintConfig.srcChainId });
-  //         if (isSubscribed) {
-  //           setTxStatus({
-  //             status: newStatus,
-  //             blockExplorers: {
-  //               srcTx: transaction?.srcTx?.blockExplorer,
-  //               bridgeTx: transaction?.bridgeTx?.blockExplorer,
-  //               dstTx: transaction?.dstTx?.blockExplorer,
-  //             }
-  //           });
-  //         }
-  //         status = newStatus;
-  //         if (status === 'pending') {
-  //           await new Promise(resolve => setTimeout(resolve, 7000));
-  //         }
-  //       } catch (e) {
-  //         console.error('Error tracking transaction status', e);
-  //         await new Promise(resolve => setTimeout(resolve, 2000));
-  //       }
-  //     }
-  //   };
-  //   trackTx();
-  //   return () => {
-  //     isSubscribed = false;
-  //   };
-  // }, [txHash, mintConfig.srcChainId]);
+  useEffect(() => {
+    let isSubscribed = true;
+    const trackTx = async () => {
+      let status = '';
+      while (isSubscribed && status !== 'Executed' && status !== 'Failed' && txHash) {
+        try {
+          const { transaction, status: newStatus } = await getTxStatus({ txHash, chainId: mintConfig.srcChainId });
+          if (isSubscribed) {
+            setTxStatus({
+              status: newStatus,
+              blockExplorers: {
+                srcTx: transaction?.srcTx?.blockExplorer,
+                bridgeTx: transaction?.bridgeTx?.blockExplorer,
+                dstTx: transaction?.dstTx?.blockExplorer,
+              }
+            });
+          }
+          status = newStatus;
+          if (status === 'pending') {
+            await new Promise(resolve => setTimeout(resolve, 10000));
+          }
+        } catch (e) {
+          console.error('Error tracking transaction status', e);
+        }
+      }
+    };
+    trackTx();
+    return () => {
+      isSubscribed = false;
+    };
+  }, [txHash, mintConfig.srcChainId]);
 
-  // useEffect(() => {
-  //   if (txStatus.status === 'Executed' || txStatus.status === 'Failed') {
-  //     const toastFunction = txStatus.status === 'Executed' ? toast.success : toast.error;
-  //     toastFunction(<div>{txStatus.status === 'Executed' ? 'Minted!' : 'Transaction Failed.'} <a href={returnBlockExplorer}>View transaction.</a></div>);
-  //   }
-  // }, [txStatus, returnBlockExplorer]);
+  useEffect(() => {
+    if (txStatus.status === 'Executed' || txStatus.status === 'Failed') {
+      const toastFunction = txStatus.status === 'Executed' ? toast.success : toast.error;
+      toastFunction(<div>{txStatus.status === 'Executed' ? 'Minted!' : 'Transaction Failed.'} <a target='_blank' href={returnBlockExplorer}>View transaction.</a></div>);
+    }
+  }, [txStatus, returnBlockExplorer]);
 
   // Send Transaction //
 
   const runTx = useCallback(async () => {
     setLoading(true);
     try {
-      if (config && chain?.id !== config.srcChainId && switchNetwork) {
-        switchNetwork(config.srcChainId);
+      if (txConfig && chain?.id !== txConfig.srcChainId && switchNetwork) {
+        switchNetwork(txConfig.srcChainId);
       }
-      if (config && chain?.id === config.srcChainId) {
-        const response = await generateResponse({ txConfig: config, account });
-        if (response && response.response && response.response.tx) {
-          const { hash } = await sendTransaction(response?.response?.tx as EvmTransaction);
+      if (txConfig && chain?.id === txConfig.srcChainId) {
+        if (activeTx) {
+          const { hash } = await sendTransaction(activeTx as EvmTransaction);
           setTxHash(hash);
-          toast.success('Minted!');
+          toast.success(<div>Sent!<a target='_blank' href={`https://${getBlockscanner(srcToken.chainId).url}/tx/${txHash}`}> View transaction.</a></div>);
         }
       }
     } catch (e) {
       console.error('Error executing transaction', e);
     }
     setLoading(false);
-  }, [chain?.id, config, account, switchNetwork]);
+  }, [txConfig, chain?.id, switchNetwork, activeTx, srcToken.chainId, txHash]);
 
   const handleRunTx = useCallback(() => {
       runTx();
@@ -284,13 +258,12 @@ const generateResponse = async ({ txConfig, account }: { txConfig: BoxActionRequ
   if (account) {
     req = txConfig;
   }
-  // console.log("CONFIG: ", bigintSerializer(req))
 
   const url = `${BASE_URL_V1}?arguments=${JSON.stringify(
     req,
     bigintSerializer
   )}`;
-  console.log("TEST: ", url)
+
   try {
     const response = await fetch(url, {
       headers: {
