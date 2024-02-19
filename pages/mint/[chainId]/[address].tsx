@@ -80,7 +80,8 @@ const Mint: NextPage = (props: any) => {
                 <p>Mint start: {convertTimestamp(mintInfo?.startDate)}</p>
                 <p>Mint end: {convertTimestamp(mintInfo?.endDate) || 'Open'}</p>
               </div>
-              <div className='flex items-center justify-between pt-2'>
+              <p className='py-2'>Mint price: <span className='font-bold'>{mintInfo?.price!}</span></p>
+              <div className='flex items-center justify-between'>
                 <p>Max tokens: {mintInfo?.maxTokens || 'Open'}</p>
                 <Link target="_blank" className='flex gap-2' href={`https://${blockscanner.url}/address/${contractData[0].primaryContract || ''}`}>{EtherscanScan(18, 20)} <span className='underline'> View on {blockscanner.name}</span></Link> 
               </div>
@@ -99,11 +100,11 @@ const Mint: NextPage = (props: any) => {
                   actionConfig: {
                     contractAddress: contractData[0].primaryContract,
                     chainId: contractData[0].chainId,
-                    signature: "function mint(address to,uint256 numberOfTokens) payable",
-                    args: [account! , quantity],
+                    signature: mintInfo?.mintMethod,
+                    args: mintInfo?.params,
                     cost: {
                       isNative: true,
-                      amount: parseUnits(String(0.00044 * quantity) || '0.00', 18),
+                      amount: parseUnits(mintInfo?.price! || '0.00', 18),
                     },
                     supplyConfig: {
                       sellOutDate: mintInfo?.endDate,

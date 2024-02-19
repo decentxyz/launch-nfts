@@ -33,6 +33,7 @@ export interface MintInfoProps {
 export enum PartnerLogos {
   'CSCOPE' = '/images/caldera.png',
   'SUPER' = '/images/optimism.svg',
+  'DOC' = '/images/conduit.png',
 }
 
 export enum VideoDict {
