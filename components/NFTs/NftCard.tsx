@@ -29,7 +29,7 @@ const NftCard = (props: any) => {
 
   return <>
     <Modal className="relative sm:min-w-[500px] max-w-[500px] bg-white rounded-md" isOpen={isOpen} setIsOpen={setIsOpen}>
-      <div className="pb-2 font-thin text-xl font-medium">Purchase {collection.name}</div>
+      <div className="pb-2 font-thin text-xl">Purchase {collection.name}</div>
       <div className="flex w-full justify-center">
         <TheBox
           className="border border-black rounded-md my-2 w-full"
@@ -75,7 +75,7 @@ const NftCard = (props: any) => {
           {!cardView &&
             <div className={`w-full h-[400px] flex z-10 mr-2 text-left space-y-3 relative overflow-x-hidden hidden sm:inline-block`}>
               <Link href={`/mint/${collection?.chainId}/${collection?.primaryContract}`}>
-                <p className="text-6xl truncate hover:text-primary cursor-pointer">{collection?.name === 'Human' ? "RetroPGF" : collection?.name}</p>
+                <p className="text-6xl hover:text-primary cursor-pointer">{collection?.name === 'Human' ? "RetroPGF" : collection?.name}</p>
               </Link>
               <div>
                 <p className="font-medium text-xs xl:inline-block hidden pt-2">{collection?.createdAt}</p>

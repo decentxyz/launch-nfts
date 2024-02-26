@@ -34,14 +34,18 @@ export enum PartnerLogos {
   'CSCOPE' = '/images/caldera.png',
   'SUPER' = '/images/optimism.svg',
   'DOC' = '/images/conduit.png',
+  'dZERO' = '/images/layerzero.jpeg',
 }
 
 export enum VideoDict {
   'CSCOPE' = '/nfts/caldera.mp4',
-  'SUPER' = 'nfts/superchain.mp4'
+  'SUPER' = '/nfts/superchain.mp4',
+  'dZERO' = '/nfts/lz-nft.mp4',
 }
 
 export const trackedNfts: ContractAddress[] = [
+  // Layer Zero Partnership
+  { address: '0xE4e2f17E439eeB2345baE76B6A4F634c3A708015', chainId: ChainId.ARBITRUM, startDate: 1708952400, endDate: 1719720000, price: "0.00044", source: 'Decent', partner: 'Layer Zero'},
   // Conduit Partnership
   { address: '0x6e84581Ecf6FbfffAA309359EB067Ec2Df20e5B7', chainId: ChainId.OPTIMISM, startDate: 1708351200, endDate: 1719720000, price: "0.00044", source: 'Decent', partner: 'Conduit'},
   // Calderascope

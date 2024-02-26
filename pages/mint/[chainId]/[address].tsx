@@ -58,6 +58,8 @@ const Mint: NextPage = (props: any) => {
 
   const blockscanner = getBlockscanner(contractData[0].chainId);
 
+  console.log("TEST: ", contractData[0].symbol as keyof typeof VideoDict, VideoDict[contractData[0].symbol as keyof typeof VideoDict])
+
   return (
     <div className='relative'>
       <MintNavbar address={address} partner={contractData[0].symbol} />
