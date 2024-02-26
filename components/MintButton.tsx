@@ -109,13 +109,19 @@ export default function MintButton({ mintConfig, account, dstTokenAddress }: { m
             });
             if (needApproval) {
               setRequireApproal(true);
+            } else {
+              setRequireApproal(false);
             }
           }
         } catch (e) {
           console.log("Error getting tx response", e);
+          setActiveTx(undefined);
+          setRequireApproal(false);
         } finally {
           setLoading(false);
         }
+      } else {
+        setLoading(false);;
       }
     };
   
