@@ -41,3 +41,15 @@ textarea:focus, input:focus{
   top: -20px;
   pointer-events: none;
 }
+
+/* balance selector override */
+.box-balance-selector.box-balance-selector {
+  min-width: 320px;
+  width: 80vw;
+  max-width: 420px;
+}
+
+/* temporary fix for images being squished */
+.box-balance-selector button>div:first-child {
+  flex-shrink: 0;
+}
