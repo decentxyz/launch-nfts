@@ -233,7 +233,7 @@ export default function MintButton({ mintConfig, account, dstTokenAddress }: { m
             </div>
             {showBalanceSelector &&
               <BalanceSelector
-                className='absolute bottom-full right-0 bg-white text-sm font-sans drop-shadow-lg max-h-96 mw-full overflow-y-scroll z-10 mb-2'
+                className='absolute bottom-full right-0 bg-white text-sm font-sans drop-shadow-lg max-h-96 overflow-y-scroll z-10 mb-2'
                 selectedToken={srcToken}
                 setSelectedToken={(tokeninfo: TokenInfo) => {
                   setSrcToken(tokeninfo);
