@@ -28,7 +28,8 @@ import { toast } from 'react-toastify';
 import DropDownIcon from './DropdownIcon';
 import { formatUnits } from 'viem';
 import LoadingSpinner from './Spinner';
-import { getBlockscanner } from '../lib/utils/blockscanners';
+// import { getBlockscanner } from '../lib/utils/blockscanners';
+import { checkForApproval, approveToken } from '../lib/utils/checkForApproval';
 
 interface BoxActionRequest {
   sender: Address;
@@ -62,6 +63,7 @@ enum ChainNames {
 
 export default function MintButton({ mintConfig, account, dstTokenAddress }: { mintConfig: BoxActionRequest, account: Address, dstTokenAddress: Address }) {
   const [showBalanceSelector, setShowBalanceSelector] = useState(false);
+  const [requireApproval, setRequireApproal] = useState(false);
   const [ethBalance, setEthBalance] = useState('');
   const [sufficientBalance, setSufficientBalance] = useState(true);
   const [txHash, setTxHash] = useState('');
@@ -72,16 +74,16 @@ export default function MintButton({ mintConfig, account, dstTokenAddress }: { m
     chainId: chain?.id || 1,
   });
   const [txConfig, setTxConfig] = useState<BoxActionRequest>();
-  const [activeTx, setActiveTx] = useState<EvmTransaction>();
+  const [activeTx, setActiveTx] = useState<BoxActionResponse>();
   const [loading, setLoading] = useState(false);
-  const [txStatus, setTxStatus] = useState({
-    status: 'pending',
-    blockExplorers: {
-      srcTx: '',
-      bridgeTx: '',
-      dstTx: '',
-    },
-  });
+  // const [txStatus, setTxStatus] = useState({
+  //   status: 'pending',
+  //   blockExplorers: {
+  //     srcTx: '',
+  //     bridgeTx: '',
+  //     dstTx: '',
+  //   },
+  // });
 
   useEffect(() => {
     setTxConfig({
@@ -92,23 +94,33 @@ export default function MintButton({ mintConfig, account, dstTokenAddress }: { m
     });
   }, [dstTokenAddress, mintConfig, srcToken])
 
-  const fetchConfig = useCallback(async () => {
-    if (account && txConfig) {
-      setLoading(true);
-      try {
-        const { response, config } = await generateResponse({ txConfig: txConfig, account });
-        if (response?.tx) setActiveTx(response.tx as EvmTransaction);
-        setLoading(false);
-      } catch (e) {
-        console.log("Error getting tx response", e);
-        setLoading(false);
-      }
-    }
-  }, [account, txConfig]);
-
   useEffect(() => {
-    fetchConfig();
-  }, [fetchConfig])
+    const init = async () => {
+      if (account && txConfig) {
+        setLoading(true);
+        try {
+          const { response, config } = await generateResponse({ txConfig, account });
+          if (response?.tx) {
+            setActiveTx(response);
+            const needApproval = await checkForApproval({
+              userAddress: account,
+              actionResponse: response,
+              srcChainId: srcToken.chainId
+            });
+            if (needApproval) {
+              setRequireApproal(true);
+            }
+          }
+        } catch (e) {
+          console.log("Error getting tx response", e);
+        } finally {
+          setLoading(false);
+        }
+      }
+    };
+  
+    init();
+  }, [account, txConfig, srcToken.chainId]);
 
   useEffect(() => {
     async function loadBalance(){
@@ -129,60 +141,83 @@ export default function MintButton({ mintConfig, account, dstTokenAddress }: { m
     loadBalance();
   }, [account, chain, ethBalance, mintConfig.actionConfig.cost?.amount, srcToken])
 
-  const returnBlockExplorer = useMemo(() => {
-    const { status, blockExplorers } = txStatus;
-    if (status === 'Executed') {
-      return blockExplorers.dstTx || blockExplorers.srcTx;
-    } else if (status === 'Failed') {
-      return blockExplorers.bridgeTx
-        ? `Transaction Failed. Please check ${ChainNames[mintConfig.actionConfig.chainId]} for a refund.`
-        : 'Transaction Failed.';
-    }
-    return '';
-  }, [txStatus, mintConfig.actionConfig.chainId]);
+  // const returnBlockExplorer = useMemo(() => {
+  //   const { status, blockExplorers } = txStatus;
+  //   if (status === 'Executed') {
+  //     return blockExplorers.dstTx || blockExplorers.srcTx;
+  //   } else if (status === 'Failed') {
+  //     return blockExplorers.bridgeTx
+  //       ? `Transaction Failed. Please check ${ChainNames[mintConfig.actionConfig.chainId]} for a refund.`
+  //       : 'Transaction Failed.';
+  //   }
+  //   return '';
+  // }, [txStatus, mintConfig.actionConfig.chainId]);
 
   // Track Transaction //
 
-  useEffect(() => {
-    let isSubscribed = true;
-    const trackTx = async () => {
-      let status = '';
-      while (isSubscribed && status !== 'Executed' && status !== 'Failed' && txHash) {
-        try {
-          const { transaction, status: newStatus } = await getTxStatus({ txHash, chainId: mintConfig.srcChainId });
-          if (isSubscribed) {
-            setTxStatus({
-              status: newStatus,
-              blockExplorers: {
-                srcTx: transaction?.srcTx?.blockExplorer,
-                bridgeTx: transaction?.bridgeTx?.blockExplorer,
-                dstTx: transaction?.dstTx?.blockExplorer,
-              }
-            });
-          }
-          status = newStatus;
-          if (status === 'pending') {
-            await new Promise(resolve => setTimeout(resolve, 10000));
-          }
-        } catch (e) {
-          console.error('Error tracking transaction status', e);
-        }
-      }
-    };
-    trackTx();
-    return () => {
-      isSubscribed = false;
-    };
-  }, [txHash, mintConfig.srcChainId]);
+  // useEffect(() => {
+  //   let isSubscribed = true;
+  //   const trackTx = async () => {
+  //     let status = '';
+  //     while (isSubscribed && status !== 'Executed' && status !== 'Failed' && txHash) {
+  //       try {
+  //         const { transaction, status: newStatus } = await getTxStatus({ txHash, chainId: mintConfig.srcChainId });
+  //         if (isSubscribed) {
+  //           setTxStatus({
+  //             status: newStatus,
+  //             blockExplorers: {
+  //               srcTx: transaction?.srcTx?.blockExplorer,
+  //               bridgeTx: transaction?.bridgeTx?.blockExplorer,
+  //               dstTx: transaction?.dstTx?.blockExplorer,
+  //             }
+  //           });
+  //         }
+  //         status = newStatus;
+  //         if (status === 'pending') {
+  //           await new Promise(resolve => setTimeout(resolve, 10000));
+  //         }
+  //       } catch (e) {
+  //         console.error('Error tracking transaction status', e);
+  //       }
+  //     }
+  //   };
+  //   trackTx();
+  //   return () => {
+  //     isSubscribed = false;
+  //   };
+  // }, [txHash, mintConfig.srcChainId]);
 
-  useEffect(() => {
-    if (txStatus.status === 'Executed' || txStatus.status === 'Failed') {
-      const toastFunction = txStatus.status === 'Executed' ? toast.success : toast.error;
-      toastFunction(<div>{txStatus.status === 'Executed' ? 'Minted!' : 'Transaction Failed.'} <a target='_blank' href={returnBlockExplorer}>View transaction.</a></div>);
-    }
-  }, [txStatus, returnBlockExplorer]);
+  // useEffect(() => {
+  //   if (txStatus.status === 'Executed' || txStatus.status === 'Failed') {
+  //     const toastFunction = txStatus.status === 'Executed' ? toast.success : toast.error;
+  //     toastFunction(<div>{txStatus.status === 'Executed' ? 'Minted!' : 'Transaction Failed.'} <a target='_blank' href={returnBlockExplorer}>View transaction.</a></div>);
+  //   }
+  // }, [txStatus, returnBlockExplorer]);
 
   // Send Transaction //
+
+  const runApproval = useCallback(async () => {
+    setLoading(true);
+    try {
+      if (txConfig && chain?.id !== srcToken.chainId && switchNetwork) {
+        switchNetwork(srcToken.chainId);
+      }
+      if (activeTx && activeTx.tokenPayment) {
+        const hash = await approveToken({
+          token: srcToken.address,
+          spender: activeTx.tx.to,
+          amount: activeTx.tokenPayment.amount!,
+        }, srcToken.chainId);
+        if (hash) setTxHash(hash);
+      }
+      setRequireApproal(false);
+    } catch (e) {
+      console.error('Error approving token', e);
+    } finally {
+      setLoading(false);
+      // toast.success('Token Approved.');
+    }
+  }, [txConfig, chain?.id, srcToken.chainId, srcToken.address, switchNetwork, activeTx])
 
   const runTx = useCallback(async () => {
     setLoading(true);
@@ -192,22 +227,23 @@ export default function MintButton({ mintConfig, account, dstTokenAddress }: { m
       }
       if (txConfig && chain?.id === txConfig.srcChainId) {
         if (activeTx) {
-          const { hash } = await sendTransaction(activeTx as EvmTransaction);
+          const { hash } = await sendTransaction(activeTx.tx as EvmTransaction);
           setTxHash(hash);
-          toast.success(<div>Sent!<a target='_blank' href={`https://${getBlockscanner(srcToken.chainId).url}/tx/${txHash}`}> View transaction.</a></div>);
+          toast.success('Minted!');
         }
       }
     } catch (e) {
       console.error('Error executing transaction', e);
     }
     setLoading(false);
-  }, [txConfig, chain?.id, switchNetwork, activeTx, srcToken.chainId, txHash]);
+  }, [txConfig, chain?.id, switchNetwork, activeTx]);
 
+  const handleApproval = useCallback(() => {
+    runApproval();
+  }, [runApproval])
   const handleRunTx = useCallback(() => {
-      runTx();
+    runTx();
   }, [runTx]);
-
-  // const availTokens = !(srcToken.chainId === ChainId.OPTIMISM || srcToken.chainId === ChainId.ARBITRUM) ? [zeroAddress] : [];
 
   return (
     <ClientRendered>
@@ -215,14 +251,22 @@ export default function MintButton({ mintConfig, account, dstTokenAddress }: { m
         apiKey={process.env.NEXT_PUBLIC_DECENT_API_KEY as string}
       >
         <div className='flex items-center gap-4 relative'>
-        {/* TODO: add pre-mint disabled check that user has enough balance & error handling */}
-          <button
-            disabled={loading || !sufficientBalance}
-            onClick={handleRunTx}
-            className={`${loading || !sufficientBalance ? 'bg-gray-200 text-black' : 'bg-black text-white hover:opacity-80'} w-full py-2 rounded-full`}
-          >
-            {loading ? <LoadingSpinner /> : !sufficientBalance ? 'Insufficient Balance' : 'Mint'}
-          </button>
+          {requireApproval ? 
+            <button
+              disabled={loading}
+              onClick={handleApproval}
+              className={`${loading ? 'bg-gray-200 text-black' : 'bg-black text-white hover:opacity-80'} w-full py-2 rounded-full`}
+            >
+              {loading ? <LoadingSpinner /> : 'Approve Token'}
+            </button> :
+            <button
+              disabled={loading || requireApproval || !sufficientBalance}
+              onClick={handleRunTx}
+              className={`${loading || !sufficientBalance ? 'bg-gray-200 text-black' : 'bg-black text-white hover:opacity-80'} w-full py-2 rounded-full`}
+            >
+              {loading ? <LoadingSpinner /> : !sufficientBalance ? 'Insufficient Balance' : 'Mint'}
+            </button>
+          }
           <div className='relative flex items-center gap-4'>
             <div onClick={() => setShowBalanceSelector(!showBalanceSelector)} className='rounded-full border border-black py-1 px-2 bg-white flex items-center hover:opacity-80 cursor-pointer'>
               <div className="box-relative box-w-[30px] box-h-[30px] box-mr-[8px] box-flex box-items-center">
@@ -232,8 +276,9 @@ export default function MintButton({ mintConfig, account, dstTokenAddress }: { m
               <DropDownIcon />
             </div>
             {showBalanceSelector &&
+            <div className='absolute bottom-full right-0 z-10'>
               <BalanceSelector
-                className='absolute bottom-full right-0 bg-white text-sm font-sans drop-shadow-lg max-h-96 mw-full overflow-y-scroll z-10 mb-2'
+                className='bg-white text-sm font-sans drop-shadow-lg max-h-96 overflow-y-scroll mb-2'
                 selectedToken={srcToken}
                 setSelectedToken={(tokeninfo: TokenInfo) => {
                   setSrcToken(tokeninfo);
@@ -241,9 +286,9 @@ export default function MintButton({ mintConfig, account, dstTokenAddress }: { m
                 }}
                 chainId={mintConfig.actionConfig.chainId}
                 address={account}
-                selectChains={[ChainId.ARBITRUM, ChainId.OPTIMISM, ChainId.BASE, ChainId.ETHEREUM, ChainId.POLYGON]}
-                selectTokens={[zeroAddress]}
-              />}
+                selectChains={[ChainId.ARBITRUM, ChainId.OPTIMISM, ChainId.ETHEREUM, ChainId.POLYGON]}
+              />
+            </div>}
           </div>
         </div>
       </BoxHooksContextProvider>
@@ -292,14 +337,14 @@ const generateResponse = async ({ txConfig, account }: { txConfig: BoxActionRequ
 
 // Track Transaction //
 
-const getTxStatus = async ({ txHash, chainId }: { txHash: string, chainId: ChainId }) => {
-  const url = `https://api.decentscan.xyz/getTransaction?txHash=${txHash}&chainId=${chainId}`;
-  try {
-    const response = await fetch(url);
-    const data = await response.text();
-    return JSON.parse(data);
-  } catch (e) {
-    console.error('Error getting response', e);
-    return null;
-  }
-}
+// const getTxStatus = async ({ txHash, chainId }: { txHash: string, chainId: ChainId }) => {
+//   const url = `https://api.decentscan.xyz/getTransaction?txHash=${txHash}&chainId=${chainId}`;
+//   try {
+//     const response = await fetch(url);
+//     const data = await response.text();
+//     return JSON.parse(data);
+//   } catch (e) {
+//     console.error('Error getting response', e);
+//     return null;
+//   }
+// }
