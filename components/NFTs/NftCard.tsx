@@ -64,7 +64,7 @@ const NftCard = (props: any) => {
       <div className={`${styles.containerFlex} rounded-[6px]`}>
         <Image
           className="rounded-md absolute w-full h-full object-cover"
-          src={collection?.image || ''}
+          src={collection?.symbol === "DECENT" ? "/nfts/decent-v2.gif" : collection?.image || ''}
           width={400}
           height={400}
           alt=""
@@ -93,7 +93,7 @@ const NftCard = (props: any) => {
             <Link href={`/mint/${collection?.chainId}/${collection?.primaryContract}`}>
               <Image
                 className="absolute inset-0 w-full h-full object-cover"
-                src={collection?.image || ''}
+                src={collection?.symbol === "DECENT" ? "/nfts/decent-v2.gif" : collection?.image || ''}
                 width={400}
                 height={400}
                 alt="nft image" 

@@ -41,9 +41,12 @@ export enum VideoDict {
   'CSCOPE' = '/nfts/caldera.mp4',
   'SUPER' = '/nfts/superchain.mp4',
   'dZERO' = '/nfts/lz-nft.mp4',
+  'DECENT' = '/nfts/decent-v2.mov',
 }
 
 export const trackedNfts: ContractAddress[] = [
+  // From the ashes
+  { address: '0xa9de16b1484C11b481B23dbdEC534a29F5668a22', chainId: ChainId.OPTIMISM, startDate: 1709139600, endDate: 4294967295, price: "0.00044", source: 'Decent', partner: 'Decent'},
   // Layer Zero Partnership
   { address: '0xE4e2f17E439eeB2345baE76B6A4F634c3A708015', chainId: ChainId.ARBITRUM, startDate: 1708952400, endDate: 1719720000, price: "0.00044", source: 'Decent', partner: 'Layer Zero'},
   // Conduit Partnership
