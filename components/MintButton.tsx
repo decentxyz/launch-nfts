@@ -292,7 +292,7 @@ export default function MintButton({ mintConfig, account, dstTokenAddress }: { m
                 }}
                 chainId={mintConfig.actionConfig.chainId}
                 address={account}
-                selectChains={[ChainId.ARBITRUM, ChainId.OPTIMISM, ChainId.ETHEREUM, ChainId.POLYGON]}
+                selectChains={[ChainId.ARBITRUM, ChainId.OPTIMISM, ChainId.POLYGON]}
               />
             </div>}
           </div>

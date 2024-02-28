@@ -35,7 +35,7 @@ const NftCard = (props: any) => {
           className="border border-black rounded-md my-2 w-full"
           paymentButtonText={`Purchase ${quantity}`}
           //to do: add avax
-          chains={[ChainId.ARBITRUM, ChainId.OPTIMISM, ChainId.ETHEREUM, ChainId.POLYGON]}
+          chains={[ChainId.ARBITRUM, ChainId.OPTIMISM, ChainId.POLYGON]}
           actionType={ActionType.NftPreferMint}
           actionConfig={{
             contractAddress: collection.primaryContract,
