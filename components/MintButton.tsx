@@ -51,7 +51,7 @@ type BoxActionResponse = {
   relayInfo?: RelayInfo;
 };
 
-const BASE_URL_V1 = 'https://box-v1.api.decent.xyz/api/getBoxAction';
+const BASE_URL = 'https://box-v2.api.decent.xyz/api/getBoxAction';
 
 enum ChainNames {
   'Ethereum' = 1,
@@ -259,16 +259,16 @@ export default function MintButton({ mintConfig, account, dstTokenAddress }: { m
         <div className='flex items-center gap-4 relative'>
           {requireApproval ? 
             <button
-              disabled={loading}
+              disabled={loading || !activeTx}
               onClick={handleApproval}
-              className={`${loading ? 'bg-gray-200 text-black' : 'bg-black text-white hover:opacity-80'} w-full py-2 rounded-full`}
+              className={`${loading || !activeTx ? 'bg-gray-200 text-black' : 'bg-black text-white hover:opacity-80'} w-full py-2 rounded-full`}
             >
               {loading ? <LoadingSpinner /> : 'Approve Token'}
             </button> :
             <button
-              disabled={loading || requireApproval || !sufficientBalance}
+              disabled={loading || requireApproval || !sufficientBalance || !activeTx}
               onClick={handleRunTx}
-              className={`${loading || !sufficientBalance ? 'bg-gray-200 text-black' : 'bg-black text-white hover:opacity-80'} w-full py-2 rounded-full`}
+              className={`${loading || !sufficientBalance || !activeTx ? 'bg-gray-200 text-black' : 'bg-black text-white hover:opacity-80'} w-full py-2 rounded-full`}
             >
               {loading ? <LoadingSpinner /> : !sufficientBalance ? 'Insufficient Balance' : 'Mint'}
             </button>
@@ -292,7 +292,7 @@ export default function MintButton({ mintConfig, account, dstTokenAddress }: { m
                 }}
                 chainId={mintConfig.actionConfig.chainId}
                 address={account}
-                selectChains={[ChainId.ARBITRUM, ChainId.OPTIMISM, ChainId.POLYGON]}
+                selectChains={[ChainId.ARBITRUM, ChainId.OPTIMISM, ChainId.POLYGON, ChainId.ETHEREUM, ChainId.BASE]}
               />
             </div>}
           </div>
@@ -310,23 +310,18 @@ const generateResponse = async ({ txConfig, account }: { txConfig: BoxActionRequ
     req = txConfig;
   }
 
-  const url = `${BASE_URL_V1}?arguments=${JSON.stringify(
-    req,
-    bigintSerializer
-  )}`;
+  const url = new URL(BASE_URL);
+  url.searchParams.set('arguments', JSON.stringify(req, bigintSerializer));
+
+  const requestOptions = {
+    method: 'GET',
+    headers: { 'x-api-key': process.env.NEXT_PUBLIC_NEW_DECENT_API_KEY as string },
+  };
 
   try {
-    const response = await fetch(url, {
-      headers: {
-        'x-api-key': process.env.NEXT_PUBLIC_DECENT_API_KEY as string,
-      },
-    });
-    const data = await response.text();
-
-    const actionResponse: BoxActionResponse = JSON.parse(
-      data,
-      bigintDeserializer
-    );
+    const response = await fetch(url.toString(), requestOptions);
+    const textResponse = await response.text();
+    const actionResponse = JSON.parse(textResponse, bigintDeserializer);
 
     return {
       config: req,
