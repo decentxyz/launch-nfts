@@ -35,7 +35,7 @@ const NftCard = (props: any) => {
           className="border border-black rounded-md my-2 w-full"
           paymentButtonText={`Purchase ${quantity}`}
           //to do: add avax
-          chains={[ChainId.ARBITRUM, ChainId.OPTIMISM, ChainId.POLYGON]}
+          chains={[ChainId.ARBITRUM, ChainId.OPTIMISM, ChainId.POLYGON, ChainId.RARIBLE,ChainId.ZORA, ChainId.BASE]}
           actionType={ActionType.NftPreferMint}
           actionConfig={{
             contractAddress: collection.primaryContract,
@@ -51,7 +51,7 @@ const NftCard = (props: any) => {
               amount: parseUnits(mintInfo?.price || '0', 18),
             },
           }}
-          apiKey={process.env.NEXT_PUBLIC_DECENT_API_KEY as string}
+          apiKey={process.env.NEXT_PUBLIC_NEW_DECENT_API_KEY as string}
         />
       </div>
     </Modal>

@@ -254,7 +254,7 @@ export default function MintButton({ mintConfig, account, dstTokenAddress }: { m
   return (
     <ClientRendered>
       <BoxHooksContextProvider
-        apiKey={process.env.NEXT_PUBLIC_DECENT_API_KEY as string}
+        apiKey={process.env.NEXT_PUBLIC_NEW_DECENT_API_KEY as string}
       >
         <div className='flex items-center gap-4 relative'>
           {requireApproval ? 
@@ -292,7 +292,7 @@ export default function MintButton({ mintConfig, account, dstTokenAddress }: { m
                 }}
                 chainId={mintConfig.actionConfig.chainId}
                 address={account}
-                selectChains={[ChainId.ARBITRUM, ChainId.OPTIMISM, ChainId.POLYGON, ChainId.ETHEREUM, ChainId.BASE]}
+                selectChains={[ChainId.ARBITRUM, ChainId.OPTIMISM, ChainId.POLYGON, ChainId.ETHEREUM, ChainId.BASE, ChainId.ZORA, ChainId.RARIBLE]}
               />
             </div>}
           </div>
