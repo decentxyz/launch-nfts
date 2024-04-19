@@ -70,7 +70,7 @@ const Mint: NextPage = (props: any) => {
           <div className='md:w-1/2 pr-8 flex-col justify-between relative'>
             <div className="font-thin h-fit pb-4 sm:pb-0 sm:h-[15vh]">
               <span className={`${
-                contractData[0].name.length > 27 ? 'text-5xl' : 'text-7xl'
+                contractData[0].name.length > 22 ? 'text-5xl' : 'text-7xl'
               } overflow-hidden`}>
                 {contractData[0].name === 'Human' ? 'RetroPGF' : contractData[0].name}
               </span>
