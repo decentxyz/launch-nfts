@@ -35,6 +35,7 @@ export enum PartnerLogos {
   'SUPER' = '/images/optimism.svg',
   'DOC' = '/images/conduit.png',
   'dZERO' = '/images/layerzero.jpeg',
+  'SWAP+' = '/images/enjoy-logo.jpeg',
 }
 
 export enum VideoDict {
@@ -45,6 +46,8 @@ export enum VideoDict {
 }
 
 export const trackedNfts: ContractAddress[] = [
+  // Enjoy
+  { address: '0x0E39715Ca6208EC6b5094FF9E4699A32EbAb9a3f', chainId: ChainId.ZORA, startDate: 1713538800, endDate: 1722520800, price: "0.00044", source: 'Decent', partner: 'Enjoy'},
   // From the ashes
   { address: '0xa9de16b1484C11b481B23dbdEC534a29F5668a22', chainId: ChainId.OPTIMISM, startDate: 1709139600, endDate: 4294967295, price: "0.00044", source: 'Decent', partner: 'Decent'},
   // Layer Zero Partnership

@@ -19,7 +19,7 @@ import {
   ChainIcon
 } from '@decent.xyz/box-ui';
 import '@decent.xyz/box-ui/index.css';
-import { BoxHooksContextProvider } from '@decent.xyz/box-hooks';
+import { BoxHooksContextProvider, useSrcChainId } from '@decent.xyz/box-hooks';
 import { useNetwork, useSwitchNetwork } from 'wagmi';
 import { sendTransaction, fetchBalance } from '@wagmi/core';
 import Image from 'next/image';
@@ -69,10 +69,17 @@ export default function MintButton({ mintConfig, account, dstTokenAddress }: { m
   const [txHash, setTxHash] = useState('');
   const { chain } = useNetwork();
   const { switchNetwork } = useSwitchNetwork();
-  const [srcToken, setSrcToken] = useState<TokenInfo | any>({
-    ...ethGasToken,
-    chainId: chain?.id || 1,
-  });
+
+  const EnjoyToken: TokenInfo = {
+    address: '0xa6B280B42CB0b7c4a4F789eC6cCC3a7609A1Bc39',
+    chainId: ChainId.ZORA,
+    symbol: 'Enjoy',
+    name: 'Enjoy',
+    isNative: false,
+    logo: 'https://raw.githubusercontent.com/decentxyz/token-logos/main/enjoy-logo.jpeg',
+    decimals: 18
+  }
+  const [srcToken, setSrcToken] = useState<TokenInfo | any>(EnjoyToken);
   const [txConfig, setTxConfig] = useState<BoxActionRequest>();
   const [activeTx, setActiveTx] = useState<BoxActionResponse>();
   const [loading, setLoading] = useState(false);
@@ -139,8 +146,8 @@ export default function MintButton({ mintConfig, account, dstTokenAddress }: { m
         setEthBalance(balance.formatted);
         if (srcToken.address === zeroAddress) {
           setSufficientBalance(ethBalance > formatUnits(mintConfig.actionConfig.cost?.amount!, 18));
-        } else if (srcToken) {
-          setSufficientBalance(formatUnits(srcToken.balance, srcToken.decimals) > formatUnits(mintConfig.actionConfig.cost?.amount!, 18));
+        } else if (srcToken && srcToken.balance) {
+          setSufficientBalance(formatUnits(srcToken?.balance, srcToken.decimals) > formatUnits(mintConfig.actionConfig.cost?.amount!, 18));
         };
       };
     };
@@ -235,7 +242,10 @@ export default function MintButton({ mintConfig, account, dstTokenAddress }: { m
         if (activeTx) {
           const { hash } = await sendTransaction(activeTx.tx as EvmTransaction);
           setTxHash(hash);
-          toast.success('Minted!');
+          toast.success(<>
+            Minted!
+            <a className='underline hover:opacity-80' target='_blank' href={`https://www.decentscan.xyz/?chainId=${txConfig.srcChainId}&txHash=${hash}`}>View transaction status.</a>
+          </>);
         }
       }
     } catch (e) {
@@ -286,13 +296,14 @@ export default function MintButton({ mintConfig, account, dstTokenAddress }: { m
               <BalanceSelector
                 className='bg-white text-sm font-sans drop-shadow-lg max-h-96 overflow-y-scroll mb-2'
                 selectedToken={srcToken}
+                closeOnSelect
                 setSelectedToken={(tokeninfo: TokenInfo) => {
                   setSrcToken(tokeninfo);
                   setShowBalanceSelector(false);
                 }}
                 chainId={mintConfig.actionConfig.chainId}
                 address={account}
-                selectChains={[ChainId.ARBITRUM, ChainId.OPTIMISM, ChainId.POLYGON, ChainId.ETHEREUM, ChainId.BASE, ChainId.ZORA, ChainId.RARIBLE]}
+                selectChains={[ChainId.ARBITRUM, ChainId.OPTIMISM, ChainId.POLYGON, ChainId.ETHEREUM, ChainId.BASE, ChainId.ZORA]}
               />
             </div>}
           </div>

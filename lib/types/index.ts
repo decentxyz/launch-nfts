@@ -30,5 +30,6 @@ export enum ResEndpoint {
   "api-optimism" = 10,
   "api-polygon" = 137,
   "api-arbitrum" = 42161,
-  "api-base" = 8453
+  "api-base" = 8453,
+  "api-zora" = 7777777
 };

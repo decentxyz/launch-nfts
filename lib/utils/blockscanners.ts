@@ -3,7 +3,8 @@ const Blockscanners = {
   10: 'optimistic.etherscan.io',
   42161: 'arbiscan.io',
   137: 'polyscan.com',
-  8453: 'basescan.org'
+  8453: 'basescan.org',
+  7777777: 'explorer.zora.energy'
 } as const;
 
 export const getBlockscanner = (chainId: number) => {
