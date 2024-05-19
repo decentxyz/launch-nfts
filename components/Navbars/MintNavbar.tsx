@@ -3,7 +3,7 @@ import ConnectWallet from "./ConnectWallet";
 import Image from "next/image";
 import Link from "next/link";
 import { PartnerLogos } from "../../lib/nftData/trackedNfts";
-import { DecentIcon } from "../../lib/utils/logos";
+import { DecentIcon } from "../../utils/logos";
 import Search from "../Search";
 
 const MintNavbar = (props: any) => {

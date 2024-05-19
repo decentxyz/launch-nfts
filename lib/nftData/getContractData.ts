@@ -1,8 +1,9 @@
 import axios from 'axios';
 import { Address } from 'viem';
-import { ResEndpoint } from '../types';
+import { ResEndpoint } from '../../utils/types';
 import { ChainId } from '@decent.xyz/box-common';
 
+// switch to Airstack or simplehash
 export const getContractData = async (addresses: Address[], chainId: ChainId) => {
   try {
     const { data: contractData } = await axios.get(

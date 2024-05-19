@@ -17,10 +17,10 @@ import {
   BalanceSelector,
   ClientRendered,
   ChainIcon
-} from '@decent.xyz/box-ui';
+} from '@decent.  /box-ui';
 import '@decent.xyz/box-ui/index.css';
 import { BoxHooksContextProvider, useSrcChainId } from '@decent.xyz/box-hooks';
-import { useNetwork, useSwitchNetwork } from 'wagmi';
+import { useAccount, useSwitchNetwork } from 'wagmi';
 import { sendTransaction, fetchBalance } from '@wagmi/core';
 import Image from 'next/image';
 import { useState, useEffect, useMemo, useCallback } from 'react';
@@ -29,7 +29,7 @@ import DropDownIcon from './DropdownIcon';
 import { formatUnits } from 'viem';
 import LoadingSpinner from './Spinner';
 // import { getBlockscanner } from '../lib/utils/blockscanners';
-import { checkForApproval, approveToken } from '../lib/utils/checkForApproval';
+import { checkForApproval, approveToken } from '../lib/checkForApproval';
 
 interface BoxActionRequest {
   sender: Address;
@@ -67,7 +67,7 @@ export default function MintButton({ mintConfig, account, dstTokenAddress }: { m
   const [ethBalance, setEthBalance] = useState('');
   const [sufficientBalance, setSufficientBalance] = useState(true);
   const [txHash, setTxHash] = useState('');
-  const { chain } = useNetwork();
+  const { chain } = useAccount();
   const { switchNetwork } = useSwitchNetwork();
 
   const EnjoyToken: TokenInfo = {

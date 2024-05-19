@@ -5,13 +5,15 @@ import type { AppProps } from 'next/app';
 import { ToastContainer } from 'react-toastify';
 import { BoxThemeProvider } from "@decent.xyz/the-box";
 import 'react-toastify/dist/ReactToastify.css';
-import { Analytics } from "@vercel/analytics/react";
+import Metadata from '../components/Metadata';
+import { SearchContextProvider } from "../lib/contexts/SearchContext";
+
 import {
-  getDefaultWallets,
+  getDefaultConfig,
   RainbowKitProvider,
   lightTheme
 } from '@rainbow-me/rainbowkit';
-import { configureChains, createConfig, WagmiConfig } from 'wagmi';
+import { WagmiProvider } from 'wagmi';
 import {
   mainnet,
   polygon,
@@ -20,11 +22,10 @@ import {
   base,
   zora
 } from 'wagmi/chains';
-import { alchemyProvider } from 'wagmi/providers/alchemy';
-import { publicProvider } from 'wagmi/providers/public';
-import Metadata from '../components/Metadata';
-import AtlasSnippet from "../components/CustomerSupport";
-import { SearchContextProvider } from "../lib/contexts/SearchContext";
+import {
+  QueryClientProvider,
+  QueryClient,
+} from "@tanstack/react-query";
 
 const myBoxTheme = {
   mainBgColor: "#FFFFFF",
@@ -33,51 +34,39 @@ const myBoxTheme = {
   boxLoadingBadgeColor: '#F0EFEF'
 }
 
-const { chains, publicClient } = configureChains(
-  [mainnet, polygon, optimism, arbitrum, base, zora],
-  [
-    alchemyProvider({ apiKey: process.env.NEXT_PUBLIC_ALCHEMY_API_KEY as string }),
-    publicProvider()
-  ]
-);
-
-const { connectors } = getDefaultWallets({
-  appName: 'basednfts.co',
+const wagmiConfig = getDefaultConfig({
+  appName: 'Launch NFTs',
   projectId: process.env.NEXT_PUBLIC_WALLETCONNECT_ID as string,
-  chains
+  chains: [mainnet, polygon, optimism, arbitrum, base, zora],
+  ssr: true, // If your dApp uses server side rendering (SSR)
 });
 
-const wagmiConfig = createConfig({
-  autoConnect: true,
-  connectors,
-  publicClient
-})
+const queryClient = new QueryClient();
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <WagmiConfig config={wagmiConfig}>
-      <RainbowKitProvider
-        chains={chains}
-        modalSize="compact"
-        theme={lightTheme({
-          accentColor: '#000000',
-          accentColorForeground: 'white',
-          borderRadius: 'small',
-          fontStack: 'system',
-          overlayBlur: 'small',
-        })}
-        >
-        <Metadata />
-        <AtlasSnippet />
-        <BoxThemeProvider theme={myBoxTheme}>
-          <SearchContextProvider>
-            <Component {...pageProps} />
-          </SearchContextProvider>
-        </BoxThemeProvider>
-        <Analytics />
-        <ToastContainer />
-      </RainbowKitProvider>
-    </WagmiConfig>
+    <WagmiProvider config={wagmiConfig}>
+      <QueryClientProvider client={queryClient}>
+        <RainbowKitProvider
+          modalSize="compact"
+          theme={lightTheme({
+            accentColor: '#000000',
+            accentColorForeground: 'white',
+            borderRadius: 'small',
+            fontStack: 'system',
+            overlayBlur: 'small',
+          })}
+          >
+          <Metadata />
+          <BoxThemeProvider theme={myBoxTheme}>
+            <SearchContextProvider>
+              <Component {...pageProps} />
+            </SearchContextProvider>
+          </BoxThemeProvider>
+          <ToastContainer />
+        </RainbowKitProvider>
+      </QueryClientProvider>
+    </WagmiProvider>
   );
 }
 

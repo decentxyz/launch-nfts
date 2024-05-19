@@ -1,9 +1,9 @@
 import NftCard from "./NftCard";
-import styles from "./nfts.module.css";
+import styles from "../../styles/nfts.module.css";
 import { useEffect, useRef, useState } from 'react';
 import { useFeaturedNftContext } from "../../lib/contexts/FeaturedNftContext";
 import { useSearchContext } from "../../lib/contexts/SearchContext";
-import { throttle } from "../../lib/utils/throttle";
+import { throttle } from "../../utils/throttle";
 import { useRunSearch } from "../../lib/runSearch";
 
 const FeaturedNftContainer = ({ nftData }: any) => {

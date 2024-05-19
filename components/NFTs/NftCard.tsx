@@ -1,5 +1,5 @@
 import Image from "next/image";
-import styles from "./nfts.module.css";
+import styles from "../../styles/nfts.module.css";
 import { useRef, useEffect, useState } from "react";
 import Link from "next/link";
 import { getMintInfo } from "../../lib/nftData/getMintInfo";
@@ -8,8 +8,9 @@ import { TheBox } from "@decent.xyz/the-box";
 import { ActionType, ChainId } from "@decent.xyz/box-common";
 import { parseUnits } from "viem";
 import Modal from "../Modal";
-import { EtherscanScan } from "../../lib/utils/logos";
-import { getBlockscanner } from "../../lib/utils/blockscanners";
+import { EtherscanScan } from "../../utils/logos";
+import { getBlockscanner } from "../../utils/blockscanners";
+import { wagmiConfig } from "../../lib/wagmiConfig";
 
 const NftCard = (props: any) => {
   const { collection, cardView } = props;
@@ -31,10 +32,11 @@ const NftCard = (props: any) => {
     <Modal className="relative sm:min-w-[500px] max-w-[500px] bg-white rounded-md" isOpen={isOpen} setIsOpen={setIsOpen}>
       <div className="pb-2 font-thin text-xl">Purchase {collection.name}</div>
       <div className="flex w-full justify-center">
+        {/* Pull this logic of fetching NFTs to mint into mint page */}
         <TheBox
           className="border border-black rounded-md my-2 w-full"
+          wagmiConfig={wagmiConfig}
           paymentButtonText={`Purchase ${quantity}`}
-          //to do: add avax
           chains={[ChainId.ARBITRUM, ChainId.OPTIMISM, ChainId.POLYGON, ChainId.RARIBLE,ChainId.ZORA, ChainId.BASE]}
           actionType={ActionType.NftPreferMint}
           actionConfig={{

@@ -15,6 +15,6 @@
     "jsx": "preserve",
     "incremental": true
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "lib/utils/logos.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "utils/logos.js"],
   "exclude": ["node_modules"]
 }

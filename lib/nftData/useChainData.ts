@@ -1,6 +1,6 @@
 import useSWR from 'swr';
 import axios from 'axios';
-import absoluteUrl from '../utils/absoluteUrl';
+import absoluteUrl from '../../utils/absoluteUrl';
 
 export const useChainData = (date?: string) => {
   const fetcher = (url: string) => axios.get(url).then(res => res.data);

@@ -5,16 +5,17 @@ import styles from "../../../styles/Home.module.css";
 import Image from 'next/image';
 import Link from 'next/link';
 import MintFooter from '../../../components/Footers/MintFooter';
-import { getMintInfo, MintInfoProps } from "../../../lib/nftData/getMintInfo";
-import { useAccount, useNetwork } from "wagmi";
+import { getMintInfo } from "../../../lib/nftData/getMintInfo";
+import { MintInfoProps } from '../../../utils/types';
+import { useAccount } from "wagmi";
 import { ActionType, ChainId } from '@decent.xyz/box-common';
 import { parseUnits, zeroAddress } from "viem";
-import { EtherscanScan } from "../../../lib/utils/logos";
+import { EtherscanScan } from "../../../utils/logos";
 import { useState, useEffect } from 'react';
-import { convertTimestamp } from '../../../lib/utils/convertTimestamp';
+import { convertTimestamp } from '../../../utils/convertTimestamp';
 import NumberTicker from '../../../components/NumberTicker';
 import { VideoDict } from '../../../lib/nftData/trackedNfts';
-import { getBlockscanner } from '../../../lib/utils/blockscanners';
+import { getBlockscanner } from '../../../utils/blockscanners';
 import MintButton from '../../../components/MintButton';
 
 const Mint: NextPage = (props: any) => {
@@ -22,8 +23,7 @@ const Mint: NextPage = (props: any) => {
     query: { address },
     contractData
   } = props;
-  const { address: account } = useAccount();
-  const { chain } = useNetwork();
+  const { address: account, chain } = useAccount();
   const [mintInfo, setMintInfo] = useState<MintInfoProps>();
   const [quantity, setQuantity] = useState(1);
   const [soldOut, setSoldOut] = useState(false);
@@ -58,8 +58,6 @@ const Mint: NextPage = (props: any) => {
 
   const blockscanner = getBlockscanner(contractData[0].chainId);
 
-  console.log("HEREEEEEE:" , contractData[0])
-
   return (
     <div className='relative'>
       <MintNavbar address={address} partner={contractData[0].symbol} />
@@ -90,6 +88,7 @@ const Mint: NextPage = (props: any) => {
               <p className='mt-8 overflow-y-auto max-h-96'>{contractData[0].description}</p>
             </div>
             <div className='h-[20vh] absolute bottom-0 w-full'>
+              {/* UPDATE TO REUSE THE MINT CONFIG */}
               <MintButton 
                 account={account!}
                 dstTokenAddress={zeroAddress} // TODO: could update for different token denominations
