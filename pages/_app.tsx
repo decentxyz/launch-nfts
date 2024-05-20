@@ -7,6 +7,7 @@ import { BoxThemeProvider } from "@decent.xyz/the-box";
 import 'react-toastify/dist/ReactToastify.css';
 import Metadata from '../components/Metadata';
 import { SearchContextProvider } from "../lib/contexts/SearchContext";
+import { ThemeContextProvider, useThemeContext } from "../lib/contexts/ThemeContext";
 
 import {
   getDefaultConfig,
@@ -44,6 +45,8 @@ const wagmiConfig = getDefaultConfig({
 const queryClient = new QueryClient();
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const { dark } = useThemeContext();
+
   return (
     <WagmiProvider config={wagmiConfig}>
       <QueryClientProvider client={queryClient}>
@@ -57,13 +60,17 @@ function MyApp({ Component, pageProps }: AppProps) {
             overlayBlur: 'small',
           })}
           >
-          <Metadata />
-          <BoxThemeProvider theme={myBoxTheme}>
-            <SearchContextProvider>
-              <Component {...pageProps} />
-            </SearchContextProvider>
-          </BoxThemeProvider>
-          <ToastContainer />
+          <ThemeContextProvider>
+            <div className={dark ? 'bg-black text-white' : ''}>
+              <Metadata />
+              <BoxThemeProvider theme={myBoxTheme}>
+                <SearchContextProvider>
+                  <Component {...pageProps} />
+                </SearchContextProvider>
+              </BoxThemeProvider>
+              <ToastContainer />
+            </div>
+          </ThemeContextProvider>
         </RainbowKitProvider>
       </QueryClientProvider>
     </WagmiProvider>

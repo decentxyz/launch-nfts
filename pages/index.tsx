@@ -20,13 +20,10 @@ const Home: NextPage = ({ contractData }: any) => {
   return <>
     <Navbar />
     <FeaturedNftContextProvider>
-      <main className={`${styles.main} relative`} style={{ minHeight: '100vh' }}>
-        <div className='flex w-full px-[24px]'>
-          <div className='w-full sm:hidden flex justify-start'>
-            <p className='text-right font-thin text-xs'>Swipe {'→'}</p>
-          </div>
+      <main className={`${styles.main} relative`} style={{ minHeight: '100vh' }} >
+        <div className='flex w-full'>
           <div className='w-full flex justify-end'>
-            <Link href="/all" className='text-right font-thin text-xs hover:text-primary'>View All {'→'}</Link>
+            <Link href="/all" className='text-right font-thin text-xs hover:text-primary pb-2'>View All {'→'}</Link>
           </div>
         </div>
         {contractData && <>

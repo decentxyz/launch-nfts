@@ -17,7 +17,7 @@ import {
   BalanceSelector,
   ClientRendered,
   ChainIcon
-} from '@decent.  /box-ui';
+} from '@decent.xyz/box-ui';
 import '@decent.xyz/box-ui/index.css';
 import { BoxHooksContextProvider, useSrcChainId } from '@decent.xyz/box-hooks';
 import { useAccount, useSwitchNetwork } from 'wagmi';
@@ -264,7 +264,7 @@ export default function MintButton({ mintConfig, account, dstTokenAddress }: { m
   return (
     <ClientRendered>
       <BoxHooksContextProvider
-        apiKey={process.env.NEXT_PUBLIC_NEW_DECENT_API_KEY as string}
+        apiKey={process.env.NEXT_PUBLIC_DECENT_API_KEY as string}
       >
         <div className='flex items-center gap-4 relative'>
           {requireApproval ? 

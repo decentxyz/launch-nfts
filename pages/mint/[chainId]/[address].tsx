@@ -17,6 +17,7 @@ import NumberTicker from '../../../components/NumberTicker';
 import { VideoDict } from '../../../lib/nftData/trackedNfts';
 import { getBlockscanner } from '../../../utils/blockscanners';
 import MintButton from '../../../components/MintButton';
+import { useThemeContext } from '../../../lib/contexts/ThemeContext';
 
 const Mint: NextPage = (props: any) => {
   const {
@@ -27,6 +28,7 @@ const Mint: NextPage = (props: any) => {
   const [mintInfo, setMintInfo] = useState<MintInfoProps>();
   const [quantity, setQuantity] = useState(1);
   const [soldOut, setSoldOut] = useState(false);
+  const { dark } = useThemeContext();
 
   useEffect(() => {
     if (account && window && Date.now() / 1000 < mintInfo?.endDate!) {
@@ -60,7 +62,7 @@ const Mint: NextPage = (props: any) => {
 
   return (
     <div className='relative'>
-      <MintNavbar address={address} partner={contractData[0].symbol} />
+      <MintNavbar address={address} dark={dark} />
 
       <div className={`${styles.main} px-[24px] py-[12px] pt-[20vh] md:pt-0`}>
         <div className={`flex md:flex-wrap flex-wrap-reverse md:gap-0 gap-12 md:h-[70vh]`}>
