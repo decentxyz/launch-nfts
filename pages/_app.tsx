@@ -8,6 +8,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import Metadata from '../components/Metadata';
 import { SearchContextProvider } from "../lib/contexts/SearchContext";
 import { ThemeContextProvider, useThemeContext } from "../lib/contexts/ThemeContext";
+import { TokenContextProvider } from "../lib/contexts/UserTokens";
+import { BoxHooksContextProvider } from "@decent.xyz/box-hooks";
 
 import {
   getDefaultConfig,
@@ -61,12 +63,16 @@ function MyApp({ Component, pageProps }: AppProps) {
           })}
           >
           <ThemeContextProvider>
-            <div className={dark ? 'bg-black text-white' : ''}>
+            <div className={dark ? 'bg-black text-white' : 'bg-white text-black'}>
               <Metadata />
               <BoxThemeProvider theme={myBoxTheme}>
-                <SearchContextProvider>
-                  <Component {...pageProps} />
-                </SearchContextProvider>
+                <BoxHooksContextProvider apiKey={process.env.NEXT_PUBLIC_DECENT_API_KEY}>
+                  <TokenContextProvider>
+                    <SearchContextProvider>
+                      <Component {...pageProps} />
+                    </SearchContextProvider>
+                  </TokenContextProvider>
+                </BoxHooksContextProvider>
               </BoxThemeProvider>
               <ToastContainer />
             </div>

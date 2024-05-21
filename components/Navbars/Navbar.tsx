@@ -2,7 +2,6 @@ import Search from "../Search";
 import styles from "./navbar.module.css";
 import ConnectWallet from "./ConnectWallet";
 import { DecentIcon } from "../../utils/logos";
-
 const Navbar = () => {
 
   return (
@@ -12,14 +11,14 @@ const Navbar = () => {
           [logo]
         </div>
   
-        <div className="flex gap-2 w-1/5 hidden md:flex">
-        </div>
-
-        <div className="flex gap-2 w-1/5 hidden md:flex">
+        <div>
+          date
         </div>
         
-        <Search nav={true} />
-        <ConnectWallet />
+        {/* <Search nav={true} /> */}
+        <div className="w-1/5 flex justify-end">
+          <ConnectWallet />
+        </div>
       </nav>
     </>
 

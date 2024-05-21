@@ -1,5 +1,5 @@
 import NftCard from "./NftCard";
-import styles from "../../styles/nfts.module.css";
+import styles from '../../styles/nfts.module.css';
 import { useState } from 'react';
 import { useFeaturedNftContext } from "../../lib/contexts/FeaturedNftContext";
 import { useSearchContext } from "../../lib/contexts/SearchContext";
@@ -52,18 +52,18 @@ const FeaturedNftContainer = ({ nftData }: any) => {
       <div className={`${styles.emptyItem} md:w-1/4 w-1/2 hidden md:inline-block`} />
     </div>
     <div className="flex justify-between w-full pt-4">
-      <button
-        className="border px-5 py-[2px] rounded-md"
+      {middleIndex !==0 ? <button
+        className="border border-black px-5 py-[2px] rounded-md"
         onClick={handlePrev}
       >
         ⬅
-      </button>
-      <button
-        className="border px-5 py-[2px] rounded-md"
+      </button> : <div></div>}
+      {nftData.length > 0 ? <button
+        className="border border-black px-5 py-[2px] rounded-md"
         onClick={handleNext}
       >
         ⮕
-      </button>
+      </button> : <div></div>}
     </div>
   </>
 }

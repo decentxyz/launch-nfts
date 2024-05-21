@@ -82,6 +82,7 @@ const NftCard = ({
 
       <div
         id={"nft-" + index}
+        key={index}
         data-idx={index}
         className={`${styles.nftCard} ${
           cardView ? "w-full" : "w-full md:w-[50vw]"
