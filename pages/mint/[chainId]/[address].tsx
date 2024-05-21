@@ -54,7 +54,7 @@ const Mint: NextPage = (props: any) => {
 
   return (
     <div className='relative'>
-      <MintNavbar address={address} dark={dark} />
+      <MintNavbar address={address} />
 
       <div className={`${styles.main} px-[24px] py-[12px] pt-[20vh] md:pt-0`}>
         <div className={`flex md:flex-wrap flex-wrap-reverse md:gap-0 gap-12 md:h-[70vh]`}>

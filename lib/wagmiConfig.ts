@@ -1,15 +1,28 @@
-import { mainnet, zora, base, polygon, optimism, arbitrum } from "wagmi/chains";
-import { createConfig, http } from "wagmi";
+import { createConfig } from 'wagmi';
+import { http, Chain } from 'viem';
+import {
+  mainnet,
+  optimism,
+  arbitrum,
+  base,
+  zora,
+  polygon,
+  zkSync,
+} from 'wagmi/chains';
 
-export const wagmiConfig = createConfig({
-  chains: [mainnet, zora, arbitrum, base, polygon, optimism, arbitrum],
-  // https://chainlist.org/ if need other rpcs
-  transports: {
-    [mainnet.id]: http(),
-    [zora.id]: http(),
-    [base.id]: http(),
-    [polygon.id]: http(),
-    [optimism.id]: http(),
-    [arbitrum.id]: http(),
-  },
-});
+export const chains = [
+  mainnet,
+  optimism,
+  arbitrum,
+  polygon,
+  base,
+  zora,
+  zkSync,
+] as unknown as readonly [Chain, ...Chain[]];
+
+export const transports = chains.reduce((a: any, c: Chain) => {
+  a[c.id] = http();
+  return a;
+}, {});
+
+export const wagmiConfig = createConfig({ chains, transports });

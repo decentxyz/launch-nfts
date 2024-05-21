@@ -30,6 +30,8 @@ import {
   QueryClient,
 } from "@tanstack/react-query";
 
+import { Chain } from 'viem';
+
 const myBoxTheme = {
   mainBgColor: "#FFFFFF",
   boxSubtleColor2: '#000000',
@@ -40,7 +42,7 @@ const myBoxTheme = {
 const wagmiConfig = getDefaultConfig({
   appName: 'Launch NFTs',
   projectId: process.env.NEXT_PUBLIC_WALLETCONNECT_ID as string,
-  chains: [mainnet, polygon, optimism, arbitrum, base, zora],
+  chains: [mainnet, polygon, optimism, arbitrum, base, zora] as unknown as readonly [Chain, ...Chain[]],
   ssr: true, // If your dApp uses server side rendering (SSR)
 });
 
