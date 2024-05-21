@@ -1,20 +1,15 @@
-import { mainnet, zora, base, polygon, optimism, arbitrum } from "viem/chains";
+import { mainnet, zora, base, polygon, optimism, arbitrum } from "wagmi/chains";
 import { createConfig, http } from "wagmi";
-import { ChainId } from "@decent.xyz/box-common";
-
-export const ChainLookup = {
-  [ChainId.ETHEREUM]: mainnet,
-  [ChainId.POLYGON]: polygon,
-  [ChainId.ARBITRUM]: arbitrum,
-  [ChainId.OPTIMISM]: optimism,
-  [ChainId.BASE]: base,
-  [ChainId.ZORA]: zora,
-} as const;
 
 export const wagmiConfig = createConfig({
-  chains: [mainnet],
-  // https://chainlist.org/
+  chains: [mainnet, zora, arbitrum, base, polygon, optimism, arbitrum],
+  // https://chainlist.org/ if need other rpcs
   transports: {
-    [mainnet.id]: http('https://rpc.flashbots.net'),
+    [mainnet.id]: http(),
+    [zora.id]: http(),
+    [base.id]: http(),
+    [polygon.id]: http(),
+    [optimism.id]: http(),
+    [arbitrum.id]: http(),
   },
 });

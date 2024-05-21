@@ -7,22 +7,22 @@ settings:
 dependencies:
   '@decent.xyz/box-common':
     specifier: 2.1.0-beta.0
-    version: 2.1.0-beta.0(@wagmi/core@2.10.2)(react@18.3.1)(viem@2.11.1)(wagmi@2.9.2)
+    version: 2.1.0-beta.0(@wagmi/core@2.10.2)(react@18.3.1)(viem@2.11.1)(wagmi@2.9.3)
   '@decent.xyz/box-hooks':
     specifier: 2.1.0-beta.0
-    version: 2.1.0-beta.0(@wagmi/core@2.10.2)(react@18.3.1)(swr@2.2.5)(viem@2.11.1)(wagmi@2.9.2)
+    version: 2.1.0-beta.0(@wagmi/core@2.10.2)(react@18.3.1)(swr@2.2.5)(viem@2.11.1)(wagmi@2.9.3)
   '@decent.xyz/box-ui':
     specifier: 2.1.0-beta.0
-    version: 2.1.0-beta.0(@wagmi/core@2.10.2)(react@18.3.1)(swr@2.2.5)(viem@2.11.1)(wagmi@2.9.2)
+    version: 2.1.0-beta.0(@wagmi/core@2.10.2)(react@18.3.1)(swr@2.2.5)(viem@2.11.1)(wagmi@2.9.3)
   '@decent.xyz/the-box':
     specifier: 2.1.0-beta.0
-    version: 2.1.0-beta.0(@wagmi/core@2.10.2)(react-dom@18.3.1)(react@18.3.1)(swr@2.2.5)(viem@2.11.1)(wagmi@2.9.2)
+    version: 2.1.0-beta.0(@wagmi/core@2.10.2)(react-dom@18.3.1)(react@18.3.1)(swr@2.2.5)(viem@2.11.1)(wagmi@2.9.3)
   '@headlessui/react':
     specifier: ^1.7.16
     version: 1.7.19(react-dom@18.3.1)(react@18.3.1)
   '@rainbow-me/rainbowkit':
     specifier: ^2.1.0
-    version: 2.1.0(@tanstack/react-query@5.37.1)(@types/react@18.3.2)(react-dom@18.3.1)(react@18.3.1)(viem@2.11.1)(wagmi@2.9.2)
+    version: 2.1.0(@tanstack/react-query@5.37.1)(@types/react@18.3.2)(react-dom@18.3.1)(react@18.3.1)(viem@2.11.1)(wagmi@2.9.3)
   '@tanstack/react-query':
     specifier: ^5.37.1
     version: 5.37.1(react@18.3.1)
@@ -58,7 +58,7 @@ dependencies:
     version: 2.11.1(typescript@5.4.5)
   wagmi:
     specifier: ^2.9.2
-    version: 2.9.2(@tanstack/react-query@5.37.1)(@types/react@18.3.2)(react-dom@18.3.1)(react-i18next@13.5.0)(react-native@0.74.1)(react@18.3.1)(typescript@5.4.5)(viem@2.11.1)
+    version: 2.9.3(@tanstack/react-query@5.37.1)(@types/react@18.3.2)(react-dom@18.3.1)(react-i18next@13.5.0)(react-native@0.74.1)(react@18.3.1)(typescript@5.4.5)(viem@2.11.1)
 
 devDependencies:
   '@types/node':
@@ -1586,7 +1586,7 @@ packages:
       sha.js: 2.4.11
     dev: false
 
-  /@decent.xyz/box-common@2.1.0-beta.0(@wagmi/core@2.10.2)(react@18.3.1)(viem@2.11.1)(wagmi@2.9.2):
+  /@decent.xyz/box-common@2.1.0-beta.0(@wagmi/core@2.10.2)(react@18.3.1)(viem@2.11.1)(wagmi@2.9.3):
     resolution: {integrity: sha512-xmjtJ9TKZpRnWuARylzv7IWubBoIFyTBMbunZJzrYnrZ/gm+5efGnAnhoykbwkwZ51G4ZYZWl/f9GBk7lJHAsQ==}
     peerDependencies:
       '@wagmi/core': 2.x
@@ -1597,10 +1597,10 @@ packages:
       '@wagmi/core': 2.10.2(@types/react@18.3.2)(react@18.3.1)(typescript@5.4.5)(viem@2.11.1)
       react: 18.3.1
       viem: 2.11.1(typescript@5.4.5)
-      wagmi: 2.9.2(@tanstack/react-query@5.37.1)(@types/react@18.3.2)(react-dom@18.3.1)(react-i18next@13.5.0)(react-native@0.74.1)(react@18.3.1)(typescript@5.4.5)(viem@2.11.1)
+      wagmi: 2.9.3(@tanstack/react-query@5.37.1)(@types/react@18.3.2)(react-dom@18.3.1)(react-i18next@13.5.0)(react-native@0.74.1)(react@18.3.1)(typescript@5.4.5)(viem@2.11.1)
     dev: false
 
-  /@decent.xyz/box-evm@2.1.0-beta.0(@wagmi/core@2.10.2)(react@18.3.1)(swr@2.2.5)(viem@2.11.1)(wagmi@2.9.2):
+  /@decent.xyz/box-evm@2.1.0-beta.0(@wagmi/core@2.10.2)(react@18.3.1)(swr@2.2.5)(viem@2.11.1)(wagmi@2.9.3):
     resolution: {integrity: sha512-8X7Mzx4Oe+A3uY0zBdYqOYO27VEu8C/SBV24sqPjFvvD55ntP4LwMV1nL0jdo/2Rmwzy1KPaiQHU1/LWrKcGOQ==}
     peerDependencies:
       '@wagmi/core': 2.x
@@ -1608,24 +1608,24 @@ packages:
       viem: 2.x
       wagmi: 2.x
     dependencies:
-      '@decent.xyz/box-common': 2.1.0-beta.0(@wagmi/core@2.10.2)(react@18.3.1)(viem@2.11.1)(wagmi@2.9.2)
-      '@decent.xyz/box-hooks': 2.1.0-beta.0(@wagmi/core@2.10.2)(react@18.3.1)(swr@2.2.5)(viem@2.11.1)(wagmi@2.9.2)
+      '@decent.xyz/box-common': 2.1.0-beta.0(@wagmi/core@2.10.2)(react@18.3.1)(viem@2.11.1)(wagmi@2.9.3)
+      '@decent.xyz/box-hooks': 2.1.0-beta.0(@wagmi/core@2.10.2)(react@18.3.1)(swr@2.2.5)(viem@2.11.1)(wagmi@2.9.3)
       '@wagmi/core': 2.10.2(@types/react@18.3.2)(react@18.3.1)(typescript@5.4.5)(viem@2.11.1)
       react: 18.3.1
       viem: 2.11.1(typescript@5.4.5)
-      wagmi: 2.9.2(@tanstack/react-query@5.37.1)(@types/react@18.3.2)(react-dom@18.3.1)(react-i18next@13.5.0)(react-native@0.74.1)(react@18.3.1)(typescript@5.4.5)(viem@2.11.1)
+      wagmi: 2.9.3(@tanstack/react-query@5.37.1)(@types/react@18.3.2)(react-dom@18.3.1)(react-i18next@13.5.0)(react-native@0.74.1)(react@18.3.1)(typescript@5.4.5)(viem@2.11.1)
     transitivePeerDependencies:
       - swr
     dev: false
 
-  /@decent.xyz/box-hooks@2.1.0-beta.0(@wagmi/core@2.10.2)(react@18.3.1)(swr@2.2.5)(viem@2.11.1)(wagmi@2.9.2):
+  /@decent.xyz/box-hooks@2.1.0-beta.0(@wagmi/core@2.10.2)(react@18.3.1)(swr@2.2.5)(viem@2.11.1)(wagmi@2.9.3):
     resolution: {integrity: sha512-vX2SoXKdRKNrAWOlJbg3dsiMruJtxEHf/z7HYwx3XF3UufU0yGEApIzhbg0MdzhCzvEQGrJg74tghCR8SN6YFA==}
     peerDependencies:
       '@wagmi/core': 2.x
       react: ^18.0.0
       swr: ^2.2.0
     dependencies:
-      '@decent.xyz/box-common': 2.1.0-beta.0(@wagmi/core@2.10.2)(react@18.3.1)(viem@2.11.1)(wagmi@2.9.2)
+      '@decent.xyz/box-common': 2.1.0-beta.0(@wagmi/core@2.10.2)(react@18.3.1)(viem@2.11.1)(wagmi@2.9.3)
       '@wagmi/core': 2.10.2(@types/react@18.3.2)(react@18.3.1)(typescript@5.4.5)(viem@2.11.1)
       react: 18.3.1
       swr: 2.2.5(react@18.3.1)
@@ -1634,13 +1634,13 @@ packages:
       - wagmi
     dev: false
 
-  /@decent.xyz/box-ui@2.1.0-beta.0(@wagmi/core@2.10.2)(react@18.3.1)(swr@2.2.5)(viem@2.11.1)(wagmi@2.9.2):
+  /@decent.xyz/box-ui@2.1.0-beta.0(@wagmi/core@2.10.2)(react@18.3.1)(swr@2.2.5)(viem@2.11.1)(wagmi@2.9.3):
     resolution: {integrity: sha512-JfpXtHWphKE3rhrZRgey8THtl9bT/HMpcP0awQ1MzK8dSKcgnTeedGElekouVeHZInFi5GpntCV4jg9ZcobJKQ==}
     peerDependencies:
       react: ^18.0.0
     dependencies:
-      '@decent.xyz/box-common': 2.1.0-beta.0(@wagmi/core@2.10.2)(react@18.3.1)(viem@2.11.1)(wagmi@2.9.2)
-      '@decent.xyz/box-hooks': 2.1.0-beta.0(@wagmi/core@2.10.2)(react@18.3.1)(swr@2.2.5)(viem@2.11.1)(wagmi@2.9.2)
+      '@decent.xyz/box-common': 2.1.0-beta.0(@wagmi/core@2.10.2)(react@18.3.1)(viem@2.11.1)(wagmi@2.9.3)
+      '@decent.xyz/box-hooks': 2.1.0-beta.0(@wagmi/core@2.10.2)(react@18.3.1)(swr@2.2.5)(viem@2.11.1)(wagmi@2.9.3)
       react: 18.3.1
     transitivePeerDependencies:
       - '@wagmi/core'
@@ -1649,7 +1649,7 @@ packages:
       - wagmi
     dev: false
 
-  /@decent.xyz/the-box@2.1.0-beta.0(@wagmi/core@2.10.2)(react-dom@18.3.1)(react@18.3.1)(swr@2.2.5)(viem@2.11.1)(wagmi@2.9.2):
+  /@decent.xyz/the-box@2.1.0-beta.0(@wagmi/core@2.10.2)(react-dom@18.3.1)(react@18.3.1)(swr@2.2.5)(viem@2.11.1)(wagmi@2.9.3):
     resolution: {integrity: sha512-atmnEqyYV+tZJK93b8dsEQT22wS9jn0aOiv8CdNiHLIZHM05YP9UubhsRL75foGQu7+MuPbO7RtAPuDclxtvxw==}
     peerDependencies:
       '@wagmi/core': 2.x
@@ -1659,16 +1659,16 @@ packages:
       viem: 2.x
       wagmi: 2.x
     dependencies:
-      '@decent.xyz/box-common': 2.1.0-beta.0(@wagmi/core@2.10.2)(react@18.3.1)(viem@2.11.1)(wagmi@2.9.2)
-      '@decent.xyz/box-evm': 2.1.0-beta.0(@wagmi/core@2.10.2)(react@18.3.1)(swr@2.2.5)(viem@2.11.1)(wagmi@2.9.2)
-      '@decent.xyz/box-hooks': 2.1.0-beta.0(@wagmi/core@2.10.2)(react@18.3.1)(swr@2.2.5)(viem@2.11.1)(wagmi@2.9.2)
-      '@decent.xyz/box-ui': 2.1.0-beta.0(@wagmi/core@2.10.2)(react@18.3.1)(swr@2.2.5)(viem@2.11.1)(wagmi@2.9.2)
+      '@decent.xyz/box-common': 2.1.0-beta.0(@wagmi/core@2.10.2)(react@18.3.1)(viem@2.11.1)(wagmi@2.9.3)
+      '@decent.xyz/box-evm': 2.1.0-beta.0(@wagmi/core@2.10.2)(react@18.3.1)(swr@2.2.5)(viem@2.11.1)(wagmi@2.9.3)
+      '@decent.xyz/box-hooks': 2.1.0-beta.0(@wagmi/core@2.10.2)(react@18.3.1)(swr@2.2.5)(viem@2.11.1)(wagmi@2.9.3)
+      '@decent.xyz/box-ui': 2.1.0-beta.0(@wagmi/core@2.10.2)(react@18.3.1)(swr@2.2.5)(viem@2.11.1)(wagmi@2.9.3)
       '@wagmi/core': 2.10.2(@types/react@18.3.2)(react@18.3.1)(typescript@5.4.5)(viem@2.11.1)
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
       swr: 2.2.5(react@18.3.1)
       viem: 2.11.1(typescript@5.4.5)
-      wagmi: 2.9.2(@tanstack/react-query@5.37.1)(@types/react@18.3.2)(react-dom@18.3.1)(react-i18next@13.5.0)(react-native@0.74.1)(react@18.3.1)(typescript@5.4.5)(viem@2.11.1)
+      wagmi: 2.9.3(@tanstack/react-query@5.37.1)(@types/react@18.3.2)(react-dom@18.3.1)(react-i18next@13.5.0)(react-native@0.74.1)(react@18.3.1)(typescript@5.4.5)(viem@2.11.1)
     dev: false
 
   /@emotion/hash@0.9.1:
@@ -2775,7 +2775,7 @@ packages:
     dev: true
     optional: true
 
-  /@rainbow-me/rainbowkit@2.1.0(@tanstack/react-query@5.37.1)(@types/react@18.3.2)(react-dom@18.3.1)(react@18.3.1)(viem@2.11.1)(wagmi@2.9.2):
+  /@rainbow-me/rainbowkit@2.1.0(@tanstack/react-query@5.37.1)(@types/react@18.3.2)(react-dom@18.3.1)(react@18.3.1)(viem@2.11.1)(wagmi@2.9.3):
     resolution: {integrity: sha512-KUkEHcVfqVuDHS2cxvaoy8R4N1EC/t/x0uYkgUkbDS8ShoW6ZJeP4qocxyvKsdYynm5srI/FPmbTSdgojV279Q==}
     engines: {node: '>=12.4'}
     peerDependencies:
@@ -2796,7 +2796,7 @@ packages:
       react-remove-scroll: 2.5.7(@types/react@18.3.2)(react@18.3.1)
       ua-parser-js: 1.0.37
       viem: 2.11.1(typescript@5.4.5)
-      wagmi: 2.9.2(@tanstack/react-query@5.37.1)(@types/react@18.3.2)(react-dom@18.3.1)(react-i18next@13.5.0)(react-native@0.74.1)(react@18.3.1)(typescript@5.4.5)(viem@2.11.1)
+      wagmi: 2.9.3(@tanstack/react-query@5.37.1)(@types/react@18.3.2)(react-dom@18.3.1)(react-i18next@13.5.0)(react-native@0.74.1)(react@18.3.1)(typescript@5.4.5)(viem@2.11.1)
     transitivePeerDependencies:
       - '@types/react'
     dev: false
@@ -9786,8 +9786,8 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: false
 
-  /wagmi@2.9.2(@tanstack/react-query@5.37.1)(@types/react@18.3.2)(react-dom@18.3.1)(react-i18next@13.5.0)(react-native@0.74.1)(react@18.3.1)(typescript@5.4.5)(viem@2.11.1):
-    resolution: {integrity: sha512-FUSYm0RY2Zo7qL3LKDymtAk+oAiLJc0UUhfAEGhAgYBYqYXsDEpPoZM14i8zi6t4FMGlMONuyOTb0sediCJN1g==}
+  /wagmi@2.9.3(@tanstack/react-query@5.37.1)(@types/react@18.3.2)(react-dom@18.3.1)(react-i18next@13.5.0)(react-native@0.74.1)(react@18.3.1)(typescript@5.4.5)(viem@2.11.1):
+    resolution: {integrity: sha512-pB2pKQy1h76/ozOnmIVfI1ydNeMuMjRgQ6L6vUAuJi3cx7rg3xKBdj2yur+MWCATWjj4J7fO291dCDhaPIF1NA==}
     peerDependencies:
       '@tanstack/react-query': '>=5.0.0'
       react: '>=18'

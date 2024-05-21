@@ -14,22 +14,24 @@ import {
   ethGasToken
 } from '@decent.xyz/box-common';
 import { 
-  BalanceSelector,
   ClientRendered,
-  ChainIcon
+  ChainIcon,
 } from '@decent.xyz/box-ui';
+import { BalanceSelector } from './BalanceSelector';
 import '@decent.xyz/box-ui/index.css';
-import { BoxHooksContextProvider, useSrcChainId } from '@decent.xyz/box-hooks';
-import { useAccount, useSwitchNetwork } from 'wagmi';
-import { sendTransaction, fetchBalance } from '@wagmi/core';
+import { BoxHooksContextProvider } from '@decent.xyz/box-hooks';
+import { useAccount } from 'wagmi';
+import { sendTransaction, switchChain, getBalance } from '@wagmi/core';
 import Image from 'next/image';
-import { useState, useEffect, useMemo, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { toast } from 'react-toastify';
 import DropDownIcon from './DropdownIcon';
 import { formatUnits } from 'viem';
 import LoadingSpinner from './Spinner';
 // import { getBlockscanner } from '../lib/utils/blockscanners';
 import { checkForApproval, approveToken } from '../lib/checkForApproval';
+import { wagmiConfig } from '../lib/wagmiConfig';
+import { useTokenContext } from '../lib/contexts/UserTokens';
 
 interface BoxActionRequest {
   sender: Address;
@@ -68,29 +70,12 @@ export default function MintButton({ mintConfig, account, dstTokenAddress }: { m
   const [sufficientBalance, setSufficientBalance] = useState(true);
   const [txHash, setTxHash] = useState('');
   const { chain } = useAccount();
-  const { switchNetwork } = useSwitchNetwork();
+  const tokenBalances = useTokenContext();
 
-  const EnjoyToken: TokenInfo = {
-    address: '0xa6B280B42CB0b7c4a4F789eC6cCC3a7609A1Bc39',
-    chainId: ChainId.ZORA,
-    symbol: 'Enjoy',
-    name: 'Enjoy',
-    isNative: false,
-    logo: 'https://raw.githubusercontent.com/decentxyz/token-logos/main/enjoy-logo.jpeg',
-    decimals: 18
-  }
-  const [srcToken, setSrcToken] = useState<TokenInfo | any>(EnjoyToken);
+  const [srcToken, setSrcToken] = useState<TokenInfo | any>(ethGasToken);
   const [txConfig, setTxConfig] = useState<BoxActionRequest>();
   const [activeTx, setActiveTx] = useState<BoxActionResponse>();
   const [loading, setLoading] = useState(false);
-  // const [txStatus, setTxStatus] = useState({
-  //   status: 'pending',
-  //   blockExplorers: {
-  //     srcTx: '',
-  //     bridgeTx: '',
-  //     dstTx: '',
-  //   },
-  // });
 
   useEffect(() => {
     setTxConfig({
@@ -138,10 +123,10 @@ export default function MintButton({ mintConfig, account, dstTokenAddress }: { m
   useEffect(() => {
     async function loadBalance(){
       if (account && chain) {
-        const balance = await fetchBalance({
+        const balance = await getBalance(wagmiConfig, {
           address: account,
           chainId: srcToken.chainId,
-          formatUnits: 'ether'
+          unit: 'ether'
         })
         setEthBalance(balance.formatted);
         if (srcToken.address === zeroAddress) {
@@ -154,69 +139,17 @@ export default function MintButton({ mintConfig, account, dstTokenAddress }: { m
     loadBalance();
   }, [account, chain, ethBalance, mintConfig.actionConfig.cost?.amount, srcToken])
 
-  // const returnBlockExplorer = useMemo(() => {
-  //   const { status, blockExplorers } = txStatus;
-  //   if (status === 'Executed') {
-  //     return blockExplorers.dstTx || blockExplorers.srcTx;
-  //   } else if (status === 'Failed') {
-  //     return blockExplorers.bridgeTx
-  //       ? `Transaction Failed. Please check ${ChainNames[mintConfig.actionConfig.chainId]} for a refund.`
-  //       : 'Transaction Failed.';
-  //   }
-  //   return '';
-  // }, [txStatus, mintConfig.actionConfig.chainId]);
-
-  // Track Transaction //
-
-  // useEffect(() => {
-  //   let isSubscribed = true;
-  //   const trackTx = async () => {
-  //     let status = '';
-  //     while (isSubscribed && status !== 'Executed' && status !== 'Failed' && txHash) {
-  //       try {
-  //         const { transaction, status: newStatus } = await getTxStatus({ txHash, chainId: mintConfig.srcChainId });
-  //         if (isSubscribed) {
-  //           setTxStatus({
-  //             status: newStatus,
-  //             blockExplorers: {
-  //               srcTx: transaction?.srcTx?.blockExplorer,
-  //               bridgeTx: transaction?.bridgeTx?.blockExplorer,
-  //               dstTx: transaction?.dstTx?.blockExplorer,
-  //             }
-  //           });
-  //         }
-  //         status = newStatus;
-  //         if (status === 'pending') {
-  //           await new Promise(resolve => setTimeout(resolve, 10000));
-  //         }
-  //       } catch (e) {
-  //         console.error('Error tracking transaction status', e);
-  //       }
-  //     }
-  //   };
-  //   trackTx();
-  //   return () => {
-  //     isSubscribed = false;
-  //   };
-  // }, [txHash, mintConfig.srcChainId]);
-
-  // useEffect(() => {
-  //   if (txStatus.status === 'Executed' || txStatus.status === 'Failed') {
-  //     const toastFunction = txStatus.status === 'Executed' ? toast.success : toast.error;
-  //     toastFunction(<div>{txStatus.status === 'Executed' ? 'Minted!' : 'Transaction Failed.'} <a target='_blank' href={returnBlockExplorer}>View transaction.</a></div>);
-  //   }
-  // }, [txStatus, returnBlockExplorer]);
-
   // Send Transaction //
 
   const runApproval = useCallback(async () => {
     setLoading(true);
     try {
-      if (txConfig && chain?.id !== srcToken.chainId && switchNetwork) {
-        switchNetwork(srcToken.chainId);
+      if (txConfig && chain?.id !== srcToken.chainId) {
+        await switchChain(wagmiConfig, { chainId: srcToken.chainId })
       }
       if (activeTx && activeTx.tokenPayment) {
         const hash = await approveToken({
+          wagmiConfig,
           token: srcToken.address,
           spender: activeTx.tx.to,
           amount: activeTx.tokenPayment.amount!,
@@ -230,17 +163,17 @@ export default function MintButton({ mintConfig, account, dstTokenAddress }: { m
       setLoading(false);
       // toast.success('Token Approved.');
     }
-  }, [txConfig, chain?.id, srcToken.chainId, srcToken.address, switchNetwork, activeTx])
+  }, [txConfig, chain?.id, srcToken.chainId, srcToken.address, activeTx])
 
   const runTx = useCallback(async () => {
     setLoading(true);
     try {
-      if (txConfig && chain?.id !== txConfig.srcChainId && switchNetwork) {
-        switchNetwork(txConfig.srcChainId);
+      if (txConfig && chain?.id !== txConfig.srcChainId) {
+        await switchChain(wagmiConfig, { chainId: txConfig.srcChainId })
       }
       if (txConfig && chain?.id === txConfig.srcChainId) {
         if (activeTx) {
-          const { hash } = await sendTransaction(activeTx.tx as EvmTransaction);
+          const hash = await sendTransaction(wagmiConfig, activeTx.tx as EvmTransaction);
           setTxHash(hash);
           toast.success(<>
             Minted!
@@ -252,7 +185,7 @@ export default function MintButton({ mintConfig, account, dstTokenAddress }: { m
       console.error('Error executing transaction', e);
     }
     setLoading(false);
-  }, [txConfig, chain?.id, switchNetwork, activeTx]);
+  }, [txConfig, chain?.id, activeTx]);
 
   const handleApproval = useCallback(() => {
     runApproval();
@@ -291,19 +224,15 @@ export default function MintButton({ mintConfig, account, dstTokenAddress }: { m
               </div>
               <DropDownIcon />
             </div>
-            {showBalanceSelector &&
+            {showBalanceSelector && tokenBalances &&
             <div className='absolute bottom-full right-0 z-10'>
               <BalanceSelector
                 className='bg-white text-sm font-sans drop-shadow-lg max-h-96 overflow-y-scroll mb-2'
-                selectedToken={srcToken}
-                closeOnSelect
                 setSelectedToken={(tokeninfo: TokenInfo) => {
                   setSrcToken(tokeninfo);
                   setShowBalanceSelector(false);
                 }}
-                chainId={mintConfig.actionConfig.chainId}
-                address={account}
-                selectChains={[ChainId.ARBITRUM, ChainId.OPTIMISM, ChainId.POLYGON, ChainId.ETHEREUM, ChainId.BASE, ChainId.ZORA]}
+                tokenContext={tokenBalances}
               />
             </div>}
           </div>
@@ -326,7 +255,7 @@ const generateResponse = async ({ txConfig, account }: { txConfig: BoxActionRequ
 
   const requestOptions = {
     method: 'GET',
-    headers: { 'x-api-key': process.env.NEXT_PUBLIC_NEW_DECENT_API_KEY as string },
+    headers: { 'x-api-key': process.env.NEXT_PUBLIC_DECENT_API_KEY as string },
   };
 
   try {
@@ -346,17 +275,3 @@ const generateResponse = async ({ txConfig, account }: { txConfig: BoxActionRequ
     };
   };
 };
-
-// Track Transaction //
-
-// const getTxStatus = async ({ txHash, chainId }: { txHash: string, chainId: ChainId }) => {
-//   const url = `https://api.decentscan.xyz/getTransaction?txHash=${txHash}&chainId=${chainId}`;
-//   try {
-//     const response = await fetch(url);
-//     const data = await response.text();
-//     return JSON.parse(data);
-//   } catch (e) {
-//     console.error('Error getting response', e);
-//     return null;
-//   }
-// }

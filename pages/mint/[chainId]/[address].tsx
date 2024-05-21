@@ -31,14 +31,6 @@ const Mint: NextPage = (props: any) => {
   const { dark } = useThemeContext();
 
   useEffect(() => {
-    if (account && window && Date.now() / 1000 < mintInfo?.endDate!) {
-      window.Atlas.call("identify", {
-        userId: account,
-       })
-    }
-  }, [account, mintInfo?.endDate]);
-
-  useEffect(() => {
     async function fetchMintInfo() {
       const data = getMintInfo(
         contractData[0].primaryContract.toLowerCase(),

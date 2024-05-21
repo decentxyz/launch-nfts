@@ -27,8 +27,10 @@ export const BalanceSelector = ({
   const [selectedKey, setSelectedKey] = useState<string>();
 
   const userSelected = (t: FullTokens) => {
-    setSelectedToken(t);
-    setSelectedKey(undefined);
+    if (setSelectedToken) {
+      setSelectedToken(t);
+      setSelectedKey(undefined);
+    }
   };
 
   const tokenMap: Map<string, FullTokens[]> = new Map();
