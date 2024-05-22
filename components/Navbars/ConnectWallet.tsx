@@ -51,18 +51,18 @@ export const ConnectWallet = () => {
               }
 
               return (
-                <div className="font-light p-4 flex items-center gap-2 text-sm">
-                  <button className="hover:opacity-80 flex items-center px-3 py-1 border border-black rounded-sm" onClick={openAccountModal} type="button">
-                    {WalletIcon('#000000', "14px", "14px")}
+                <div className="font-light flex items-center gap-2 text-xs sm:text-sm">
+                  <button className="hover:opacity-80 flex items-center px-3 py-1 border border-white rounded-md" onClick={openAccountModal} type="button">
+                    {WalletIcon('#FFFFFF', "14px", "14px")}
                     <span className='pl-2'>{account.displayName}</span>
                   </button>
-                  <div className='border-black border rounded-sm min-w-[88px] p-1 flex justify-end'>
+                  <div className='border-white border rounded-md sm:min-w-[88px] p-1'>
                     {account && <WalletPill />}
                   </div>
                   <button
                     onClick={openChainModal}
                     type="button"
-                    className='text-lg hover:text-gray-500 flex items-center p-1 border border-black rounded-sm'
+                    className='hover:opacity-80 sm:flex sm:items-center px-1 py-[5px] border border-white rounded-md hidden sm:inline-block'
                   > 
                     {chain.hasIcon && (
                       <div

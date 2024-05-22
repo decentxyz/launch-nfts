@@ -57,7 +57,7 @@ const FeaturedNftContainer = ({ nftData }: any) => {
       <div className="flex justify-between w-full pt-4">
         {middleIndex !== 0 ? (
           <button
-            className="border border-black px-5 py-[2px] rounded-md"
+            className="border border-white px-5 py-[2px] rounded-md"
             onClick={handlePrev}
           >
             ⬅
@@ -67,7 +67,7 @@ const FeaturedNftContainer = ({ nftData }: any) => {
         )}
         {nftData.length > 0 ? (
           <button
-            className="border border-black px-5 py-[2px] rounded-md"
+            className="border border-white px-5 py-[2px] rounded-md"
             onClick={handleNext}
           >
             ⮕
