@@ -68,10 +68,10 @@ const FeaturedNftContainer = ({ nftData }: any) => {
       </div>
       <div className="flex justify-between w-full pt-4">
         <button
-          className="border border-white px-5 py-[2px] rounded-md"
+          className="border border-white px-5 py-[2px] rounded-md rotate-180"
           onClick={handlePrev}
         >
-          ⬅
+          ⮕
         </button>
         <div className="text-lg font-thin">
           {formattedDate}
