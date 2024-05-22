@@ -2,46 +2,51 @@ import type { NextPage } from 'next';
 import styles from '../styles/Home.module.css';
 import Navbar from '../components/Navbars/Navbar';
 import FeaturedNftContainer from "../components/NFTs/FeaturedNftContainer";
-import { FeaturedNftContextProvider } from '../lib/contexts/FeaturedNftContext';
+import { FeaturedNftContextProvider, useFeaturedNftContext } from '../lib/contexts/FeaturedNftContext';
 import Footer from '../components/Footers/Footer';
-import Link from 'next/link';
 import { getContractData } from '../lib/nftData/getContractData';
 import { trackedNfts } from '../lib/nftData/trackedNfts';
 import { Address } from 'viem';
 import { ChainId } from '@decent.xyz/box-common';
-import CountdownText from '../components/CountdownText';
-import { getEndOfDayDate } from '../lib/useCountdown';
+import MintBox from '../components/NFTs/MintBox';
 
 const Home: NextPage = ({ contractData }: any) => {
+  return (
+    <FeaturedNftContextProvider>
+      <Navbar />
+      <MainContent contractData={contractData} />
+    </FeaturedNftContextProvider>
+  );
+};
+
+const MainContent = ({ contractData }: any) => {
+  const { middleIndex } = useFeaturedNftContext();
+
   function sortNFTsByMintedTimestamp(nfts: any) {
     return nfts.sort((a: any, b: any) => b.mintedTimestamp - a.mintedTimestamp);
   }
 
   const sortedContractData = sortNFTsByMintedTimestamp(contractData);
+  const activeNft = sortedContractData[middleIndex];
 
-  return <>
-    <Navbar />
-    <FeaturedNftContextProvider>
-      <main className={`${styles.main} relative`} style={{ minHeight: '100vh' }} >
-        <div className='flex w-full'>
-          <div className='w-full flex justify-between font-thin text-xs'>
-            <CountdownText dropTime={getEndOfDayDate()} />
-            <Link href="/all" className='text-right hover:text-primary pb-2'>View All {'→'}</Link>
-          </div>
-        </div>
-        {contractData && <>
+  return (
+    <main className={`${styles.main} relative`} style={{ minHeight: '100vh' }}>
+      {contractData && (
+        <>
           <FeaturedNftContainer nftData={sortedContractData} />
+          <div>
+            <MintBox collection={activeNft} />
+          </div>
           <Footer nftData={contractData} />
-        </>}
-      </main>
-    </FeaturedNftContextProvider>    
-  </>
+        </>
+      )}
+    </main>
+  );
 };
 
 export default Home;
 
 export async function getStaticProps() {
-  // Group NFTs by chainId
   const nftsByChainId: { [key in ChainId]?: string[] } = trackedNfts.reduce((acc: { [key in ChainId]?: Address[] }, nft) => {
     const address = nft.pattern !== "proxy" ? nft.address : nft.token;
     if (!acc[nft.chainId]) {
@@ -51,7 +56,6 @@ export async function getStaticProps() {
     return acc;
   }, {});
 
-  // Fetch contract data for each group
   const contractDataPromises = Object.entries(nftsByChainId).map(([chainId, addresses]) => {
     const cleanAddresses = addresses as `0x${string}`[];
     const cleanChainId = chainId as unknown as ChainId;
@@ -60,12 +64,10 @@ export async function getStaticProps() {
       data
     }));
   });
-  
 
-  // Await all promises and combine results
   type Data = any;
   const contractDataResults = await Promise.all(contractDataPromises);
-  
+
   const contractData = contractDataResults.reduce<Data[]>((acc, { chainId, data }) => {
     data.forEach((item: any) => acc.push({ chainId, ...item }));
     return acc;
@@ -75,6 +77,6 @@ export async function getStaticProps() {
     props: {
       contractData: contractData || null,
     },
-    revalidate: 300
-  }
-};
+    revalidate: 300,
+  };
+}

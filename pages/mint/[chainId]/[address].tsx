@@ -16,7 +16,6 @@ import { convertTimestamp } from '../../../utils/convertTimestamp';
 import NumberTicker from '../../../components/NumberTicker';
 import { getBlockscanner } from '../../../utils/blockscanners';
 import MintButton from '../../../components/MintButton';
-import { useThemeContext } from '../../../lib/contexts/ThemeContext';
 
 const Mint: NextPage = (props: any) => {
   const {
@@ -27,7 +26,6 @@ const Mint: NextPage = (props: any) => {
   const [mintInfo, setMintInfo] = useState<MintInfoProps>();
   const [quantity, setQuantity] = useState(1);
   const [soldOut, setSoldOut] = useState(false);
-  const { dark } = useThemeContext();
 
   useEffect(() => {
     async function fetchMintInfo() {
@@ -82,33 +80,7 @@ const Mint: NextPage = (props: any) => {
             </div>
             <div className='h-[20vh] absolute bottom-0 w-full'>
               {/* UPDATE TO REUSE THE MINT CONFIG */}
-              <MintButton 
-                account={account!}
-                dstTokenAddress={zeroAddress} // TODO: could update for different token denominations
-                mintConfig={{
-                  sender: account!,
-                  srcChainId: chain?.id as ChainId,
-                  dstChainId: contractData[0].chainId as ChainId,
-                  slippage: 1,
-                  actionType: ActionType.NftPreferMint,
-                  actionConfig: {
-                    contractAddress: contractData[0].primaryContract,
-                    chainId: contractData[0].chainId,
-                    signature: mintInfo?.mintMethod,
-                    args: mintInfo?.params,
-                    cost: {
-                      isNative: true,
-                      amount: parseUnits(mintInfo?.price! || '0.00', 18),
-                    },
-                    supplyConfig: {
-                      sellOutDate: mintInfo?.endDate,
-                      maxCap: mintInfo?.maxTokens
-                    },
-                  }
-                }}/>
-                <div className="px-4 pt-4 relative">
-                  <NumberTicker endDate={mintInfo?.endDate} maxTokens={mintInfo?.maxTokens} tokenCount={contractData[0].tokenCount} quantity={quantity} setQuantity={setQuantity} />
-                </div>
+
               </div>
           </div>
 
