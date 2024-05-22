@@ -1,9 +1,3 @@
-declare global {
-  interface Window {
-    Atlas: any;
-  }
-}
-
 export type ActiveChainIds = 1 | 7777777 | 10 | 42161 | 137 | 8453;
 
 export interface ChainStats {

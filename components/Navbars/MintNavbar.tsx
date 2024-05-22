@@ -1,8 +1,6 @@
 import styles from "./navbar.module.css";
 import ConnectWallet from "./ConnectWallet";
-import Image from "next/image";
 import Link from "next/link";
-import { PartnerLogos } from "../../lib/nftData/trackedNfts";
 import { DecentIcon } from "../../utils/logos";
 import Search from "../Search";
 
