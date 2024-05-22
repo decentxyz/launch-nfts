@@ -33,7 +33,7 @@ const myBoxTheme = {
 }
 
 export const sfPro = localFont({
-  src: "../fonts/sf-pro-display/SFPRODISPLAYREGULAR.otf",
+  src: "../public/fonts/sf-pro-display/SFPRODISPLAYREGULAR.otf",
   variable: "--font-sf-pro-display",
 });
 
