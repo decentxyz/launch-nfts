@@ -11,6 +11,7 @@ import Modal from "../Modal";
 import { EtherscanScan } from "../../utils/logos";
 import { getBlockscanner } from "../../utils/blockscanners";
 import { wagmiConfig } from "../../lib/wagmiConfig";
+import MintBox from "./MintBox";
 
 const NftCard = ({
   index,
@@ -41,42 +42,13 @@ const NftCard = ({
   return (
     <>
       <Modal
-        className={`relative sm:min-w-[500px] max-w-[500px] bg-white rounded-md`}
+        className={`relative sm:min-w-[500px] max-w-[500px] rounded-lg bg-[#13110F] text-white`}
         isOpen={isOpen}
         setIsOpen={setIsOpen}
       >
         <div className="pb-2 font-thin text-xl">Purchase {collection.name}</div>
-        <div className="flex w-full justify-center">
-          {/* Pull this logic of fetching NFTs to mint into mint page */}
-          <TheBox
-            className="border border-black rounded-md my-2 w-full"
-            wagmiConfig={wagmiConfig}
-            paymentButtonText={`Purchase ${quantity}`}
-            chains={[
-              ChainId.ARBITRUM,
-              ChainId.OPTIMISM,
-              ChainId.POLYGON,
-              ChainId.RARIBLE,
-              ChainId.ZORA,
-              ChainId.BASE,
-            ]}
-            actionType={ActionType.NftPreferMint}
-            actionConfig={{
-              contractAddress: collection.primaryContract,
-              chainId: collection.chainId,
-              signature: mintInfo?.mintMethod,
-              args: mintInfo?.params,
-              supplyConfig: {
-                sellOutDate: mintInfo?.endDate,
-                maxCap: mintInfo?.maxTokens,
-              },
-              cost: {
-                isNative: true,
-                amount: parseUnits(mintInfo?.price || "0", 18),
-              },
-            }}
-            apiKey={process.env.NEXT_PUBLIC_DECENT_API_KEY as string}
-          />
+        <div className="w-full py-2">
+          <MintBox collection={collection} />
         </div>
       </Modal>
 
@@ -179,7 +151,7 @@ const NftCard = ({
             }`}
           >
             <p className="text-right font-thin text-xs hover:opacity-80">
-              {"∟"} Click to mint{" "}
+              {"∟"} {" "}
               <span className="font-thin font-medium">{collection?.name}</span>
             </p>
           </Link>

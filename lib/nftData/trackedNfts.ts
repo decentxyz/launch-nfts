@@ -12,7 +12,7 @@ interface ContractAddress {
   chainId: ChainId;
   source: "Zora" | "Anotherblock" | "ThirdWeb" | "Decent" | "Manifold" | "Highlight" | "Nfts2Me";
   price: string;
-  partner?: string;
+  artist?: string;
   startDate?: number;
   endDate?: number;
   maxTokens?: number;
@@ -31,10 +31,10 @@ export interface MintInfoProps {
 }
 
 export const trackedNfts: ContractAddress[] = [
-  // Layer Zero Partnership
-  { address: '0xE4e2f17E439eeB2345baE76B6A4F634c3A708015', chainId: ChainId.ARBITRUM, startDate: 1708952400, endDate: 1719720000, price: "0.00044", source: 'Decent', partner: 'Layer Zero'},
-  // Conduit Partnership
-  { address: '0x6e84581Ecf6FbfffAA309359EB067Ec2Df20e5B7', chainId: ChainId.OPTIMISM, startDate: 1708351200, endDate: 1719720000, price: "0.00044", source: 'Decent', partner: 'Conduit'},
+  // Layer Zero artistship
+  { address: '0xE4e2f17E439eeB2345baE76B6A4F634c3A708015', chainId: ChainId.ARBITRUM, startDate: 1708952400, endDate: 1719720000, price: "0.00044", source: 'Decent', artist: 'Layer Zero'},
+  // Conduit artistship
+  { address: '0x6e84581Ecf6FbfffAA309359EB067Ec2Df20e5B7', chainId: ChainId.OPTIMISM, startDate: 1708351200, endDate: 1719720000, price: "0.00044", source: 'Decent', artist: 'Conduit'},
   // Calderascope
-  { address: '0x903bc2Bd67a31aA628B18CaB56bbB33Cd7Ce2d5c', chainId: ChainId.ARBITRUM, startDate: 1705546800, endDate: 1719780374, price: "0.00044", source: 'Decent', partner: 'Caldera'},
+  { address: '0x903bc2Bd67a31aA628B18CaB56bbB33Cd7Ce2d5c', chainId: ChainId.ARBITRUM, startDate: 1705546800, endDate: 1719780374, price: "0.00044", source: 'Decent', artist: 'Caldera'},
 ];

@@ -8,12 +8,13 @@ import { getContractData } from '../lib/nftData/getContractData';
 import { trackedNfts } from '../lib/nftData/trackedNfts';
 import { Address } from 'viem';
 import { ChainId } from '@decent.xyz/box-common';
-import MintBox from '../components/NFTs/MintBox';
+import MintPreview from '../components/NFTs/MintPreview';
 
 const Home: NextPage = ({ contractData }: any) => {
   return (
     <FeaturedNftContextProvider>
       <Navbar />
+      <div className='sm:py-0 py-20'></div>
       <MainContent contractData={contractData} />
       <Footer nftData={contractData} />
     </FeaturedNftContextProvider>
@@ -33,10 +34,9 @@ const MainContent = ({ contractData }: any) => {
   return (
     <main className={`${styles.main} relative`} style={{ minHeight: '100vh' }}>
       {contractData && <>
-        <div className='py-[5vh] sm:py-0'></div>
         <FeaturedNftContainer nftData={sortedContractData} />
-        <div className='w-[350px] my-12 inline-block sm:hidden'>
-          <MintBox collection={activeNft} />
+        <div className='w-[350px] my-16 inline-block sm:hidden space-y-4'>
+          <MintPreview collection={activeNft} />
         </div>
       </>}
     </main>
