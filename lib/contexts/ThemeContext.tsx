@@ -14,7 +14,7 @@ interface Theme {
 
 export const ThemeContext = createContext<Theme>({
   dark: false,
-  setDark: () => false
+  setDark: () => true
 });
 
 export const ThemeContextProvider = ({ children }: { children: ReactNode }) => {

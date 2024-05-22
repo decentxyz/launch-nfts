@@ -91,11 +91,7 @@ const NftCard = ({
         <div className={`${styles.containerFlex} rounded-[6px] text-black`}>
           <Image
             className="rounded-md absolute w-full h-full object-cover"
-            src={
-              collection?.symbol === "DECENT"
-                ? "/nfts/decent-v2.gif"
-                : collection?.image || ""
-            }
+            src={ collection?.image || ""}
             width={400}
             height={400}
             alt=""
@@ -113,7 +109,7 @@ const NftCard = ({
                 <Link
                   href={`/mint/${collection?.chainId}/${collection?.primaryContract}`}
                 >
-                  <p className="text-6xl hover:text-primary cursor-pointer">
+                  <p className="text-6xl hover:opacity-80 cursor-pointer">
                     {collection?.name === "Human"
                       ? "RetroPGF"
                       : collection?.name}
@@ -162,11 +158,7 @@ const NftCard = ({
               >
                 <Image
                   className="absolute inset-0 w-full h-full object-cover"
-                  src={
-                    collection?.symbol === "DECENT"
-                      ? "/nfts/decent-v2.gif"
-                      : collection?.image || ""
-                  }
+                  src={collection?.image || ""}
                   width={400}
                   height={400}
                   alt="nft image"

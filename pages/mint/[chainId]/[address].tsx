@@ -14,7 +14,6 @@ import { EtherscanScan } from "../../../utils/logos";
 import { useState, useEffect } from 'react';
 import { convertTimestamp } from '../../../utils/convertTimestamp';
 import NumberTicker from '../../../components/NumberTicker';
-import { VideoDict } from '../../../lib/nftData/trackedNfts';
 import { getBlockscanner } from '../../../utils/blockscanners';
 import MintButton from '../../../components/MintButton';
 import { useThemeContext } from '../../../lib/contexts/ThemeContext';
@@ -56,7 +55,7 @@ const Mint: NextPage = (props: any) => {
     <div className='relative'>
       <MintNavbar address={address} />
 
-      <div className={`${styles.main} px-[24px] py-[12px] pt-[20vh] md:pt-0`}>
+      <div className={`${styles.main} px-[24px] py-[12px] mt-[20vh] md:pt-0`}>
         <div className={`flex md:flex-wrap flex-wrap-reverse md:gap-0 gap-12 md:h-[70vh]`}>
           
           <div className='md:w-1/2 pr-8 flex-col justify-between relative'>
@@ -114,12 +113,7 @@ const Mint: NextPage = (props: any) => {
           </div>
 
           <div className='md:w-1/2 w-full flex justify-center max-h-[500px] relative'>
-            {VideoDict[contractData[0].symbol as keyof typeof VideoDict] ? 
-              (contractData[0].symbol === "DECENT" ? 
-              <div className='w-fit mx-8'><video src={VideoDict[contractData[0].symbol as keyof typeof VideoDict]} controls className='rounded-md' /></div> :
-              <video src={VideoDict[contractData[0].symbol as keyof typeof VideoDict]} autoPlay loop muted className='rounded-md' />)
-              : <Image src={contractData[0].symbol === 'SWAP+' ?  '/nfts/enjoy-nft.png' : contractData[0].image} height={500} width={500} alt="nft image" className='rounded-md' />
-            }
+            <Image src={contractData[0].image} height={500} width={500} alt="nft image" className='rounded-md' />
           </div>
         </div>
         

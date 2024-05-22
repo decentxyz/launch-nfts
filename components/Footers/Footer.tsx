@@ -1,5 +1,4 @@
 import { useFeaturedNftContext } from "../../lib/contexts/FeaturedNftContext";
-import Link from "next/link";
 
 const Footer = (props: any) => {
   const { nftData } = props;
@@ -17,26 +16,23 @@ const Footer = (props: any) => {
       </div>
       {nftData && 
         <div className="flex justify-between pt-1">
-          <p className="w-1/5 text-primary">
+          <p className="w-1/5 text-red-600">
             {activeNft?.name}
           </p>
-          <p className="w-1/5 text-center text-primary">
+          <p className="w-1/5 text-center text-red-600">
             {parseInt(activeNft?.tokenCount).toLocaleString()}
           </p>
-          <p className="w-1/5 text-center text-primary hidden sm:inline-block">
+          <p className="w-1/5 text-center text-red-600 hidden sm:inline-block">
             {((activeNft?.ownerCount / parseInt(activeNft?.tokenCount))*100).toFixed(2)+ "%"}
           </p>
-          <p className="w-1/5 text-center text-primary hidden sm:inline-block">
+          <p className="w-1/5 text-center text-red-600 hidden sm:inline-block">
             {((parseInt(activeNft?.onSaleCount) / parseInt(activeNft?.tokenCount))*100).toFixed(2)+ "%"}
           </p>
-          <p className="w-1/5 text-right text-primary">
+          <p className="w-1/5 text-right text-red-600">
             {activeNft?.volume?.allTime?.toFixed(2).toLocaleString()} ETH
           </p>
         </div>
       }
-      <Link href="https://decent.xyz/" target="_blank">
-        <div className='absolute bottom-0 right-0'>⬛</div>
-      </Link>
     </div>
   </>
 }

@@ -1,5 +1,3 @@
-import Link from "next/link";
-
 const MintFooter = (props: any) => {
   const { contractData } = props;
 
@@ -33,9 +31,6 @@ const MintFooter = (props: any) => {
           </p>
         </div>
       }
-      <Link href="https://decent.xyz/" target="_blank">
-        <div className='absolute bottom-0 right-0'>⬛</div>
-      </Link>
     </div>
   </>
 }

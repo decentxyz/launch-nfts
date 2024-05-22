@@ -4,22 +4,22 @@ const Metadata = () => {
 
   return <>
     <Head>
-      <title>{"Launch Decent"}</title>
+      <title>{"Prohibition"}</title>
       <meta
         name="description"
-        content={"Mint NFTs from featured Decent partners. ⬛"}
+        content={"Prohibition Daily: fun, affordable mints every day."}
       />
-      <link rel="icon" href={"/images/decent-icon.png"} />
+      <link rel="icon" href={"/prohibition-icon.jpg"} />      
       <meta property='og:type' content="website" />
-      <meta property='og:url' content={"https://launch.decent.xyz/"} />
-      {/* <meta property='og:image' content={''} /> */}
-      <meta property='og:title' content={"Decent Launch"} />
-      <meta property='og:description' content={"Mint NFTs from featured Decent partners."} />
+      <meta property='og:url' content={"https://daily.prohibition.art/"} />
+      <meta property='og:image' content={'/prohibition-meta.png'} />
+      <meta property='og:title' content={"Prohibition Daily"} />
+      <meta property='og:description' content={"Prohibition Daily: fun, affordable mints every day."} />
       <meta name='twitter:card' content={"summary_large_image"} />
-      <meta name='twitter:url' content={"https://launch.decent.xyz"} />
-      <meta name='twitter:title' content={"Launch Decent"} />
-      <meta name='twitter:description' content={"Mint NFTs from featured Decent partners. ⬛"} />
-      {/* <meta name='twitter:image' content={''} /> */}
+      <meta name='twitter:url' content={"https://daily.prohibition.art/"} />
+      <meta name='twitter:title' content={"Prohibition Daily"} />
+      <meta name='twitter:description' content={"Prohibition Daily: fun, affordable mints every day."} />
+      <meta name='twitter:image' content={'/prohibition-meta.png'} />
     </Head>
   </>
 };

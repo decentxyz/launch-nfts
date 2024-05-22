@@ -9,6 +9,8 @@ import { getContractData } from '../lib/nftData/getContractData';
 import { trackedNfts } from '../lib/nftData/trackedNfts';
 import { Address } from 'viem';
 import { ChainId } from '@decent.xyz/box-common';
+import CountdownText from '../components/CountdownText';
+import { getEndOfDayDate } from '../lib/useCountdown';
 
 const Home: NextPage = ({ contractData }: any) => {
   function sortNFTsByMintedTimestamp(nfts: any) {
@@ -22,8 +24,9 @@ const Home: NextPage = ({ contractData }: any) => {
     <FeaturedNftContextProvider>
       <main className={`${styles.main} relative`} style={{ minHeight: '100vh' }} >
         <div className='flex w-full'>
-          <div className='w-full flex justify-end'>
-            <Link href="/all" className='text-right font-thin text-xs hover:text-primary pb-2'>View All {'→'}</Link>
+          <div className='w-full flex justify-between font-thin text-xs'>
+            <CountdownText dropTime={getEndOfDayDate()} />
+            <Link href="/all" className='text-right hover:text-primary pb-2'>View All {'→'}</Link>
           </div>
         </div>
         {contractData && <>
