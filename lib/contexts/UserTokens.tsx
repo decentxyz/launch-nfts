@@ -1,9 +1,10 @@
-import { 
-  useContext, 
-  createContext, 
-  ReactNode, 
+import {
+  useContext,
+  createContext,
+  ReactNode,
   useState,
-  useEffect
+  useEffect,
+  useCallback
 } from "react";
 import { useUsersBalances } from "@decent.xyz/box-hooks";
 import { ChainId, TokenInfo } from "@decent.xyz/box-common";
@@ -46,58 +47,57 @@ export const TokenContextProvider = ({ children }: { children: ReactNode }) => {
     chainId: ChainId.ETHEREUM,
     selectChains: [ChainId.ETHEREUM, ChainId.BASE, ChainId.ARBITRUM, ChainId.OPTIMISM, ChainId.POLYGON, ChainId.ZORA]
   });
-  
+
+  const calculateUsdBal = useCallback(async () => {
+    setLoadingPrice(true);
+    setPriceError(false);
+
+    try {
+      const usdPrices = await Promise.all(
+        userTokens.map(token => getUsdPrice({
+          chainId: token.chainId,
+          tokenAddress: token.address
+        }))
+      );
+
+      let totalUsdBal = 0;
+      const updatedTokens = userTokens.map((token, index) => {
+        const usdValue =
+          typeof token.balanceFloat === 'number' &&
+            typeof usdPrices[index] === 'number' ?
+            token.balanceFloat * usdPrices[index] : 0;
+        totalUsdBal += usdValue;
+        return {
+          ...token,
+          usdValue
+        };
+      });
+
+      setTotalUsdBalance(totalUsdBal);
+      setFullTokens(updatedTokens);
+    } catch (err) {
+      setPriceError(true);
+    } finally {
+      setLoadingPrice(false);
+    }
+  }, [userTokens]);
+
   useEffect(() => {
-    const calculateUsdBal = async () => {
-      setLoadingPrice(true);
-      setPriceError(false);
-
-      try {
-        const usdPrices = await Promise.all(
-          userTokens.map(token => getUsdPrice({
-            chainId: token.chainId, 
-            tokenAddress: token.address
-          }))
-        );
-
-        let totalUsdBal = 0;
-        const updatedTokens = userTokens.map((token, index) => {
-          const usdValue = 
-            typeof token.balanceFloat === 'number' && 
-            typeof usdPrices[index] === 'number' ?  
-              token.balanceFloat * usdPrices[index] : 0;
-          totalUsdBal += usdValue;
-            return {
-              ...token,
-              usdValue
-            };
-        });
-
-        updatedTokens.filter(token => token.usdValue === undefined)
-        setTotalUsdBalance(totalUsdBal);
-        setFullTokens(updatedTokens);
-      } catch (err) {
-        setPriceError(true);
-      } finally {
-        setLoadingPrice(false);
-      }
-    };
-
     if (userTokens.length > 0) {
       calculateUsdBal();
     } else {
       setLoadingPrice(false);
     }
-  }, [userTokens, address]);
+  }, [calculateUsdBal]);
 
   return (
-    <TokenContext.Provider value={{ 
-      tokens: fullTokens, 
-      totalUsdBalance, 
-      loadingPrice, 
-      priceError, 
-      loadingTokens: isLoading, 
-      tokensError: !!error 
+    <TokenContext.Provider value={{
+      tokens: fullTokens,
+      totalUsdBalance,
+      loadingPrice,
+      priceError,
+      loadingTokens: isLoading,
+      tokensError: !!error
     }}>
       {children}
     </TokenContext.Provider>

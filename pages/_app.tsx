@@ -10,27 +10,16 @@ import { SearchContextProvider } from "../lib/contexts/SearchContext";
 import { ThemeContextProvider, useThemeContext } from "../lib/contexts/ThemeContext";
 import { TokenContextProvider } from "../lib/contexts/UserTokens";
 import { BoxHooksContextProvider } from "@decent.xyz/box-hooks";
-
+import { wagmiConfig } from "../lib/wagmiConfig";
 import {
-  getDefaultConfig,
   RainbowKitProvider,
   lightTheme
 } from '@rainbow-me/rainbowkit';
 import { WagmiProvider } from 'wagmi';
 import {
-  mainnet,
-  polygon,
-  optimism,
-  arbitrum,
-  base,
-  zora
-} from 'wagmi/chains';
-import {
   QueryClientProvider,
   QueryClient,
 } from "@tanstack/react-query";
-
-import { Chain } from 'viem';
 
 const myBoxTheme = {
   mainBgColor: "#FFFFFF",
@@ -38,13 +27,6 @@ const myBoxTheme = {
   boxDialogBgColor: '#FFFFFF',
   boxLoadingBadgeColor: '#F0EFEF'
 }
-
-const wagmiConfig = getDefaultConfig({
-  appName: 'Launch NFTs',
-  projectId: process.env.NEXT_PUBLIC_WALLETCONNECT_ID as string,
-  chains: [mainnet, polygon, optimism, arbitrum, base, zora] as unknown as readonly [Chain, ...Chain[]],
-  ssr: true, // If your dApp uses server side rendering (SSR)
-});
 
 const queryClient = new QueryClient();
 

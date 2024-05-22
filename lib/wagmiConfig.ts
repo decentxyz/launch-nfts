@@ -1,28 +1,14 @@
-import { createConfig } from 'wagmi';
-import { http, Chain } from 'viem';
-import {
-  mainnet,
-  optimism,
-  arbitrum,
-  base,
-  zora,
-  polygon,
-  zkSync,
-} from 'wagmi/chains';
+import { getDefaultConfig } from '@rainbow-me/rainbowkit'
+import { wagmiSetup } from '@decent.xyz/box-common';
+import { mainnet, zora, optimism, base, arbitrum } from "wagmi/chains";
+import { Chain } from 'viem';
 
-export const chains = [
-  mainnet,
-  optimism,
-  arbitrum,
-  polygon,
-  base,
-  zora,
-  zkSync,
-] as unknown as readonly [Chain, ...Chain[]];
+const { transports } = wagmiSetup;
 
-export const transports = chains.reduce((a: any, c: Chain) => {
-  a[c.id] = http();
-  return a;
-}, {});
-
-export const wagmiConfig = createConfig({ chains, transports });
+export const wagmiConfig = getDefaultConfig({
+  appName: 'Launch Decent',
+  projectId: process.env.NEXT_PUBLIC_WALLETCONNECT_ID,
+  chains: [mainnet, zora, optimism, base, arbitrum] as unknown as readonly [Chain, ...Chain[]],
+  transports,
+  ssr: true,
+});
