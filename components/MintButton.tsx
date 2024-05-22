@@ -1,4 +1,7 @@
-import { Address, zeroAddress } from "viem";
+import "@decent.xyz/box-ui/index.css";
+import { useState, useEffect, useCallback, useMemo, useReducer } from "react";
+import Image from "next/image";
+
 import {
   ChainId,
   ActionType,
@@ -12,26 +15,22 @@ import {
   ethGasToken,
 } from "@decent.xyz/box-common";
 import { ClientRendered, ChainIcon } from "@decent.xyz/box-ui";
-import { useChainActions } from "@decent.xyz/box-hooks";
-import { BalanceSelector } from "./BalanceSelector";
-import "@decent.xyz/box-ui/index.css";
 import { BoxHooksContextProvider } from "@decent.xyz/box-hooks";
+
+import { Address, zeroAddress, formatUnits } from "viem";
 import { useAccount } from "wagmi";
 import { sendTransaction, switchChain, getBalance } from "@wagmi/core";
-import Image from "next/image";
-import { useState, useEffect, useCallback, useMemo, useReducer } from "react";
 import { toast } from "react-toastify";
-import DropDownIcon from "./DropdownIcon";
-import { formatUnits } from "viem";
-import LoadingSpinner from "./Spinner";
 
+import DropDownIcon from "./DropdownIcon";
+import LoadingSpinner from "./Spinner";
+import { BalanceSelector } from "./BalanceSelector";
 import {
   approveTokenHandler,
   checkForApproval,
 } from "../lib/mint/tokenApproval";
 import { wagmiConfig } from "../lib/wagmiConfig";
 import { useTokenContext } from "../lib/contexts/UserTokens";
-
 import { generateResponse } from "../lib/mint/getTx";
 
 interface BoxActionRequest {
@@ -96,11 +95,23 @@ function mintReducer(state: MintStateType, action: MintAction): MintStateType {
     case "SET_CONFIG":
       return { ...state, config: action.payload, state: MintState.LOADING };
     case "SET_ACTIVE_TX":
-      return { ...state, activeTx: action.payload, state: MintState.READY_TO_MINT };
+      return {
+        ...state,
+        activeTx: action.payload,
+        state: action.payload ? MintState.READY_TO_MINT : state.state,
+      };
     case "SET_APPROVAL":
-      return { ...state, needsApproval: action.payload, state: action.payload ? MintState.NEEDS_APPROVAL : MintState.READY_TO_MINT };
+      return {
+        ...state,
+        needsApproval: action.payload,
+        state: state.sufficientBalance && action.payload ? MintState.NEEDS_APPROVAL : state.state,
+      };
     case "SET_BALANCE":
-      return { ...state, sufficientBalance: action.payload, state: action.payload ? MintState.READY_TO_MINT : MintState.INSUFFICIENT_BALANCE };
+      return {
+        ...state,
+        sufficientBalance: action.payload,
+        state: !action.payload ? MintState.INSUFFICIENT_BALANCE : state.needsApproval ? MintState.NEEDS_APPROVAL : state.state,
+      };
     case "SET_LOADING":
       return { ...state, loading: action.payload, state: action.payload ? MintState.LOADING : state.state };
     case "MINT":
@@ -125,7 +136,6 @@ export default function MintButton({
 }) {
   const { chain } = useAccount();
   const tokenBalances = useTokenContext();
-  const { approveToken, confirmTransaction } = useChainActions();
   const [state, dispatch] = useReducer(mintReducer, initialState);
 
   const [showBalanceSelector, setShowBalanceSelector] = useState(false);
@@ -145,6 +155,7 @@ export default function MintButton({
 
   useEffect(() => {
     const init = async () => {
+      console.log("Updating config", state.config);
       if (account && state.config) {
         dispatch({ type: "SET_LOADING", payload: true });
         try {
@@ -156,6 +167,7 @@ export default function MintButton({
               user: account,
               srcChainId: state.config.srcChainId,
             });
+            console.log("Requires token approval...");
             dispatch({ type: "SET_APPROVAL", payload: needsApproval });
           }
         } catch (e) {
@@ -188,6 +200,7 @@ export default function MintButton({
             ? Number(formattedEthBalance) > Number(requiredAmount)
             : Number(formatUnits(srcToken.balance, srcToken.decimals)) > Number(requiredAmount) && Number(formattedEthBalance) > 0.0004;
 
+        console.log("Sufficient balance? ", sufficient);
         dispatch({ type: "SET_BALANCE", payload: sufficient });
       }
     };
@@ -258,7 +271,7 @@ export default function MintButton({
 
   const isButtonDisabled = useMemo(
     () => state.loading || !state.sufficientBalance || !state.activeTx,
-    [state.loading, state.sufficientBalance, state.activeTx, state.needsApproval]
+    [state.loading, state.sufficientBalance, state.activeTx]
   );
 
   const buttonLabel = useMemo(() => {

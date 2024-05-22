@@ -4,7 +4,8 @@ import {
   ReactNode,
   useState,
   useEffect,
-  useCallback
+  useCallback,
+  useMemo,
 } from "react";
 import { useUsersBalances } from "@decent.xyz/box-hooks";
 import { ChainId, TokenInfo } from "@decent.xyz/box-common";
@@ -45,32 +46,41 @@ export const TokenContextProvider = ({ children }: { children: ReactNode }) => {
   const { tokens: userTokens = [], isLoading, error } = useUsersBalances({
     address,
     chainId: ChainId.BASE,
-    selectChains: [ChainId.ETHEREUM, ChainId.BASE, ChainId.ARBITRUM, ChainId.OPTIMISM, ChainId.ZORA]
+    selectChains: [
+      ChainId.ETHEREUM,
+      ChainId.BASE,
+      ChainId.ARBITRUM,
+      ChainId.OPTIMISM,
+      ChainId.ZORA,
+    ],
   });
 
   const calculateUsdBal = useCallback(async () => {
     setLoadingPrice(true);
     setPriceError(false);
-    console.log('tokens running...')
+    console.log('tokens running...');
 
     try {
       const usdPrices = await Promise.all(
-        userTokens.map(token => getUsdPrice({
-          chainId: token.chainId,
-          tokenAddress: token.address
-        }))
+        userTokens.map(token =>
+          getUsdPrice({
+            chainId: token.chainId,
+            tokenAddress: token.address,
+          })
+        )
       );
 
       let totalUsdBal = 0;
       const updatedTokens = userTokens.map((token, index) => {
         const usdValue =
-          typeof token.balanceFloat === 'number' &&
-            typeof usdPrices[index] === 'number' ?
-            token.balanceFloat * usdPrices[index] : 0;
+          typeof token.balanceFloat === "number" &&
+          typeof usdPrices[index] === "number"
+            ? token.balanceFloat * usdPrices[index]
+            : 0;
         totalUsdBal += usdValue;
         return {
           ...token,
-          usdValue
+          usdValue,
         };
       });
 
@@ -84,25 +94,30 @@ export const TokenContextProvider = ({ children }: { children: ReactNode }) => {
   }, [userTokens]);
 
   useEffect(() => {
-    if (userTokens.length > 0) {
+    if (address && userTokens.length > 0) {
       calculateUsdBal();
     } else {
       setLoadingPrice(false);
     }
-  }, [calculateUsdBal]);
+  }, [address, userTokens, calculateUsdBal]);
 
-  return (
-    <TokenContext.Provider value={{
+  const contextValue = useMemo(
+    () => ({
       tokens: fullTokens,
       totalUsdBalance,
       loadingPrice,
       priceError,
       loadingTokens: isLoading,
-      tokensError: !!error
-    }}>
+      tokensError: !!error,
+    }),
+    [fullTokens, totalUsdBalance, loadingPrice, priceError, isLoading, error]
+  );
+
+  return (
+    <TokenContext.Provider value={contextValue}>
       {children}
     </TokenContext.Provider>
   );
-}
+};
 
 export const useTokenContext = () => useContext(TokenContext);
