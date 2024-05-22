@@ -122,7 +122,5 @@ export const approveTokenHandler = async ({
     amount,
     wagmiConfig
   }, srcChainId);
-
-  console.log('token approval receipt ✅', approveTxHash);
   return approveTxHash;
 };

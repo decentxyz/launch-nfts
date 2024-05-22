@@ -44,13 +44,14 @@ export const TokenContextProvider = ({ children }: { children: ReactNode }) => {
   const { address } = useAccount();
   const { tokens: userTokens = [], isLoading, error } = useUsersBalances({
     address,
-    chainId: ChainId.ETHEREUM,
-    selectChains: [ChainId.ETHEREUM, ChainId.BASE, ChainId.ARBITRUM, ChainId.OPTIMISM, ChainId.POLYGON, ChainId.ZORA]
+    chainId: ChainId.BASE,
+    selectChains: [ChainId.ETHEREUM, ChainId.BASE, ChainId.ARBITRUM, ChainId.OPTIMISM, ChainId.ZORA]
   });
 
   const calculateUsdBal = useCallback(async () => {
     setLoadingPrice(true);
     setPriceError(false);
+    console.log('tokens running...')
 
     try {
       const usdPrices = await Promise.all(

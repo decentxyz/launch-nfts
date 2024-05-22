@@ -19,7 +19,7 @@ import { BoxHooksContextProvider } from "@decent.xyz/box-hooks";
 import { useAccount } from "wagmi";
 import { sendTransaction, switchChain, getBalance } from "@wagmi/core";
 import Image from "next/image";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo, useReducer } from "react";
 import { toast } from "react-toastify";
 import DropDownIcon from "./DropdownIcon";
 import { formatUnits } from "viem";
@@ -54,6 +54,66 @@ type BoxActionResponse = {
   relayInfo?: RelayInfo;
 };
 
+enum MintState {
+  IDLE,
+  LOADING,
+  NEEDS_APPROVAL,
+  READY_TO_MINT,
+  INSUFFICIENT_BALANCE,
+  MINTING,
+  MINTED,
+}
+
+type MintAction =
+  | { type: "SET_CONFIG"; payload: BoxActionRequest }
+  | { type: "SET_ACTIVE_TX"; payload: BoxActionResponse }
+  | { type: "SET_APPROVAL"; payload: boolean }
+  | { type: "SET_BALANCE"; payload: boolean }
+  | { type: "SET_LOADING"; payload: boolean }
+  | { type: "MINT" }
+  | { type: "APPROVE" }
+  | { type: "SET_TX_HASH"; payload: string };
+
+interface MintStateType {
+  state: MintState;
+  config?: BoxActionRequest;
+  activeTx?: BoxActionResponse;
+  needsApproval: boolean;
+  sufficientBalance: boolean;
+  loading: boolean;
+  txHash?: string;
+}
+
+const initialState: MintStateType = {
+  state: MintState.IDLE,
+  needsApproval: false,
+  sufficientBalance: true,
+  loading: false,
+};
+
+function mintReducer(state: MintStateType, action: MintAction): MintStateType {
+  switch (action.type) {
+    case "SET_CONFIG":
+      return { ...state, config: action.payload, state: MintState.LOADING };
+    case "SET_ACTIVE_TX":
+      return { ...state, activeTx: action.payload, state: MintState.READY_TO_MINT };
+    case "SET_APPROVAL":
+      return { ...state, needsApproval: action.payload, state: action.payload ? MintState.NEEDS_APPROVAL : MintState.READY_TO_MINT };
+    case "SET_BALANCE":
+      return { ...state, sufficientBalance: action.payload, state: action.payload ? MintState.READY_TO_MINT : MintState.INSUFFICIENT_BALANCE };
+    case "SET_LOADING":
+      return { ...state, loading: action.payload, state: action.payload ? MintState.LOADING : state.state };
+    case "MINT":
+      return { ...state, state: MintState.MINTING };
+    case "APPROVE":
+      return { ...state, state: MintState.NEEDS_APPROVAL };
+    case "SET_TX_HASH":
+      return { ...state, txHash: action.payload, state: MintState.MINTED };
+    default:
+      return state;
+  }
+}
+
 export default function MintButton({
   mintConfig,
   account,
@@ -66,131 +126,114 @@ export default function MintButton({
   const { chain } = useAccount();
   const tokenBalances = useTokenContext();
   const { approveToken, confirmTransaction } = useChainActions();
+  const [state, dispatch] = useReducer(mintReducer, initialState);
 
   const [showBalanceSelector, setShowBalanceSelector] = useState(false);
-  const [requireApproval, setRequireApproval] = useState(false);
-  const [ethBalance, setEthBalance] = useState("");
-  const [sufficientBalance, setSufficientBalance] = useState(true);
-  const [txHash, setTxHash] = useState("");
   const [srcToken, setSrcToken] = useState<TokenInfo | any>(ethGasToken);
-  const [txConfig, setTxConfig] = useState<BoxActionRequest>();
-  const [activeTx, setActiveTx] = useState<BoxActionResponse>();
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    setTxConfig({
-      ...mintConfig,
-      srcToken: srcToken.address as Address,
-      srcChainId: srcToken.chainId,
-      dstToken: dstTokenAddress,
+    dispatch({
+      type: "SET_CONFIG",
+      payload: {
+        ...mintConfig,
+        srcToken: srcToken.address as Address,
+        srcChainId: srcToken.chainId,
+        dstToken: dstTokenAddress,
+      },
     });
   }, [dstTokenAddress, mintConfig, srcToken]);
 
   useEffect(() => {
     const init = async () => {
-      if (account && txConfig) {
-        setLoading(true);
+      if (account && state.config) {
+        dispatch({ type: "SET_LOADING", payload: true });
         try {
-          const { response } = await generateResponse({ txConfig, account });
+          const { response } = await generateResponse({ txConfig: state.config, account });
           if (response?.tx) {
-            setActiveTx(response);
+            dispatch({ type: "SET_ACTIVE_TX", payload: response });
             const needsApproval = await checkForApproval({
               boxActionResponse: response,
               user: account,
-              srcChainId: txConfig.srcChainId,
+              srcChainId: state.config.srcChainId,
             });
-            setRequireApproval(needsApproval);
+            dispatch({ type: "SET_APPROVAL", payload: needsApproval });
           }
         } catch (e) {
           console.log("Error getting tx response", e);
-          setActiveTx(undefined);
+          dispatch({ type: "SET_ACTIVE_TX", payload: undefined });
         } finally {
-          setLoading(false);
+          dispatch({ type: "SET_LOADING", payload: false });
         }
       } else {
-        setLoading(false);
+        dispatch({ type: "SET_LOADING", payload: false });
       }
     };
 
     init();
-  }, [account, txConfig]);
+  }, [account, state.config]);
 
   useEffect(() => {
-    async function loadBalance() {
-      if (account && chain && activeTx) {
+    const loadBalance = async () => {
+      if (account && chain && state.activeTx) {
         const balance = await getBalance(wagmiConfig, {
           address: account,
           chainId: srcToken.chainId,
           unit: "ether",
         });
-        const formattedEthBalance = formatUnits(
-          balance.value,
-          balance.decimals
-        );
-        
-        const requiredAmount = formatUnits(activeTx.tokenPayment.amount, activeTx.tokenPayment.decimals);
+        const formattedEthBalance = formatUnits(balance.value, balance.decimals);
+        const requiredAmount = formatUnits(state.activeTx.tokenPayment.amount, state.activeTx.tokenPayment.decimals);
 
-        if (srcToken.address === zeroAddress) {
-          const check = Number(formattedEthBalance) > Number(requiredAmount);
-          setSufficientBalance(check);
-        } else if (srcToken && srcToken.balance) {
-          const formattedTokenBalance = formatUnits(
-            srcToken.balance,
-            srcToken.decimals
-          );
-          const check = 
-            Number(formattedTokenBalance) > Number(requiredAmount) && 
-            Number(formattedEthBalance) > 0.0004;
-          setSufficientBalance(check);
-        }
+        const sufficient =
+          srcToken.address === zeroAddress
+            ? Number(formattedEthBalance) > Number(requiredAmount)
+            : Number(formatUnits(srcToken.balance, srcToken.decimals)) > Number(requiredAmount) && Number(formattedEthBalance) > 0.0004;
+
+        dispatch({ type: "SET_BALANCE", payload: sufficient });
       }
-    }
+    };
+
     loadBalance();
-  }, [account, chain, mintConfig.actionConfig.cost?.amount, srcToken]);
+  }, [account, chain, srcToken, state.activeTx]);
 
   const runApproval = useCallback(async () => {
-    setLoading(true);
+    dispatch({ type: "SET_LOADING", payload: true });
     try {
-      if (txConfig && chain?.id !== srcToken.chainId) {
+      if (state.config && chain?.id !== srcToken.chainId) {
         await switchChain(wagmiConfig, { chainId: srcToken.chainId });
       }
-      if (activeTx && activeTx.tokenPayment) {
+      if (state.activeTx && state.activeTx.tokenPayment) {
         const hash = await approveTokenHandler({
-          boxActionResponse: activeTx,
+          boxActionResponse: state.activeTx,
           userAddress: account!,
-          srcChainId: srcToken.chainId
+          srcChainId: srcToken.chainId,
         });
-        setRequireApproval(false);
+        dispatch({ type: "SET_APPROVAL", payload: false });
         console.log("Approved tx hash: ", hash);
       }
     } catch (e) {
       console.error("Error approving token", e);
     } finally {
-      setLoading(false);
-      // toast.success('Token Approved.');
+      dispatch({ type: "SET_LOADING", payload: false });
     }
-  }, [txConfig, chain?.id, srcToken.chainId, activeTx, account]);
+  }, [state.config, chain?.id, srcToken.chainId, state.activeTx, account]);
 
   const runTx = useCallback(async () => {
-    setLoading(true);
+    dispatch({ type: "SET_LOADING", payload: true });
     try {
-      if (txConfig && chain?.id !== txConfig.srcChainId) {
-        await switchChain(wagmiConfig, { chainId: txConfig.srcChainId });
+      if (state.config && chain?.id !== state.config.srcChainId) {
+        await switchChain(wagmiConfig, { chainId: state.config.srcChainId });
       }
-      if (txConfig && chain?.id === txConfig.srcChainId) {
-        if (activeTx) {
-          const hash = await sendTransaction(
-            wagmiConfig,
-            activeTx.tx as EvmTransaction
-          );
-          setTxHash(hash);
+      if (state.config && chain?.id === state.config.srcChainId) {
+        if (state.activeTx) {
+          const hash = await sendTransaction(wagmiConfig, state.activeTx.tx as EvmTransaction);
+          dispatch({ type: "SET_TX_HASH", payload: hash });
           toast.success(
             <>
               Minted!
               <a
                 className="underline hover:opacity-80"
                 target="_blank"
-                href={`https://www.decentscan.xyz/?chainId=${txConfig.srcChainId}&txHash=${hash}`}
+                href={`https://www.decentscan.xyz/?chainId=${state.config.srcChainId}&txHash=${hash}`}
               >
                 View transaction status.
               </a>
@@ -201,9 +244,9 @@ export default function MintButton({
     } catch (e) {
       console.error("Error executing transaction", e);
     } finally {
-      setLoading(false);
+      dispatch({ type: "SET_LOADING", payload: false });
     }
-  }, [txConfig, chain?.id, activeTx]);
+  }, [state.config, chain?.id, state.activeTx]);
 
   const handleApproval = useCallback(() => {
     runApproval();
@@ -213,61 +256,37 @@ export default function MintButton({
     runTx();
   }, [runTx]);
 
+  const isButtonDisabled = useMemo(
+    () => state.loading || !state.sufficientBalance || !state.activeTx,
+    [state.loading, state.sufficientBalance, state.activeTx, state.needsApproval]
+  );
+
+  const buttonLabel = useMemo(() => {
+    if (state.loading) return <LoadingSpinner />;
+    if (state.state === MintState.INSUFFICIENT_BALANCE) return "Insufficient Balance";
+    if (state.state === MintState.NEEDS_APPROVAL) return "Approve Token";
+    return "Mint";
+  }, [state.loading, state.state]);
+
   return (
     <ClientRendered>
-      <BoxHooksContextProvider
-        apiKey={process.env.NEXT_PUBLIC_DECENT_API_KEY as string}
-      >
+      <BoxHooksContextProvider apiKey={process.env.NEXT_PUBLIC_DECENT_API_KEY as string}>
         <div className="flex items-center gap-4 relative">
-          {requireApproval ? (
-            <button
-              disabled={loading || !activeTx}
-              onClick={handleApproval}
-              className={`${
-                loading || !activeTx
-                  ? "bg-gray-200 text-black"
-                  : "bg-black text-white hover:opacity-80"
-              } w-full py-2 rounded-full`}
-            >
-              {loading ? <LoadingSpinner /> : "Approve Token"}
-            </button>
-          ) : (
-            <button
-              disabled={
-                loading || requireApproval || !sufficientBalance || !activeTx
-              }
-              onClick={handleRunTx}
-              className={`${
-                loading || !sufficientBalance || !activeTx
-                  ? "bg-gray-200 text-black"
-                  : "bg-black text-white hover:opacity-80"
-              } w-full py-2 rounded-full`}
-            >
-              {loading ? (
-                <LoadingSpinner />
-              ) : !sufficientBalance ? (
-                "Insufficient Balance"
-              ) : (
-                "Mint"
-              )}
-            </button>
-          )}
+          <button
+            disabled={isButtonDisabled}
+            onClick={state.needsApproval ? handleApproval : handleRunTx}
+            className={`${isButtonDisabled ? "bg-gray-200 text-black" : "bg-black text-white hover:opacity-80"} w-full py-2 rounded-full`}
+          >
+            {buttonLabel}
+          </button>
           <div className="relative flex items-center gap-4">
             <div
               onClick={() => setShowBalanceSelector(!showBalanceSelector)}
               className="rounded-full border border-black py-1 px-2 bg-white flex items-center hover:opacity-80 cursor-pointer"
             >
               <div className="box-relative box-w-[30px] box-h-[30px] box-mr-[8px] box-flex box-items-center">
-                <Image
-                  src={srcToken.logo!}
-                  width={24}
-                  height={24}
-                  alt="token-logo"
-                />
-                <ChainIcon
-                  chainId={srcToken.chainId}
-                  className="box-absolute box-right-0 box-bottom-0"
-                />
+                <Image src={srcToken.logo!} width={24} height={24} alt="token-logo" />
+                <ChainIcon chainId={srcToken.chainId} className="box-absolute box-right-0 box-bottom-0" />
               </div>
               <DropDownIcon />
             </div>
