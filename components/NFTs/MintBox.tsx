@@ -1,5 +1,5 @@
 import { useState } from "react";
-import MintButton from "../MintButton";
+import MintButton from "./MintButton";
 import { zeroAddress, parseUnits } from "viem";
 import { useAccount } from "wagmi";
 import { ChainId, ActionType } from "@decent.xyz/box-common";
@@ -14,7 +14,7 @@ const MintBox = ({ collection }: { collection: any }) => {
   const mintInfo =
   address && getMintInfo(collection.primaryContract, quantity, address);
 
-  const endDate = new Date(mintInfo?.endDate * 1000);
+  const endDate = new Date(mintInfo?.day * 1000);
 
   return <div className="bg-white p-4 rounded-lg space-y-4">
     <div className="flex justify-between">

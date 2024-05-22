@@ -2,18 +2,18 @@ import NftCard from "./NftCard";
 import styles from '../../styles/nfts.module.css';
 import { useState } from 'react';
 import { useFeaturedNftContext } from "../../lib/contexts/FeaturedNftContext";
-import { useSearchContext } from "../../lib/contexts/SearchContext";
+// import { useSearchContext } from "../../lib/contexts/SearchContext";
 import { useRunSearch } from "../../lib/runSearch";
 import { trackedNfts } from "../../lib/nftData/trackedNfts";
 import Link from "next/link";
 
 const FeaturedNftContainer = ({ nftData }: any) => {
   const { middleIndex, setMiddleIndex } = useFeaturedNftContext();
-  const { search } = useSearchContext();
+  // const { search } = useSearchContext();
   const [sortedNftData, setSortedNftData] = useState(nftData);
 
   const activeNft = trackedNfts.filter(nft => nft.address.toLowerCase() === sortedNftData[middleIndex]?.primaryContract.toLowerCase());
-  const nftDate = new Date(activeNft[0].endDate * 1000);
+  const nftDate = new Date(activeNft[0].day * 1000);
   const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
   const formattedDate = nftDate.toLocaleDateString('en-US', options);
 

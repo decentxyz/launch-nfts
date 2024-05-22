@@ -10,6 +10,7 @@ export interface ParamProps {
 interface ContractAddress {
   address: Address;
   chainId: ChainId;
+  day: number;
   source: "Zora" | "Anotherblock" | "ThirdWeb" | "Decent" | "Manifold" | "Highlight" | "Nfts2Me";
   price: string;
   artist?: string;
@@ -28,13 +29,10 @@ export interface MintInfoProps {
   endDate?: number;
   maxTokens?: number;
   price: string;
+  day: number;
 }
 
 export const trackedNfts: ContractAddress[] = [
-  // Layer Zero artistship
-  { address: '0xE4e2f17E439eeB2345baE76B6A4F634c3A708015', chainId: ChainId.ARBITRUM, startDate: 1708952400, endDate: 1719720000, price: "0.00044", source: 'Decent', artist: 'Layer Zero'},
-  // Conduit artistship
-  { address: '0x6e84581Ecf6FbfffAA309359EB067Ec2Df20e5B7', chainId: ChainId.OPTIMISM, startDate: 1708351200, endDate: 1719720000, price: "0.00044", source: 'Decent', artist: 'Conduit'},
-  // Calderascope
-  { address: '0x903bc2Bd67a31aA628B18CaB56bbB33Cd7Ce2d5c', chainId: ChainId.ARBITRUM, startDate: 1705546800, endDate: 1719780374, price: "0.00044", source: 'Decent', artist: 'Caldera'},
+  // Amber
+  { address: '0xe223dF3cF0953048eb3c575abcD81818C9ea74B8', chainId: ChainId.BASE, startDate: 0, endDate: 4294967295, price: "0.00124", source: 'Decent', artist: 'Amber Vittoria', day: 1716447599},
 ];

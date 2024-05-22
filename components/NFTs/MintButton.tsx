@@ -22,16 +22,16 @@ import { useAccount } from "wagmi";
 import { sendTransaction, switchChain, getBalance } from "@wagmi/core";
 import { toast } from "react-toastify";
 
-import DropDownIcon from "./DropdownIcon";
-import LoadingSpinner from "./Spinner";
-import { BalanceSelector } from "./BalanceSelector";
+import DropDownIcon from "../DropdownIcon";
+import LoadingSpinner from "../Spinner";
+import { BalanceSelector } from "../BalanceSelector";
 import {
   approveTokenHandler,
   checkForApproval,
-} from "../lib/mint/tokenApproval";
-import { wagmiConfig } from "../lib/wagmiConfig";
-import { useTokenContext } from "../lib/contexts/UserTokens";
-import { generateResponse } from "../lib/mint/getTx";
+} from "../../lib/mint/tokenApproval";
+import { wagmiConfig } from "../../lib/wagmiConfig";
+import { useTokenContext } from "../../lib/contexts/UserTokens";
+import { generateResponse } from "../../lib/mint/getTx";
 
 interface BoxActionRequest {
   sender: Address;
