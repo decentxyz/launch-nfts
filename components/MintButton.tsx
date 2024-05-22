@@ -155,7 +155,6 @@ export default function MintButton({
 
   useEffect(() => {
     const init = async () => {
-      console.log("Updating config", state.config);
       if (account && state.config) {
         dispatch({ type: "SET_LOADING", payload: true });
         try {
@@ -199,8 +198,6 @@ export default function MintButton({
           srcToken.address === zeroAddress
             ? Number(formattedEthBalance) > Number(requiredAmount)
             : Number(formatUnits(srcToken.balance, srcToken.decimals)) > Number(requiredAmount) && Number(formattedEthBalance) > 0.0004;
-
-        console.log("Sufficient balance? ", sufficient);
         dispatch({ type: "SET_BALANCE", payload: sufficient });
       }
     };
@@ -297,8 +294,8 @@ export default function MintButton({
               onClick={() => setShowBalanceSelector(!showBalanceSelector)}
               className="rounded-full border border-black py-1 px-2 bg-white flex items-center hover:opacity-80 cursor-pointer"
             >
-              <div className="box-relative box-w-[30px] box-h-[30px] box-mr-[8px] box-flex box-items-center">
-                <Image src={srcToken.logo!} width={24} height={24} alt="token-logo" />
+              <div className="box-relative box-w-[24px] box-h-[24px] box-mr-[8px] box-flex box-items-center">
+                <Image src={srcToken.logo!} width={20} height={20} alt="token-logo" />
                 <ChainIcon chainId={srcToken.chainId} className="box-absolute box-right-0 box-bottom-0" />
               </div>
               <DropDownIcon />
@@ -306,7 +303,7 @@ export default function MintButton({
             {showBalanceSelector && tokenBalances && (
               <div className="absolute bottom-full right-0 z-10">
                 <BalanceSelector
-                  className="bg-white text-sm font-sans drop-shadow-lg max-h-96 overflow-y-scroll mb-2"
+                  className="bg-white text-sm font-sans drop-shadow-lg max-h-96 overflow-y-scroll mb-2 text-black"
                   setSelectedToken={(tokeninfo: TokenInfo) => {
                     setSrcToken(tokeninfo);
                     setShowBalanceSelector(false);

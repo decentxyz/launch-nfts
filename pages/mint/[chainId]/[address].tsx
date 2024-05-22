@@ -8,14 +8,11 @@ import MintFooter from '../../../components/Footers/MintFooter';
 import { getMintInfo } from "../../../lib/nftData/getMintInfo";
 import { MintInfoProps } from '../../../utils/types';
 import { useAccount } from "wagmi";
-import { ActionType, ChainId } from '@decent.xyz/box-common';
-import { parseUnits, zeroAddress } from "viem";
 import { EtherscanScan } from "../../../utils/logos";
 import { useState, useEffect } from 'react';
 import { convertTimestamp } from '../../../utils/convertTimestamp';
-import NumberTicker from '../../../components/NumberTicker';
+import MintBox from '../../../components/NFTs/MintBox';
 import { getBlockscanner } from '../../../utils/blockscanners';
-import MintButton from '../../../components/MintButton';
 
 const Mint: NextPage = (props: any) => {
   const {
@@ -53,8 +50,8 @@ const Mint: NextPage = (props: any) => {
     <div className='relative'>
       <MintNavbar address={address} />
 
-      <div className={`${styles.main} px-[24px] py-[12px] mt-[20vh] md:pt-0`}>
-        <div className={`flex md:flex-wrap flex-wrap-reverse md:gap-0 gap-12 md:h-[70vh]`}>
+      <div className={`${styles.main} py-[12px] md:pt-0 w-full`}>
+        <div className={`flex md:flex-wrap flex-wrap-reverse md:gap-0 gap-12 md:h-[70vh] sm:pt-[3vh] pt-[10vh] px-[24px]`}>
           
           <div className='md:w-1/2 pr-8 flex-col justify-between relative'>
             <div className="font-thin h-fit pb-4 sm:pb-0 sm:h-[15vh]">
@@ -71,7 +68,6 @@ const Mint: NextPage = (props: any) => {
                 <p>Mint start: {convertTimestamp(mintInfo?.startDate)}</p>
                 <p>Mint end: {convertTimestamp(mintInfo?.endDate) || 'Open'}</p>
               </div>
-              <p className='py-2'>Mint price: <span className='font-bold'>{mintInfo?.price!}</span></p>
               <div className='flex items-center justify-between'>
                 <p>Max tokens: {mintInfo?.maxTokens || 'Open'}</p>
                 <Link target="_blank" className='flex gap-2' href={`https://${blockscanner.url}/address/${contractData[0].primaryContract || ''}`}>{EtherscanScan(18, 20)} <span className='underline'> View on {blockscanner.name}</span></Link> 
@@ -80,8 +76,8 @@ const Mint: NextPage = (props: any) => {
             </div>
             <div className='h-[20vh] absolute bottom-0 w-full'>
               {/* UPDATE TO REUSE THE MINT CONFIG */}
-
-              </div>
+              <MintBox collection={contractData[0]} />
+            </div>
           </div>
 
           <div className='md:w-1/2 w-full flex justify-center max-h-[500px] relative'>

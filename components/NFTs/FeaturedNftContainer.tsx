@@ -5,9 +5,7 @@ import { useFeaturedNftContext } from "../../lib/contexts/FeaturedNftContext";
 import { useSearchContext } from "../../lib/contexts/SearchContext";
 import { useRunSearch } from "../../lib/runSearch";
 import { trackedNfts } from "../../lib/nftData/trackedNfts";
-import CountdownText from "../CountdownText";
 import Link from "next/link";
-import { getEndOfDayDate } from "../../lib/useCountdown";
 
 const FeaturedNftContainer = ({ nftData }: any) => {
   const { middleIndex, setMiddleIndex } = useFeaturedNftContext();
@@ -50,11 +48,7 @@ const FeaturedNftContainer = ({ nftData }: any) => {
   return (
     <>
       <div className='flex w-full'>
-        <div className='w-full flex justify-between font-thin text-xs'>
-          {middleIndex === 0 ? 
-            <CountdownText dropTime={getEndOfDayDate()} /> :
-            <div></div>
-          }
+        <div className='w-full flex justify-end font-thin text-xs'>
           <Link href="/all" className='text-right hover:text-primary pb-2'>View All {'→'}</Link>
         </div>
       </div>

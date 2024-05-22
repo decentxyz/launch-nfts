@@ -15,6 +15,7 @@ const Home: NextPage = ({ contractData }: any) => {
     <FeaturedNftContextProvider>
       <Navbar />
       <MainContent contractData={contractData} />
+      <Footer nftData={contractData} />
     </FeaturedNftContextProvider>
   );
 };
@@ -31,15 +32,13 @@ const MainContent = ({ contractData }: any) => {
 
   return (
     <main className={`${styles.main} relative`} style={{ minHeight: '100vh' }}>
-      {contractData && (
-        <>
-          <FeaturedNftContainer nftData={sortedContractData} />
-          <div>
-            <MintBox collection={activeNft} />
-          </div>
-          <Footer nftData={contractData} />
-        </>
-      )}
+      {contractData && <>
+        <div className='py-[5vh] sm:py-0'></div>
+        <FeaturedNftContainer nftData={sortedContractData} />
+        <div className='w-[350px] my-12 inline-block sm:hidden'>
+          <MintBox collection={activeNft} />
+        </div>
+      </>}
     </main>
   );
 };

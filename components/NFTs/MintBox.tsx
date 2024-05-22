@@ -5,6 +5,7 @@ import { useAccount } from "wagmi";
 import { ChainId, ActionType } from "@decent.xyz/box-common";
 import NumberTicker from "../NumberTicker";
 import { getMintInfo } from "../../lib/nftData/getMintInfo";
+import CountdownText from "../CountdownText";
 
 const MintBox = ({ collection }: { collection: any }) => {
   const { address, chain } = useAccount();
@@ -13,7 +14,16 @@ const MintBox = ({ collection }: { collection: any }) => {
   const mintInfo =
   address && getMintInfo(collection.primaryContract, quantity, address);
 
-  return <>
+  const endDate = new Date(mintInfo?.endDate * 1000);
+
+  return <div className="bg-white p-4 rounded-lg space-y-4">
+    <div className="flex justify-between">
+      <div>
+        <p className="text-black font-medium text-xl">Free</p>
+        <p className="font-thin text-gray-400 text-sm">+ {Number(mintInfo?.price) * quantity} ETH mint fee</p>
+      </div>
+      <NumberTicker endDate={mintInfo?.endDate} maxTokens={mintInfo?.maxTokens} tokenCount={collection.tokenCount} quantity={quantity} setQuantity={setQuantity} />
+    </div>
     <MintButton 
       account={address!}
       dstTokenAddress={zeroAddress}
@@ -39,10 +49,16 @@ const MintBox = ({ collection }: { collection: any }) => {
         }
       }}
     />
-    <div className="px-4 pt-4 relative">
-      <NumberTicker endDate={mintInfo?.endDate} maxTokens={mintInfo?.maxTokens} tokenCount={collection.tokenCount} quantity={quantity} setQuantity={setQuantity} />
+    <div className="flex justify-between text-black text-xs">
+      <div className="w-1/2">
+        {Number(collection.tokenCount).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 })} minted
+      </div>
+      <div className="w-1/2 text-right">
+        <span className="font-thin text-gray-400">Ends in </span>
+        <CountdownText dropTime={endDate} />
+      </div>
     </div>
-  </>
+  </div>
 }
 
 export default MintBox;

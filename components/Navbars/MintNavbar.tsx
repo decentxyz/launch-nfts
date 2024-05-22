@@ -14,7 +14,7 @@ const MintNavbar = ({
 
   return (
     <>
-      <nav className={`${styles.navbar} w-full flex flex-wrap items-center sm:justify-between justify-center`} >
+      <nav className={`${styles.navbar} w-full flex flex-wrap items-center sm:justify-between justify-center gap-2`} >
 
         <div className="flex items-center gap-4">
           <Link href='/' className="flex items-center hover:opacity-80">
