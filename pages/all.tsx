@@ -9,9 +9,7 @@ import { Address } from 'viem';
 import { ChainId } from '@decent.xyz/box-common';
 import { useRunSearch } from '../lib/runSearch';
 
-
-const All: NextPage = (props: any) => {
-  const { contractData } = props;
+const Explore = ({ contractData }: { contractData: any }) => {
 
   function sortNFTsByMintedTimestamp(nfts: any) {
     return nfts.sort((a: any, b: any) => b.mintedTimestamp - a.mintedTimestamp);
@@ -29,8 +27,8 @@ const All: NextPage = (props: any) => {
     <>
     <MintNavbar all={true} />
     {contractData ? 
-      <div className={`${styles.main} px-[24px] py-40 relative`}>
-        <div className='grid sm:grid-cols-2 gap-12 max-w-5xl'>
+      <div className={`${styles.main}  px-[24px] relative`}>
+        <div className='grid sm:grid-cols-2 gap-12 max-w-5xl py-40'>
           {sortedNftData.map((collection: any, i:number) => (
             <div key={i} className='w-[360px] h-[360px] md:w-[400px] md:h-[400px]'>
               <NftCard index={i} collection={collection} cardView={true} />
@@ -43,7 +41,7 @@ const All: NextPage = (props: any) => {
   )
 }
 
-export default All;
+export default Explore;
 
 export async function getStaticProps() {
   // Group NFTs by chainId
@@ -78,7 +76,7 @@ export async function getStaticProps() {
 
   return {
     props: {
-      contractData: contractData || null,
+      contractData: contractData || null
     },
     revalidate: 300
   }

@@ -4,6 +4,8 @@ declare global {
   }
 }
 
+export type ActiveChainIds = 1 | 7777777 | 10 | 42161 | 137 | 8453;
+
 export interface ChainStats {
   "stats" : {
     "1day": {
@@ -33,3 +35,12 @@ export enum ResEndpoint {
   "api-base" = 8453,
   "api-zora" = 7777777
 };
+
+export interface MintInfoProps {
+  mintMethod: string;
+  params: any;
+  startDate?: number;
+  endDate?: number;
+  maxTokens?: number;
+  price: string;
+}

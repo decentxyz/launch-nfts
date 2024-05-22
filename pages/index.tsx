@@ -1,6 +1,5 @@
 import type { NextPage } from 'next';
 import styles from '../styles/Home.module.css';
-import { useChainData } from '../lib/nftData/useChainData';
 import Navbar from '../components/Navbars/Navbar';
 import FeaturedNftContainer from "../components/NFTs/FeaturedNftContainer";
 import { FeaturedNftContextProvider } from '../lib/contexts/FeaturedNftContext';
@@ -10,13 +9,8 @@ import { getContractData } from '../lib/nftData/getContractData';
 import { trackedNfts } from '../lib/nftData/trackedNfts';
 import { Address } from 'viem';
 import { ChainId } from '@decent.xyz/box-common';
-import { useAccount } from 'wagmi';
 
 const Home: NextPage = ({ contractData }: any) => {
-  const { address: account } = useAccount();
-  const today = new Date().toLocaleDateString();
-  // const { chainData, loadingChainData } = useChainData(today); // TODO: UPDATE FOR TRACKED NFT STATS
-  
   function sortNFTsByMintedTimestamp(nfts: any) {
     return nfts.sort((a: any, b: any) => b.mintedTimestamp - a.mintedTimestamp);
   }
@@ -24,16 +18,12 @@ const Home: NextPage = ({ contractData }: any) => {
   const sortedContractData = sortNFTsByMintedTimestamp(contractData);
 
   return <>
-    {/* <Navbar oneDay={chainData?.oneDay} sevenDay={chainData?.sevenDay} isLoading={loadingChainData} /> */}
     <Navbar />
     <FeaturedNftContextProvider>
-      <main className={`${styles.main} relative`} style={{ minHeight: '100vh' }}>
-        <div className='flex w-full px-[24px]'>
-          <div className='w-full sm:hidden flex justify-start'>
-            <p className='text-right font-thin text-xs'>Swipe {'→'}</p>
-          </div>
+      <main className={`${styles.main} relative`} style={{ minHeight: '100vh' }} >
+        <div className='flex w-full'>
           <div className='w-full flex justify-end'>
-            <Link href="/all" className='text-right font-thin text-xs hover:text-primary'>View All {'→'}</Link>
+            <Link href="/all" className='text-right font-thin text-xs hover:text-primary pb-2'>View All {'→'}</Link>
           </div>
         </div>
         {contractData && <>

@@ -5,36 +5,30 @@ import styles from "../../../styles/Home.module.css";
 import Image from 'next/image';
 import Link from 'next/link';
 import MintFooter from '../../../components/Footers/MintFooter';
-import { getMintInfo, MintInfoProps } from "../../../lib/nftData/getMintInfo";
-import { useAccount, useNetwork } from "wagmi";
+import { getMintInfo } from "../../../lib/nftData/getMintInfo";
+import { MintInfoProps } from '../../../utils/types';
+import { useAccount } from "wagmi";
 import { ActionType, ChainId } from '@decent.xyz/box-common';
 import { parseUnits, zeroAddress } from "viem";
-import { EtherscanScan } from "../../../lib/utils/logos";
+import { EtherscanScan } from "../../../utils/logos";
 import { useState, useEffect } from 'react';
-import { convertTimestamp } from '../../../lib/utils/convertTimestamp';
+import { convertTimestamp } from '../../../utils/convertTimestamp';
 import NumberTicker from '../../../components/NumberTicker';
 import { VideoDict } from '../../../lib/nftData/trackedNfts';
-import { getBlockscanner } from '../../../lib/utils/blockscanners';
+import { getBlockscanner } from '../../../utils/blockscanners';
 import MintButton from '../../../components/MintButton';
+import { useThemeContext } from '../../../lib/contexts/ThemeContext';
 
 const Mint: NextPage = (props: any) => {
   const {
     query: { address },
     contractData
   } = props;
-  const { address: account } = useAccount();
-  const { chain } = useNetwork();
+  const { address: account, chain } = useAccount();
   const [mintInfo, setMintInfo] = useState<MintInfoProps>();
   const [quantity, setQuantity] = useState(1);
   const [soldOut, setSoldOut] = useState(false);
-
-  useEffect(() => {
-    if (account && window && Date.now() / 1000 < mintInfo?.endDate!) {
-      window.Atlas.call("identify", {
-        userId: account,
-       })
-    }
-  }, [account, mintInfo?.endDate]);
+  const { dark } = useThemeContext();
 
   useEffect(() => {
     async function fetchMintInfo() {
@@ -58,11 +52,9 @@ const Mint: NextPage = (props: any) => {
 
   const blockscanner = getBlockscanner(contractData[0].chainId);
 
-  console.log("HEREEEEEE:" , contractData[0])
-
   return (
     <div className='relative'>
-      <MintNavbar address={address} partner={contractData[0].symbol} />
+      <MintNavbar address={address} />
 
       <div className={`${styles.main} px-[24px] py-[12px] pt-[20vh] md:pt-0`}>
         <div className={`flex md:flex-wrap flex-wrap-reverse md:gap-0 gap-12 md:h-[70vh]`}>
@@ -90,6 +82,7 @@ const Mint: NextPage = (props: any) => {
               <p className='mt-8 overflow-y-auto max-h-96'>{contractData[0].description}</p>
             </div>
             <div className='h-[20vh] absolute bottom-0 w-full'>
+              {/* UPDATE TO REUSE THE MINT CONFIG */}
               <MintButton 
                 account={account!}
                 dstTokenAddress={zeroAddress} // TODO: could update for different token denominations
@@ -116,11 +109,6 @@ const Mint: NextPage = (props: any) => {
                 }}/>
                 <div className="px-4 pt-4 relative">
                   <NumberTicker endDate={mintInfo?.endDate} maxTokens={mintInfo?.maxTokens} tokenCount={contractData[0].tokenCount} quantity={quantity} setQuantity={setQuantity} />
-                  <div className='pt-6 pl-4'>
-                    <a target='_blank' href={`https://checkout.decent.xyz/?app=nft&chain=${contractData[0].chainId}&address=${contractData[0].primaryContract}%3A0`}>
-                      <p className='font-thin text-xs hover:opacity-80 hover:text-primary'>{'∟'} Buy with fiat</p>
-                    </a>
-                  </div>
                 </div>
               </div>
           </div>
