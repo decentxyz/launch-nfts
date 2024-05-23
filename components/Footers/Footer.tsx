@@ -23,7 +23,7 @@ const Footer = (props: any) => {
             {parseInt(activeNft?.tokenCount).toLocaleString()}
           </p>
           <p className="w-1/4 hidden sm:inline-block">
-            {((activeNft?.ownerCount / parseInt(activeNft?.tokenCount))*100).toFixed(2)+ "%"}
+            {(((activeNft?.ownerCount - 1) / parseInt(activeNft?.tokenCount))*100).toFixed(2)+ "%"}
           </p>
           <p className="w-1/4 text-right hidden sm:inline-block">
             {((parseInt(activeNft?.onSaleCount) / parseInt(activeNft?.tokenCount))*100).toFixed(2)+ "%"}
