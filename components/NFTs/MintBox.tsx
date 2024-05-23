@@ -21,8 +21,8 @@ const MintBox = ({ collection }: { collection: any }) => {
   return <div className="bg-white p-4 rounded-lg space-y-4 z-50">
     <div className="flex justify-between">
       <div>
-        <p className="text-black font-medium text-xl">{Number(mintInfo?.price) * quantity} ETH</p>
-        <p className="font-thin text-gray-400 text-sm">+ {Number(mintInfo?.mintFee) * quantity} ETH mint fee</p>
+        <p className="text-black font-medium text-xl">{Number(activeNft[0]?.price) * quantity} ETH</p>
+        <p className="font-thin text-gray-400 text-sm">+ {Number(activeNft[0].mintFee) * quantity} ETH mint fee</p>
       </div>
       <NumberTicker endDate={mintInfo?.endDate} maxTokens={mintInfo?.maxTokens} tokenCount={collection.tokenCount} quantity={quantity} setQuantity={setQuantity} />
     </div>
