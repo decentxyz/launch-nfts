@@ -13,6 +13,7 @@ import { useState, useEffect } from 'react';
 import { convertTimestamp } from '../../../utils/convertTimestamp';
 import MintBox from '../../../components/NFTs/MintBox';
 import { getBlockscanner } from '../../../utils/blockscanners';
+import { trackedNfts } from '../../../lib/nftData/trackedNfts';
 
 const Mint: NextPage = (props: any) => {
   const {
@@ -23,6 +24,7 @@ const Mint: NextPage = (props: any) => {
   const [mintInfo, setMintInfo] = useState<MintInfoProps>();
   const [quantity, setQuantity] = useState(1);
   const [soldOut, setSoldOut] = useState(false);
+  const activeNft = trackedNfts.filter(nft => nft.address.toLowerCase() === contractData[0]?.primaryContract.toLowerCase());
 
   useEffect(() => {
     async function fetchMintInfo() {
@@ -68,7 +70,7 @@ const Mint: NextPage = (props: any) => {
                 <p>Mint start: {convertTimestamp(mintInfo?.startDate)}</p>
                 <p>Mint end: {convertTimestamp(mintInfo?.endDate) || 'Open'}</p>
               </div>
-              <div className='flex items-center justify-between'>
+              <div className='flex items-center justify-between space-y-2'>
                 <p>Max tokens: {mintInfo?.maxTokens || 'Open'}</p>
                 <Link target="_blank" className='flex gap-2' href={`https://${blockscanner.url}/address/${contractData[0].primaryContract || ''}`}>{EtherscanScan(18, 20)} <span className='underline'> View on {blockscanner.name}</span></Link> 
               </div>
@@ -81,7 +83,7 @@ const Mint: NextPage = (props: any) => {
           </div>
 
           <div className='md:w-1/2 w-full flex justify-center max-h-[500px] relative'>
-            <Image src={contractData[0].image} height={500} width={500} alt="nft image" className='rounded-md' />
+            <Image src={activeNft[0].art} height={500} width={500} alt="nft image" className="absolute inset-0 w-full h-full object-contain" />
           </div>
         </div>
         

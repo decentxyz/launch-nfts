@@ -20,6 +20,8 @@ interface ContractAddress {
   id?: number;
   token?: Address;
   pattern?: 'proxy';
+  mintFee: string;
+  art: string;
 }
 
 export interface MintInfoProps {
@@ -29,10 +31,12 @@ export interface MintInfoProps {
   endDate?: number;
   maxTokens?: number;
   price: string;
+  mintFee: string;
+  totalPrice: string;
   day: number;
 }
 
 export const trackedNfts: ContractAddress[] = [
   // Amber
-  { address: '0xe223dF3cF0953048eb3c575abcD81818C9ea74B8', chainId: ChainId.BASE, startDate: 0, endDate: 4294967295, price: "0.00124", source: 'Decent', artist: 'Amber Vittoria', day: 1716447599},
+  { address: '0xe223dF3cF0953048eb3c575abcD81818C9ea74B8', chainId: ChainId.BASE, startDate: 0, endDate: 4294967295, price: "0.0008", mintFee: '0.0008', source: 'Decent', artist: 'Amber Vittoria', day: 1716447599, art: '/nfts/amber.jpg' },
 ];

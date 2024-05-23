@@ -16,11 +16,11 @@ const MintBox = ({ collection }: { collection: any }) => {
 
   const endDate = new Date(mintInfo?.day * 1000);
 
-  return <div className="bg-white p-4 rounded-lg space-y-4">
+  return <div className="bg-white p-4 rounded-lg space-y-4 z-50">
     <div className="flex justify-between">
       <div>
-        <p className="text-black font-medium text-xl">Free</p>
-        <p className="font-thin text-gray-400 text-sm">+ {Number(mintInfo?.price) * quantity} ETH mint fee</p>
+        <p className="text-black font-medium text-xl">{Number(mintInfo?.price) * quantity} ETH</p>
+        <p className="font-thin text-gray-400 text-sm">+ {Number(mintInfo?.mintFee) * quantity} ETH mint fee</p>
       </div>
       <NumberTicker endDate={mintInfo?.endDate} maxTokens={mintInfo?.maxTokens} tokenCount={collection.tokenCount} quantity={quantity} setQuantity={setQuantity} />
     </div>
@@ -40,7 +40,7 @@ const MintBox = ({ collection }: { collection: any }) => {
           args: mintInfo?.params,
           cost: {
             isNative: true,
-            amount: parseUnits(mintInfo?.price! || '0.00', 18),
+            amount: parseUnits(mintInfo?.totalPrice! || '0.00', 18),
           },
           supplyConfig: {
             sellOutDate: mintInfo?.endDate,

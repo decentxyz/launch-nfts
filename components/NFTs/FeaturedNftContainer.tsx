@@ -61,23 +61,31 @@ const FeaturedNftContainer = ({ nftData }: any) => {
         </div>
         {sortedNftData.map((collection: any, i: number) => {
           return (
-            <NftCard key={i} index={i} collection={collection} cardView={false} />
+            <NftCard key={i} index={i} collection={collection} art={activeNft[0].art} />
           );
         })}
         <div className={`${styles.emptyItem} md:w-1/4 w-1/2 hidden md:inline-block`} />
       </div>
       <div className="flex justify-between w-full pt-4">
         <button
-          className="border border-white px-5 py-[2px] rounded-md rotate-180"
+          className="border border-white px-5 py-[2px] rounded-md rotate-180 h-8"
           onClick={handlePrev}
         >
           ⮕
         </button>
-        <div className="text-lg font-thin">
+        <div className="text-lg font-thin text-center">
           {formattedDate}
+          <div className="font-medium hidden sm:flex">
+            <div>
+              <Link href={`/mint/${sortedNftData[middleIndex].chainId}/${sortedNftData[middleIndex].primaryContract}`}>
+                <div className="hover:text-primary">{sortedNftData[middleIndex].name}</div>
+              </Link>
+              <div className="text-base text-gray-400 font-light">by {activeNft[0].artist}</div>
+            </div>
+          </div>
         </div>
         <button
-          className="border border-white px-5 py-[2px] rounded-md"
+          className="border border-white px-5 py-[2px] rounded-md h-8"
           onClick={handleNext}
         >
           ⮕

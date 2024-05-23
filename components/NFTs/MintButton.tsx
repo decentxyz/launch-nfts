@@ -90,6 +90,11 @@ const initialState: MintStateType = {
   loading: false,
 };
 
+const BaseEth: TokenInfo = {
+  ...ethGasToken,
+  chainId: ChainId.BASE
+}
+
 function mintReducer(state: MintStateType, action: MintAction): MintStateType {
   switch (action.type) {
     case "SET_CONFIG":
@@ -139,7 +144,7 @@ export default function MintButton({
   const [state, dispatch] = useReducer(mintReducer, initialState);
 
   const [showBalanceSelector, setShowBalanceSelector] = useState(false);
-  const [srcToken, setSrcToken] = useState<TokenInfo | any>(ethGasToken);
+  const [srcToken, setSrcToken] = useState<TokenInfo | any>(BaseEth);
 
   useEffect(() => {
     dispatch({
@@ -275,7 +280,7 @@ export default function MintButton({
     if (state.loading) return <LoadingSpinner />;
     if (state.state === MintState.INSUFFICIENT_BALANCE) return "Insufficient Balance";
     if (state.state === MintState.NEEDS_APPROVAL) return "Approve Token";
-    return "Mint";
+    return "Mint";  
   }, [state.loading, state.state]);
 
   return (
@@ -289,7 +294,7 @@ export default function MintButton({
           >
             {buttonLabel}
           </button>
-          <div className="relative flex items-center gap-4">
+          <div className="relative flex items-center gap-4 z-50">
             <div
               onClick={() => setShowBalanceSelector(!showBalanceSelector)}
               className="rounded-full border border-black py-1 px-2 bg-white flex items-center hover:opacity-80 cursor-pointer"
@@ -301,7 +306,7 @@ export default function MintButton({
               <DropDownIcon />
             </div>
             {showBalanceSelector && tokenBalances && (
-              <div className="absolute bottom-full right-0 z-10">
+              <div className="absolute bottom-full right-0 bg-white">
                 <BalanceSelector
                   className="bg-white text-sm font-sans drop-shadow-lg max-h-96 overflow-y-scroll mb-2 text-black"
                   setSelectedToken={(tokeninfo: TokenInfo) => {
