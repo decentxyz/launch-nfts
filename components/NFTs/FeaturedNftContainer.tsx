@@ -6,14 +6,17 @@ import { useFeaturedNftContext } from "../../lib/contexts/FeaturedNftContext";
 import { useRunSearch } from "../../lib/runSearch";
 import { trackedNfts } from "../../lib/nftData/trackedNfts";
 import Link from "next/link";
+import MintBox from "./MintBox";
+import Modal from "../Modal";
 
 const FeaturedNftContainer = ({ nftData }: any) => {
   const { middleIndex, setMiddleIndex } = useFeaturedNftContext();
+  const [isOpen, setIsOpen] = useState(false);
   // const { search } = useSearchContext();
   const [sortedNftData, setSortedNftData] = useState(nftData);
 
   const activeNft = trackedNfts.filter(nft => nft.address.toLowerCase() === sortedNftData[middleIndex]?.primaryContract.toLowerCase());
-  const nftDate = new Date(activeNft[0].day * 1000);
+  const nftDate = new Date(activeNft[0].startDate * 1000);
   const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
   const formattedDate = nftDate.toLocaleDateString('en-US', options);
 
@@ -47,6 +50,17 @@ const FeaturedNftContainer = ({ nftData }: any) => {
 
   return (
     <>
+      <Modal
+        className={`relative sm:min-w-[500px] max-w-[500px] rounded-lg bg-[#13110F] text-white`}
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+      >
+        <div className="pb-2 font-thin text-xl">Purchase {sortedNftData[middleIndex].name}</div>
+        <div className="w-full py-2">
+          <MintBox collection={sortedNftData[middleIndex]} />
+        </div>
+      </Modal>
+
       <div className='flex w-full'>
         <div className='w-full flex justify-end font-thin text-xs'>
           <Link href="/all" className='text-right hover:text-primary pb-2'>View All {'→'}</Link>
@@ -81,6 +95,7 @@ const FeaturedNftContainer = ({ nftData }: any) => {
                 <div className="hover:text-primary">{sortedNftData[middleIndex].name}</div>
               </Link>
               <div className="text-base text-gray-400 font-light">by {activeNft[0].artist}</div>
+              <button className="bg-white rounded-lg py-1 mt-4 px-20 text-black" onClick={() => setIsOpen(true)}>Mint</button>
             </div>
           </div>
         </div>

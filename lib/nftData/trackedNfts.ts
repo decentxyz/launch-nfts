@@ -10,7 +10,6 @@ export interface ParamProps {
 interface ContractAddress {
   address: Address;
   chainId: ChainId;
-  day: number;
   source: "Zora" | "Anotherblock" | "ThirdWeb" | "Decent" | "Manifold" | "Highlight" | "Nfts2Me";
   price: string;
   artist?: string;
@@ -37,5 +36,5 @@ export interface MintInfoProps {
 
 export const trackedNfts: ContractAddress[] = [
   // Amber
-  { address: '0xe223dF3cF0953048eb3c575abcD81818C9ea74B8', chainId: ChainId.BASE, startDate: 0, endDate: 4294967295, price: "0.0008", mintFee: '0.0008', source: 'Decent', artist: 'Amber Vittoria', day: 1716447599, art: '/nfts/amber.jpg' },
+  { address: '0xe223dF3cF0953048eb3c575abcD81818C9ea74B8', chainId: ChainId.BASE, startDate: 1716480000, endDate: 1716566400, price: "0.0008", mintFee: '0.0008', source: 'Decent', artist: 'Amber Vittoria', art: '/nfts/amber.jpg' },
 ];

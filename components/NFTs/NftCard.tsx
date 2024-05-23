@@ -52,6 +52,9 @@ const NftCard = ({
           cardView ? "w-full" : "w-full md:w-[50vw]"
         } drop-shadow-md `}
       >
+        <Link
+          href={`/mint/${collection?.chainId}/${collection?.primaryContract}`}
+        >
         <div className={`${styles.containerFlex} rounded-[6px] text-black`}>
           <Image
             className="rounded-md absolute w-full h-full object-cover"
@@ -73,9 +76,7 @@ const NftCard = ({
                   : "w-full max-h-[400px] md:max-w-[400px]"
               } relative min-h-[420px]`}
             >
-              <Link
-                href={`/mint/${collection?.chainId}/${collection?.primaryContract}`}
-              >
+              
                 <Image
                   className="absolute inset-0 w-full h-full object-contain"
                   src={art ?? collection?.image}
@@ -83,10 +84,11 @@ const NftCard = ({
                   height={400}
                   alt="nft image"
                 />
-              </Link>
+              
             </div>
           </div>
         </div>
+        </Link>
 
         <div
           className={`${
