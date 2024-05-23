@@ -33,7 +33,6 @@ export interface MintInfoProps {
   price: string;
   mintFee: string;
   totalPrice: string;
-  day: number;
 }
 
 export const trackedNfts: ContractAddress[] = [

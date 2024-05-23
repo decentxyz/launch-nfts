@@ -18,8 +18,7 @@ export const getMintInfo = (contractAddress: Address, quantity: any, userAddress
       maxTokens: undefined,
       price: '',
       mintFee: '',
-      totalPrice: '',
-      day: 0,
+      totalPrice: ''
     };
 
     return mintInfo;
@@ -38,7 +37,6 @@ export const getMintInfo = (contractAddress: Address, quantity: any, userAddress
     endDate: targetContract.endDate,
     maxTokens: targetContract.maxTokens || undefined,
     price: (parseFloat(targetContract.price) * quantity).toString(),
-    day: targetContract.day,
     mintFee: (parseFloat(targetContract.mintFee) * quantity).toString(),
     totalPrice: ((parseFloat(targetContract.mintFee) + parseFloat(targetContract.price)) * quantity).toString(),
   };

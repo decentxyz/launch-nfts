@@ -6,6 +6,7 @@ import { ChainId, ActionType } from "@decent.xyz/box-common";
 import NumberTicker from "../NumberTicker";
 import { getMintInfo } from "../../lib/nftData/getMintInfo";
 import CountdownText from "../CountdownText";
+import { trackedNfts } from "../../lib/nftData/trackedNfts";
 
 const MintBox = ({ collection }: { collection: any }) => {
   const { address, chain } = useAccount();
@@ -13,8 +14,9 @@ const MintBox = ({ collection }: { collection: any }) => {
 
   const mintInfo =
   address && getMintInfo(collection.primaryContract, quantity, address);
+  const activeNft = trackedNfts.filter(nft => nft.address.toLowerCase() === collection.primaryContract.toLowerCase());
 
-  const endDate = new Date(mintInfo?.day * 1000);
+  const endDate = new Date(activeNft[0]?.day * 1000);
 
   return <div className="bg-white p-4 rounded-lg space-y-4 z-50">
     <div className="flex justify-between">
