@@ -61,7 +61,7 @@ const FeaturedNftContainer = ({ nftData }: any) => {
         </div>
       </Modal>
 
-      <div className='flex w-full'>
+      <div className='flex w-full max-w-[760px]'>
         <div className='w-full flex justify-end font-thin text-xs'>
           <Link href="/all" className='text-right hover:text-primary pb-2'>View All {'→'}</Link>
         </div>
@@ -80,7 +80,7 @@ const FeaturedNftContainer = ({ nftData }: any) => {
         })}
         <div className={`${styles.emptyItem} md:w-1/4 w-1/2 hidden md:inline-block`} />
       </div>
-      <div className="flex justify-between w-full pt-4">
+      <div className="flex justify-between w-full pt-4 max-w-[760px]">
         <button
           className="border border-white px-5 py-[2px] rounded-md rotate-180 h-8"
           onClick={handlePrev}
