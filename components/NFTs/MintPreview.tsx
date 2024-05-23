@@ -1,6 +1,7 @@
 import MintBox from "./MintBox";
 import { trackedNfts } from "../../lib/nftData/trackedNfts";
 import Image from "next/image";
+import Link from "next/link";
 
 const MintPreview = ({ collection }: { collection: any }) => {
   const activeNft = trackedNfts.filter(nft => nft.address.toLowerCase() === collection.primaryContract.toLowerCase());
@@ -27,8 +28,13 @@ const MintPreview = ({ collection }: { collection: any }) => {
 
     <div className="mt-4">
       <hr></hr>
-      <div className="pt-8">
+      <div className="py-8">
         <Image src='/prohibition-full.png' height={60} width={180} alt='logo' />
+      </div>
+      <div className="font-thin text-sm space-y-1">
+        <div><Link className="hover:opacity-80" target="_blank" href="https://prohibition.art/">Website</Link></div>
+        <div><Link className="hover:opacity-80" target="_blank" href="https://warpcast.com/~/channel/prohibition">Warpcast</Link></div>
+        <div><Link className="hover:opacity-80" target="_blank" href="https://x.com/ProhibitionArt">Twitter</Link></div>
       </div>
     </div>
   </>
