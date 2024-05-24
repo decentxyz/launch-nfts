@@ -61,7 +61,7 @@ const FeaturedNftContainer = ({ nftData }: any) => {
         </div>
       </Modal>
 
-      <div className='flex w-full max-w-[760px]'>
+      <div className='flex w-full'>
         <div className='w-full flex justify-end font-thin text-xs'>
           <Link href="/all" className='text-right hover:text-primary pb-2'>View All {'→'}</Link>
         </div>

@@ -8,11 +8,16 @@ const MintPreview = ({ collection }: { collection: any }) => {
 
   return <>
     <div className="flex gap-2 items-center text-xs uppercase">
-      <div className="border border-white rounded-lg py-1 px-3">
-        
-        <div>Minting Now</div>
+      {activeNft[0].address.toLowerCase() === trackedNfts[0].address.toLowerCase() && <div className="flex items-center gap-2">
+        <div className="border border-white rounded-lg py-1 px-3">
+          Minting Now
+        </div>
+        <a target="_blank" href="https://warpcast.com/cd/0x66829a56" className="border border-white rounded-lg py-1 px-3">
+          🖼️ mint in frame
+        </a>
       </div>
-      <div>Edition</div>
+      }
+      <div>Edition</div>  
     </div>
 
     <div className="py-2 space-y-2">
