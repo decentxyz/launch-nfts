@@ -33,6 +33,8 @@ import { wagmiConfig } from "../../lib/wagmiConfig";
 import { useTokenContext } from "../../lib/contexts/UserTokens";
 import { generateResponse } from "../../lib/mint/getTx";
 
+import { trackedNfts } from "../../lib/nftData/trackedNfts";
+
 interface BoxActionRequest {
   sender: Address;
   srcChainId: ChainId;
@@ -145,6 +147,16 @@ export default function MintButton({
 
   const [showBalanceSelector, setShowBalanceSelector] = useState(false);
   const [srcToken, setSrcToken] = useState<TokenInfo | any>(BaseEth);
+
+  const activeNft = trackedNfts.filter(nft => nft.address.toLowerCase() === mintConfig.actionConfig['contractAddress'].toLowerCase());
+  const nftDate = new Date(activeNft[0].startDate * 1000);
+
+  function isToday(date: Date): boolean {
+    const today = new Date();
+    return date.getDate() === today.getDate() &&
+           date.getMonth() === today.getMonth() &&
+           date.getFullYear() === today.getFullYear();
+  }
 
   useEffect(() => {
     dispatch({
@@ -272,8 +284,8 @@ export default function MintButton({
   }, [runTx]);
 
   const isButtonDisabled = useMemo(
-    () => state.loading || !state.sufficientBalance || !state.activeTx,
-    [state.loading, state.sufficientBalance, state.activeTx]
+    () => state.loading || !state.sufficientBalance || !state.activeTx || !isToday(nftDate),
+    [state.loading, state.sufficientBalance, state.activeTx, nftDate]
   );
 
   const buttonLabel = useMemo(() => {

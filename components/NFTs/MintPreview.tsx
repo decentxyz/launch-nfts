@@ -12,7 +12,7 @@ const MintPreview = ({ collection }: { collection: any }) => {
         <div className="border border-white rounded-lg py-1 px-3">
           Minting Now
         </div>
-        <a target="_blank" href="https://warpcast.com/cd/0x66829a56" className="border border-white rounded-lg py-1 px-3">
+        <a target="_blank" href="https://warpcast.com/jordanlyall/0x1e9b3117" className="border border-white rounded-lg py-1 px-3">
           🖼️ mint in frame
         </a>
       </div>

@@ -24,6 +24,7 @@ export const ConnectWallet = () => {
 
         return (
           <div
+            className='flex gap-2 items-center'
             {...(!ready && {
               'aria-hidden': true,
               'style': {
@@ -93,6 +94,9 @@ export const ConnectWallet = () => {
                 </div>
               );
             })()}
+          <a target="_blank" href="https://warpcast.com/jordanlyall/0x1e9b3117" className="hidden sm:inline-block border border-white rounded-lg py-1 px-3 uppercase text-sm">
+            🖼️ mint in frame
+          </a>
           </div>
         );
       }}
