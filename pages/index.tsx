@@ -9,32 +9,40 @@ import { trackedNfts } from '../lib/nftData/trackedNfts';
 import { Address } from 'viem';
 import { ChainId } from '@decent.xyz/box-common';
 import MintPreview from '../components/NFTs/MintPreview';
+import { useEffect, useState } from 'react';
+import LoadingSpinner from '../components/Spinner';
 
 const Home: NextPage = ({ contractData }: any) => {
+  const [isLoading, setIsLoading] = useState(true);
+  const [sorted, setSorted] = useState([]);
+
+  useEffect(() => {
+    if (contractData.length > 0) {
+      const revChron = contractData.sort((a: any, b: any) => +new Date(b.createdAt) - +new Date(a.createdAt));
+      setSorted(revChron);
+      setIsLoading(false);
+    }
+  }, [contractData]);
+  
   return (
     <FeaturedNftContextProvider>
       <Navbar />
       <div className='sm:py-0 py-16'></div>
-      <MainContent contractData={contractData} />
-      <Footer nftData={contractData} />
+      <MainContent contractData={sorted} isLoading={isLoading} />
+      <Footer nftData={sorted} />
     </FeaturedNftContextProvider>
   );
 };
 
-const MainContent = ({ contractData }: any) => {
+const MainContent = ({ contractData, isLoading }: { contractData: any, isLoading: boolean }) => {
   const { middleIndex } = useFeaturedNftContext();
-
-  function sortNFTsByMintedTimestamp(nfts: any) {
-    return nfts.sort((a: any, b: any) => b.mintedTimestamp - a.mintedTimestamp);
-  }
-
-  const sortedContractData = sortNFTsByMintedTimestamp(contractData);
-  const activeNft = sortedContractData[middleIndex];
+  
+  const activeNft = contractData[middleIndex];
 
   return (
     <main className={`${styles.main} relative`} style={{ minHeight: '100vh' }}>
-      {contractData && <>
-        <FeaturedNftContainer nftData={sortedContractData} />
+      {isLoading ? <LoadingSpinner /> : <>
+        <FeaturedNftContainer nftData={contractData} />
         <div className='w-[350px] mt-20 mb-12 inline-block sm:hidden space-y-4'>
           <MintPreview collection={activeNft} />
         </div>
@@ -47,11 +55,10 @@ export default Home;
 
 export async function getStaticProps() {
   const nftsByChainId: { [key in ChainId]?: string[] } = trackedNfts.reduce((acc: { [key in ChainId]?: Address[] }, nft) => {
-    const address = nft.pattern !== "proxy" ? nft.address : nft.token;
     if (!acc[nft.chainId]) {
       acc[nft.chainId] = [];
     }
-    acc[nft.chainId]!.push(address!);
+    acc[nft.chainId]!.push(nft.address!);
     return acc;
   }, {});
 

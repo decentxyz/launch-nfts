@@ -1,6 +1,6 @@
 import NftCard from "./NftCard";
 import styles from '../../styles/nfts.module.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useFeaturedNftContext } from "../../lib/contexts/FeaturedNftContext";
 // import { useSearchContext } from "../../lib/contexts/SearchContext";
 import { useRunSearch } from "../../lib/runSearch";
@@ -15,7 +15,7 @@ const FeaturedNftContainer = ({ nftData }: any) => {
   // const { search } = useSearchContext();
   const [sortedNftData, setSortedNftData] = useState(nftData);
 
-  const activeNft = trackedNfts.filter(nft => nft.address.toLowerCase() === sortedNftData[middleIndex]?.primaryContract.toLowerCase());
+  const activeNft = trackedNfts.filter(nft => nft.address.toLowerCase() === nftData[middleIndex]?.primaryContract.toLowerCase());
   const nftDate = new Date(activeNft[0].startDate * 1000);
   const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
   const formattedDate = nftDate.toLocaleDateString('en-US', options);
@@ -73,11 +73,11 @@ const FeaturedNftContainer = ({ nftData }: any) => {
         >
         <div className={`${styles.emptyItem} md:w-1/4 w-1/2 hidden md:inline-block`} />
         </div>
-        {sortedNftData.map((collection: any, i: number) => {
-          return (
-            <NftCard key={i} index={i} collection={collection} art={trackedNfts[i].art} />
-          );
-        })}
+          {sortedNftData.map((collection: any, i: number) => {
+            return (
+              <NftCard key={i} index={i} collection={collection} art={trackedNfts[i].art} />
+            );
+          })}
         <div className={`${styles.emptyItem} md:w-1/4 w-1/2 hidden md:inline-block`} />
       </div>
       <div className="flex justify-between w-full pt-4 max-w-[760px]">
