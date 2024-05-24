@@ -75,7 +75,7 @@ const FeaturedNftContainer = ({ nftData }: any) => {
         </div>
         {sortedNftData.map((collection: any, i: number) => {
           return (
-            <NftCard key={i} index={i} collection={collection} art={activeNft[0].art} />
+            <NftCard key={i} index={i} collection={collection} art={trackedNfts[i].art} />
           );
         })}
         <div className={`${styles.emptyItem} md:w-1/4 w-1/2 hidden md:inline-block`} />
