@@ -292,7 +292,7 @@ export default function MintButton({
       <BoxHooksContextProvider apiKey={process.env.NEXT_PUBLIC_DECENT_API_KEY as string}>
         <div className="flex items-center gap-4 relative">
           <button
-            disabled={isButtonDisabled}
+            disabled={true}
             onClick={state.needsApproval ? handleApproval : handleRunTx}
             className={`${isButtonDisabled ? "bg-gray-200 text-black" : "bg-black text-white hover:opacity-80"} w-full py-2 rounded-full`}
           >
