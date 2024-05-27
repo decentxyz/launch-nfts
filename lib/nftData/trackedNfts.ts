@@ -35,6 +35,8 @@ export interface MintInfoProps {
 }
 
 export const trackedNfts: ContractAddress[] = [
+  // jvmi
+  { address: '0x20479B19Ca05e0b63875a65ACf24d81cd0973331', chainId: ChainId.BASE, startDate: 1716825600, endDate: 1716911940, price: "0", mintFee: '0.0008', source: 'Decent', artist: 'jvmi', art: '/nfts/jvmi.jpg' },
   // Rick Crane
   { address: '0x7756a5315346ba448698D3d593238AC4e0E9fCdB', chainId: ChainId.BASE, startDate: 1716566400, endDate: 1716652740, price: "0.002", mintFee: '0.0008', source: 'Decent', artist: 'Rick Crane', art: '/nfts/rick-crane.jpg' },
   // Amber

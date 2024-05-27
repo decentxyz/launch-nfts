@@ -148,7 +148,12 @@ export default function MintButton({
   const [showBalanceSelector, setShowBalanceSelector] = useState(false);
   const [srcToken, setSrcToken] = useState<TokenInfo | any>(BaseEth);
 
-  const isInactive = trackedNfts[0].address.toLowerCase() !== mintConfig.actionConfig['contractAddress'].toLowerCase();
+  const currTime = new Date();
+
+  const isInactive = 
+    trackedNfts[0].address.toLowerCase() !== mintConfig.actionConfig['contractAddress'].toLowerCase() ||
+    Number(trackedNfts[0].endDate * 1000) < Number(currTime) || 
+    Number(trackedNfts[0].startDate * 1000) > Number(currTime);
 
   useEffect(() => {
     dispatch({
@@ -292,7 +297,7 @@ export default function MintButton({
       <BoxHooksContextProvider apiKey={process.env.NEXT_PUBLIC_DECENT_API_KEY as string}>
         <div className="flex items-center gap-4 relative">
           <button
-            disabled={true}
+            disabled={isButtonDisabled}
             onClick={state.needsApproval ? handleApproval : handleRunTx}
             className={`${isButtonDisabled ? "bg-gray-200 text-black" : "bg-black text-white hover:opacity-80"} w-full py-2 rounded-full`}
           >
