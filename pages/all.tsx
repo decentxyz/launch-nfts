@@ -7,6 +7,7 @@ import { trackedNfts } from '../lib/nftData/trackedNfts';
 import { Address } from 'viem';
 import { ChainId } from '@decent.xyz/box-common';
 import { useRunSearch } from '../lib/runSearch';
+import StandardFooter from '../components/Footers/StandardFooter';
 
 const Explore = ({ contractData }: { contractData: any }) => {
   const [sorted, setSorted] = useState([]);
@@ -30,15 +31,16 @@ const Explore = ({ contractData }: { contractData: any }) => {
     <MintNavbar all={true} />
     {contractData ? 
       <div className={`${styles.main}  px-[24px] relative`}>
-        <div className='grid sm:grid-cols-2 gap-12 space-y-40 sm:space-y-0 max-w-5xl py-40'>
+        <div className='grid sm:grid-cols-2 pb-40 pt-12 max-w-5xl'>
           {sortedNftData.map((collection: any, i:number) => (
-            <div key={i} className='w-[360px] h-[360px] md:w-[400px] md:h-[400px]'>
+            <div key={i} className='w-[360px] h-[360px] md:w-[400px] md:h-[400px] m-8 mt-32'>
               <NftCard index={i} collection={collection} art={trackedNfts[i].art} cardView={true} />
             </div>
           ))}
         </div>
       </div>
       : <div className='w-full h-full flex justify-center items-center'>loading...</div>}
+      <StandardFooter className='p-4 sm:flex items-center justify-between max-w-5xl sm:py-12 mx-auto' />
     </>
   )
 }

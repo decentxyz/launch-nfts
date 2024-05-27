@@ -2,6 +2,7 @@ import MintBox from "./MintBox";
 import { trackedNfts } from "../../lib/nftData/trackedNfts";
 import Image from "next/image";
 import Link from "next/link";
+import StandardFooter from "../Footers/StandardFooter";
 
 const MintPreview = ({ collection }: { collection: any }) => {
   const activeNft = trackedNfts.filter(nft => nft.address.toLowerCase() === collection.primaryContract.toLowerCase());
@@ -12,9 +13,9 @@ const MintPreview = ({ collection }: { collection: any }) => {
         <div className="border border-white rounded-lg py-1 px-3">
           Minting Now
         </div>
-        <a target="_blank" href="https://warpcast.com/jordanlyall/0x1e9b3117" className="border border-white rounded-lg py-1 px-3">
+        {/* <a target="_blank" href="https://warpcast.com/jordanlyall/0x1e9b3117" className="border border-white rounded-lg py-1 px-3">
           🖼️ mint in frame
-        </a>
+        </a> */}
       </div>
       }
       <div>Edition</div>  
@@ -31,17 +32,7 @@ const MintPreview = ({ collection }: { collection: any }) => {
       {collection.description}
     </div>
 
-    <div className="mt-4">
-      <hr></hr>
-      <div className="py-8">
-        <Image src='/prohibition-full.png' height={60} width={180} alt='logo' />
-      </div>
-      <div className="font-thin text-sm space-y-1">
-        <div><Link className="hover:opacity-80" target="_blank" href="https://prohibition.art/">Website</Link></div>
-        <div><Link className="hover:opacity-80" target="_blank" href="https://warpcast.com/~/channel/prohibition">Warpcast</Link></div>
-        <div><Link className="hover:opacity-80" target="_blank" href="https://x.com/ProhibitionArt">Twitter</Link></div>
-      </div>
-    </div>
+    <StandardFooter />
   </>
 }
 

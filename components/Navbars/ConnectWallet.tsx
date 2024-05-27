@@ -94,9 +94,9 @@ export const ConnectWallet = () => {
                 </div>
               );
             })()}
-          <a target="_blank" href="https://warpcast.com/jordanlyall/0x1e9b3117" className="hidden sm:inline-block border border-white rounded-lg py-1 px-3 uppercase text-sm">
+          {/* <a target="_blank" href="https://warpcast.com/jordanlyall/0x1e9b3117" className="hidden sm:inline-block border border-white rounded-lg py-1 px-3 uppercase text-sm">
             🖼️ mint in frame
-          </a>
+          </a> */}
           </div>
         );
       }}
