@@ -7,14 +7,14 @@ export interface ParamProps {
   quantity: number
 }
 
-interface ContractAddress {
+export interface ContractAddress {
   address: Address;
   chainId: ChainId;
   source: "Zora" | "Anotherblock" | "ThirdWeb" | "Decent" | "Manifold" | "Highlight" | "Nfts2Me";
   price: string;
-  artist?: string;
-  startDate?: number;
-  endDate?: number;
+  artist: string;
+  startDate: number;
+  endDate: number;
   maxTokens?: number;
   id?: number;
   token?: Address;
@@ -35,6 +35,8 @@ export interface MintInfoProps {
 }
 
 export const trackedNfts: ContractAddress[] = [
+  // Slander
+  { address: '0x6402dbE605260981fe7aF259EC7a51FA74848AF4', chainId: ChainId.BASE, startDate: 1716912000, endDate: 1716998340, price: "0", mintFee: '0.0008', source: 'Decent', artist: 'Slander', art: '/nfts/slander.png' },
   // jvmi
   { address: '0x20479B19Ca05e0b63875a65ACf24d81cd0973331', chainId: ChainId.BASE, startDate: 1716825600, endDate: 1716911940, price: "0", mintFee: '0.0008', source: 'Decent', artist: 'jvmi', art: '/nfts/jvmi.jpg' },
   // Rick Crane
