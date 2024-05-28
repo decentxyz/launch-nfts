@@ -5,7 +5,7 @@ import FeaturedNftContainer from "../components/NFTs/FeaturedNftContainer";
 import { FeaturedNftContextProvider, useFeaturedNftContext } from '../lib/contexts/FeaturedNftContext';
 import Footer from '../components/Footers/Footer';
 import { getContractData } from '../lib/nftData/getContractData';
-import { trackedNfts } from '../lib/nftData/trackedNfts';
+import { trackedNfts, orderedNfts } from '../lib/nftData/trackedNfts';
 import { Address } from 'viem';
 import { ChainId } from '@decent.xyz/box-common';
 import MintPreview from '../components/NFTs/MintPreview';
@@ -14,27 +14,25 @@ import LoadingSpinner from '../components/Spinner';
 
 const Home: NextPage = ({ contractData }: any) => {
   const [isLoading, setIsLoading] = useState(true);
-  const [sorted, setSorted] = useState([]);
+  const { activeNfts, activeNftData } = orderedNfts(contractData);
 
   useEffect(() => {
-    if (contractData.length > 0) {
-      const revChron = contractData.sort((a: any, b: any) => +new Date(b.createdAt) - +new Date(a.createdAt));
-      setSorted(revChron);
+    if (activeNftData) {
       setIsLoading(false);
     }
-  }, [contractData]);
+  }, [activeNftData]);
   
   return (
     <FeaturedNftContextProvider>
       <Navbar />
       <div className='sm:py-0 py-16'></div>
-      <MainContent contractData={sorted} isLoading={isLoading} />
-      <Footer nftData={sorted} />
+      <MainContent contractData={activeNftData} isLoading={isLoading} activeNfts={activeNfts} />
+      <Footer nftData={activeNftData} />
     </FeaturedNftContextProvider>
   );
 };
 
-const MainContent = ({ contractData, isLoading }: { contractData: any, isLoading: boolean }) => {
+const MainContent = ({ contractData, isLoading, activeNfts }: { contractData: any, isLoading: boolean, activeNfts: any }) => {
   const { middleIndex } = useFeaturedNftContext();
   
   const activeNft = contractData[middleIndex];
@@ -42,7 +40,7 @@ const MainContent = ({ contractData, isLoading }: { contractData: any, isLoading
   return (
     <main className={`${styles.main} relative`} style={{ minHeight: '100vh' }}>
       {isLoading ? <LoadingSpinner /> : <>
-        <FeaturedNftContainer nftData={contractData} />
+        <FeaturedNftContainer nftData={contractData} trackedNfts={activeNfts} />
         <div className='w-[350px] mt-20 mb-12 inline-block sm:hidden space-y-4'>
           <MintPreview collection={activeNft} />
         </div>

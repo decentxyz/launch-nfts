@@ -53,7 +53,7 @@ const Mint: NextPage = (props: any) => {
       <MintNavbar address={address} />
 
       <div className={`${styles.main} py-[12px] md:pt-0 w-full`}>
-        <div className={`flex md:flex-wrap flex-wrap-reverse md:gap-0 gap-12 md:h-[70vh] sm:pt-[3vh] pt-[10vh] px-[24px]`}>
+        <div className={`flex md:flex-wrap flex-wrap-reverse md:gap-0 gap-12 md:h-[70vh] min-w-[160vh] sm:pt-[3vh] pt-[10vh] px-[24px]`}>
           
           <div className='md:w-1/2 pr-8 flex-col justify-between relative'>
             <div className="font-thin h-fit pb-4 sm:pb-0 sm:h-[15vh]">

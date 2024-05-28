@@ -33,7 +33,7 @@ import { wagmiConfig } from "../../lib/wagmiConfig";
 import { useTokenContext } from "../../lib/contexts/UserTokens";
 import { generateResponse } from "../../lib/mint/getTx";
 
-import { trackedNfts } from "../../lib/nftData/trackedNfts";
+import { orderedNfts } from "../../lib/nftData/trackedNfts";
 
 interface BoxActionRequest {
   sender: Address;
@@ -150,10 +150,12 @@ export default function MintButton({
 
   const currTime = new Date();
 
+  const { activeNfts } = orderedNfts();
+
   const isInactive = 
-    trackedNfts[0].address.toLowerCase() !== mintConfig.actionConfig['contractAddress'].toLowerCase() ||
-    Number(trackedNfts[0].endDate * 1000) < Number(currTime) || 
-    Number(trackedNfts[0].startDate * 1000) > Number(currTime);
+  activeNfts[0].address.toLowerCase() !== mintConfig.actionConfig['contractAddress'].toLowerCase() ||
+    Number(activeNfts[0].endDate * 1000) < Number(currTime) || 
+    Number(activeNfts[0].startDate * 1000) > Number(currTime);
 
   useEffect(() => {
     dispatch({
