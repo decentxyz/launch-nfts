@@ -2,7 +2,6 @@ import { GetServerSideProps, NextPage } from 'next';
 import { getContractData } from '../../../lib/nftData/getContractData';
 import MintNavbar from '../../../components/Navbars/MintNavbar';
 import styles from "../../../styles/Home.module.css";
-import Image from 'next/image';
 import Link from 'next/link';
 import MintFooter from '../../../components/Footers/MintFooter';
 import { getMintInfo } from "../../../lib/nftData/getMintInfo";
@@ -14,6 +13,7 @@ import { convertTimestamp } from '../../../utils/convertTimestamp';
 import MintBox from '../../../components/NFTs/MintBox';
 import { getBlockscanner } from '../../../utils/blockscanners';
 import { trackedNfts } from '../../../lib/nftData/trackedNfts';
+import NftMedia from '../../../components/NftMedia';
 
 const Mint: NextPage = (props: any) => {
   const {
@@ -83,7 +83,7 @@ const Mint: NextPage = (props: any) => {
           </div>
 
           <div className='md:w-1/2 w-full flex justify-center max-h-[500px] relative'>
-            <Image src={activeNft[0].art} height={500} width={500} alt="nft image" className="absolute inset-0 w-full h-full object-contain" />
+            <NftMedia mintPage media={activeNft[0].art} />
           </div>
         </div>
         

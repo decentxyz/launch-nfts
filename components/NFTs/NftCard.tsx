@@ -1,12 +1,9 @@
-import Image from "next/image";
 import styles from "../../styles/nfts.module.css";
 import { useRef, useEffect, useState } from "react";
 import Link from "next/link";
-import { useAccount } from "wagmi";
 import Modal from "../Modal";
-import { EtherscanScan } from "../../utils/logos";
-import { getBlockscanner } from "../../utils/blockscanners";
 import MintBox from "./MintBox";
+import NftMedia from "../NftMedia";
 
 const NftCard = ({
   index,
@@ -28,8 +25,6 @@ const NftCard = ({
       () => blurRef.current && (blurRef.current.style.display = "block")
     );
   }, []);
-
-  const blockscanner = getBlockscanner(collection.chainId);
 
   return (
     <>
@@ -55,39 +50,24 @@ const NftCard = ({
         <Link
           href={`/mint/${collection?.chainId}/${collection?.primaryContract}`}
         >
-        <div className={`${styles.containerFlex} rounded-[6px] text-black`}>
-          <Image
-            className="rounded-md absolute w-full h-full object-cover"
-            src={art || collection?.image}
-            width={400}
-            height={400}
-            alt=""
-          />
-          <div
-            ref={blurRef}
-            className={`${styles.blurrer} rounded-[6px]`}
-          ></div>
-
-          <div className="sm:flex p-6 justify-center items-center">
+          <div className={`${styles.containerFlex} rounded-[6px] text-black`}>
+            <NftMedia media={art || collection?.image} />
             <div
-              className={`${
-                cardView
-                  ? "w-[310px] md:max-w-[380px]"
-                  : "w-full max-h-[400px] md:max-w-[400px]"
-              } relative min-h-[420px]`}
-            >
-              
-                <Image
-                  className="absolute inset-0 w-full h-full object-contain"
-                  src={art ?? collection?.image}
-                  width={400}
-                  height={400}
-                  alt="nft image"
-                />
-              
+              ref={blurRef}
+              className={`${styles.blurrer} rounded-[6px]`}
+            ></div>
+            <div className="sm:flex p-6 justify-center items-center w-full h-full">
+              <div
+                className={`${
+                  cardView
+                    ? "w-[310px] md:max-w-[380px]"
+                    : "w-full max-h-[400px] md:max-w-[400px]"
+                } relative min-h-[420px]`}
+              >
+                <NftMedia media={art || collection?.image} />
+              </div>
             </div>
           </div>
-        </div>
         </Link>
 
         <div
