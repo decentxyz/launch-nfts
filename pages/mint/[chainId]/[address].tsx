@@ -53,9 +53,9 @@ const Mint: NextPage = (props: any) => {
       <MintNavbar address={address} />
 
       <div className={`${styles.main} py-[12px] md:pt-0 w-full`}>
-        <div className={`flex md:flex-wrap flex-wrap-reverse md:gap-0 gap-12 md:h-[70vh] min-w-[160vh] sm:pt-[3vh] pt-[10vh] px-[24px]`}>
+        <div className={`flex md:flex-wrap flex-wrap-reverse flex md:gap-0 gap-12 md:h-[70vh] sm:pt-[3vh] pt-[10vh] px-[24px]`}>
           
-          <div className='md:w-1/2 pr-8 flex-col justify-between relative'>
+          <div className='md:w-1/2 px-8 flex-col justify-between relative'>
             <div className="font-thin h-fit pb-4 sm:pb-0 sm:h-[15vh]">
               <span className={`${
                 contractData[0].name.length > 22 ? 'text-5xl' : 'text-7xl'
@@ -65,7 +65,7 @@ const Mint: NextPage = (props: any) => {
               {soldOut && <p className='uppercase text-red-500 text-xl pt-4'>sold out</p>}
             </div>
             
-            <div className='flex-wrap gap-2 text-sm font-thin pr-8 sm:h-[30vh] h-[80vh] overflow-y-auto'>
+            <div className='flex-wrap gap-2 text-sm font-thin sm:h-[30vh] h-[80vh] overflow-y-auto'>
               <div className='flex items-center justify-between'>
                 <p>Mint start: {convertTimestamp(mintInfo?.startDate)}</p>
                 <p>Mint end: {convertTimestamp(mintInfo?.endDate) || 'Open'}</p>
@@ -76,13 +76,13 @@ const Mint: NextPage = (props: any) => {
               </div>
               <p className='mt-8 overflow-y-auto max-h-96'>{contractData[0].description}</p>
             </div>
-            <div className='h-[20vh] absolute bottom-0 w-full'>
+            <div className='h-[20vh] sm:absolute sm:bottom-0 w-full'>
               {/* UPDATE TO REUSE THE MINT CONFIG */}
               <MintBox collection={contractData[0]} />
             </div>
           </div>
 
-          <div className='md:w-1/2 w-full flex justify-center max-h-[500px] relative'>
+          <div className='md:w-1/2 w-full flex justify-center lg:max-h-[500px] md:max-h-[400px] max-h-[300px] relative'>
             <NftMedia mintPage media={activeNft[0].art} />
           </div>
         </div>

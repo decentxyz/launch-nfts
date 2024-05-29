@@ -18,7 +18,7 @@ const MintBox = ({ collection }: { collection: any }) => {
 
   const endDate = new Date(activeNft[0]?.endDate * 1000);
 
-  return <div className="bg-white p-4 rounded-lg space-y-4 z-50 min-w-[360px]">
+  return <div className="bg-white p-4 rounded-lg space-y-4 z-50 min-w-[300px]">
     <div className="flex justify-between">
       <div>
         <p className="text-black font-medium text-xl">{Number(activeNft[0]?.price) * quantity} ETH</p>
