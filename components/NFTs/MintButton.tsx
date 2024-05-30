@@ -22,16 +22,18 @@ import { useAccount } from "wagmi";
 import { sendTransaction, switchChain, getBalance } from "@wagmi/core";
 import { toast } from "react-toastify";
 
-import DropDownIcon from "./DropdownIcon";
-import LoadingSpinner from "./Spinner";
-import { BalanceSelector } from "./BalanceSelector";
+import DropDownIcon from "../DropdownIcon";
+import LoadingSpinner from "../Spinner";
+import { BalanceSelector } from "../BalanceSelector";
 import {
   approveTokenHandler,
   checkForApproval,
-} from "../lib/mint/tokenApproval";
-import { wagmiConfig } from "../lib/wagmiConfig";
-import { useTokenContext } from "../lib/contexts/UserTokens";
-import { generateResponse } from "../lib/mint/getTx";
+} from "../../lib/mint/tokenApproval";
+import { wagmiConfig } from "../../lib/wagmiConfig";
+import { useTokenContext } from "../../lib/contexts/UserTokens";
+import { generateResponse } from "../../lib/mint/getTx";
+
+import { orderedNfts } from "../../lib/nftData/trackedNfts";
 
 interface BoxActionRequest {
   sender: Address;
@@ -90,6 +92,11 @@ const initialState: MintStateType = {
   loading: false,
 };
 
+const BaseEth: TokenInfo = {
+  ...ethGasToken,
+  chainId: ChainId.BASE
+}
+
 function mintReducer(state: MintStateType, action: MintAction): MintStateType {
   switch (action.type) {
     case "SET_CONFIG":
@@ -139,7 +146,15 @@ export default function MintButton({
   const [state, dispatch] = useReducer(mintReducer, initialState);
 
   const [showBalanceSelector, setShowBalanceSelector] = useState(false);
-  const [srcToken, setSrcToken] = useState<TokenInfo | any>(ethGasToken);
+  const [srcToken, setSrcToken] = useState<TokenInfo | any>(BaseEth);
+
+  const currTime = new Date();
+
+  const { activeNfts } = orderedNfts();
+
+  const isInactive = 
+    Number(activeNfts[0].endDate * 1000) < Number(currTime) || 
+    Number(activeNfts[0].startDate * 1000) > Number(currTime);
 
   useEffect(() => {
     dispatch({
@@ -155,7 +170,6 @@ export default function MintButton({
 
   useEffect(() => {
     const init = async () => {
-      console.log("Updating config", state.config);
       if (account && state.config) {
         dispatch({ type: "SET_LOADING", payload: true });
         try {
@@ -199,8 +213,6 @@ export default function MintButton({
           srcToken.address === zeroAddress
             ? Number(formattedEthBalance) > Number(requiredAmount)
             : Number(formatUnits(srcToken.balance, srcToken.decimals)) > Number(requiredAmount) && Number(formattedEthBalance) > 0.0004;
-
-        console.log("Sufficient balance? ", sufficient);
         dispatch({ type: "SET_BALANCE", payload: sufficient });
       }
     };
@@ -270,15 +282,15 @@ export default function MintButton({
   }, [runTx]);
 
   const isButtonDisabled = useMemo(
-    () => state.loading || !state.sufficientBalance || !state.activeTx,
-    [state.loading, state.sufficientBalance, state.activeTx]
+    () => state.loading || !state.sufficientBalance || !state.activeTx || isInactive,
+    [state.loading, state.sufficientBalance, state.activeTx, isInactive]
   );
 
   const buttonLabel = useMemo(() => {
     if (state.loading) return <LoadingSpinner />;
     if (state.state === MintState.INSUFFICIENT_BALANCE) return "Insufficient Balance";
     if (state.state === MintState.NEEDS_APPROVAL) return "Approve Token";
-    return "Mint";
+    return "Mint";  
   }, [state.loading, state.state]);
 
   return (
@@ -292,21 +304,21 @@ export default function MintButton({
           >
             {buttonLabel}
           </button>
-          <div className="relative flex items-center gap-4">
+          <div className="relative flex items-center gap-4 z-50">
             <div
               onClick={() => setShowBalanceSelector(!showBalanceSelector)}
               className="rounded-full border border-black py-1 px-2 bg-white flex items-center hover:opacity-80 cursor-pointer"
             >
-              <div className="box-relative box-w-[30px] box-h-[30px] box-mr-[8px] box-flex box-items-center">
-                <Image src={srcToken.logo!} width={24} height={24} alt="token-logo" />
+              <div className="box-relative box-w-[24px] box-h-[24px] box-mr-[8px] box-flex box-items-center">
+                <Image src={srcToken.logo!} width={20} height={20} alt="token-logo" />
                 <ChainIcon chainId={srcToken.chainId} className="box-absolute box-right-0 box-bottom-0" />
               </div>
               <DropDownIcon />
             </div>
             {showBalanceSelector && tokenBalances && (
-              <div className="absolute bottom-full right-0 z-10">
+              <div className="absolute bottom-full right-0 bg-white">
                 <BalanceSelector
-                  className="bg-white text-sm font-sans drop-shadow-lg max-h-96 overflow-y-scroll mb-2"
+                  className="bg-white text-sm font-sans drop-shadow-lg max-h-96 overflow-y-scroll mb-2 text-black"
                   setSelectedToken={(tokeninfo: TokenInfo) => {
                     setSrcToken(tokeninfo);
                     setShowBalanceSelector(false);

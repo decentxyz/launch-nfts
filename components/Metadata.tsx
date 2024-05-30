@@ -9,7 +9,7 @@ const Metadata = () => {
         name="description"
         content={"Mint NFTs from featured Decent partners. ⬛"}
       />
-      <link rel="icon" href={"/images/decent-icon.png"} />
+      <link rel="icon" href={"/decent-icon.png"} />
       <meta property='og:type' content="website" />
       <meta property='og:url' content={"https://launch.decent.xyz/"} />
       {/* <meta property='og:image' content={''} /> */}

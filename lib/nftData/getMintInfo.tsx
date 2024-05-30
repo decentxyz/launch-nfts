@@ -1,5 +1,5 @@
 import { MintInfoProps } from "./trackedNfts";
-import { Address, parseUnits } from "viem";
+import { Address } from "viem";
 import { trackedNfts } from "./trackedNfts";
 import { mintMethodClasses } from "../../utils/nft-constants/mintMethods";
 
@@ -17,6 +17,8 @@ export const getMintInfo = (contractAddress: Address, quantity: any, userAddress
       endDate: 0,
       maxTokens: undefined,
       price: '',
+      mintFee: '',
+      totalPrice: ''
     };
 
     return mintInfo;
@@ -35,6 +37,8 @@ export const getMintInfo = (contractAddress: Address, quantity: any, userAddress
     endDate: targetContract.endDate,
     maxTokens: targetContract.maxTokens || undefined,
     price: (parseFloat(targetContract.price) * quantity).toString(),
+    mintFee: (parseFloat(targetContract.mintFee) * quantity).toString(),
+    totalPrice: ((parseFloat(targetContract.mintFee) + parseFloat(targetContract.price)) * quantity).toString(),
   };
 
   return mintInfo;

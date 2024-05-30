@@ -31,6 +31,7 @@ const approveToken = async ({
   wagmiConfig
 }: ApproveTokenArgs, chainId: ChainId) => {
   try {
+    // @ts-ignore
     const result = await writeContract(wagmiConfig, {
       address: token as EvmAddress,
       abi: erc20Abi,

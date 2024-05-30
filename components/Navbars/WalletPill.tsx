@@ -1,6 +1,5 @@
 import { useTokenContext } from "../../lib/contexts/UserTokens";
 import { useThemeContext } from "../../lib/contexts/ThemeContext";
-import { WalletIcon } from "../../public/wallet";
 import { BalanceSelector } from "../BalanceSelector";
 import Modal from "../Modal";
 import { useState } from "react";
@@ -12,12 +11,9 @@ const WalletPill = () => {
 
   const { dark } = useThemeContext();
 
-  const fillColor = dark ? '#FFFFFF' : '#000000';
-
   return <div className="flex items-center justify-between">
     <div className="flex items-center gap-2">
       <div className='flex items-center gap-2'>
-        {WalletIcon(fillColor, "16px", "16px")}
         <button onClick={() => setIsOpen(!isOpen)} className="hover:opacity-70">
           ${loadingPrice ? '...' : priceError ? ' ' : totalUsdBalance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
         </button>

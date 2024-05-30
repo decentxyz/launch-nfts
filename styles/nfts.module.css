@@ -31,6 +31,6 @@
 .blurrer {
   position: absolute;
   inset: 0;
-  background-color: rgba(255, 255, 255, 0.69);
+  background-color: rgba(255, 255, 255, 0.50);
   backdrop-filter: blur(30px);
 }
