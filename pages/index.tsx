@@ -40,7 +40,7 @@ const MainContent = ({ contractData, isLoading, activeNfts }: { contractData: an
   return (
     <main className={`${styles.main} relative`} style={{ minHeight: '100vh' }}>
       {isLoading ? <LoadingSpinner /> : <>
-        <FeaturedNftContainer nftData={contractData} trackedNfts={activeNfts} />
+        <FeaturedNftContainer nftData={contractData.slice(0,5)} trackedNfts={activeNfts} />
         <div className='w-[350px] mt-20 mb-12 inline-block sm:hidden space-y-4'>
           <MintPreview collection={activeNft} />
         </div>

@@ -15,7 +15,6 @@ const FeaturedNftContainer = ({ nftData, trackedNfts }: any) => {
   const [sortedNftData, setSortedNftData] = useState(nftData);
 
   const activeNft = trackedNfts.filter(nft => nft.address.toLowerCase() === nftData[middleIndex]?.primaryContract.toLowerCase());
-  console.log("TEST ONE: ", activeNft)
   const nftDate = new Date(activeNft[0].startDate * 1000);
   const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
   const formattedDate = nftDate.toLocaleDateString('en-US', options);

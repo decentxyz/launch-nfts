@@ -35,6 +35,8 @@ export interface MintInfoProps {
 }
 
 export const trackedNfts: ContractAddress[] = [
+  // ArrogantKei
+  { address: '0xB005eb1a7d873a1949a660e186A371970F052907', chainId: ChainId.BASE, startDate: 1717084800, endDate: 1717171140, price: "0", mintFee: '0.0008', source: 'Decent', artist: 'ArrogantKei', art: '/nfts/ArrogantKei.png' },
   // Mike Elf
   { address: '0xFe1857CBd3D01849D01561DdB1Cf3CdBa93A5781', chainId: ChainId.BASE, startDate: 1716998400, endDate: 1717084740, price: "0", mintFee: '0.0008', source: 'Decent', artist: 'The Mike Elf', art: '/nfts/mike-elf.mp4' },
   // Slander
