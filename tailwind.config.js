@@ -9,7 +9,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: '#dc2626'
+        primary: '#8246E5'
       },
       fontFamily: {
         sfPro: ['var(--font-sfPro)', ...fontFamily.sans],

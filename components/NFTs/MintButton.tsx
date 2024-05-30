@@ -153,7 +153,6 @@ export default function MintButton({
   const { activeNfts } = orderedNfts();
 
   const isInactive = 
-  activeNfts[0].address.toLowerCase() !== mintConfig.actionConfig['contractAddress'].toLowerCase() ||
     Number(activeNfts[0].endDate * 1000) < Number(currTime) || 
     Number(activeNfts[0].startDate * 1000) > Number(currTime);
 

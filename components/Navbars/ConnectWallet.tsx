@@ -38,7 +38,7 @@ export const ConnectWallet = () => {
               if (!connected) {
                 return (
                   <button className="font-light text-xl p-4 rounded-md hover:text-opacity-80" onClick={openConnectModal} type="button">
-                    <span className='border border-white px-4 text-center py-1 rounded-lg text-base'>Connect</span>
+                    <span className='border border-black px-4 text-center py-1 rounded-lg text-base'>Connect</span>
                   </button>
                 );
               }
@@ -53,17 +53,17 @@ export const ConnectWallet = () => {
 
               return (
                 <div className="font-light flex items-center gap-2 text-xs sm:text-sm">
-                  <button className="hover:opacity-80 flex items-center px-3 py-1 border border-white rounded-md" onClick={openAccountModal} type="button">
-                    {WalletIcon('#FFFFFF', "14px", "14px")}
+                  <button className="hover:opacity-80 flex items-center px-3 py-1 border border-black rounded-md" onClick={openAccountModal} type="button">
+                    {WalletIcon('#000000', "14px", "14px")}
                     <span className='pl-2'>{account.displayName}</span>
                   </button>
-                  <div className='border-white border rounded-md sm:min-w-[88px] p-1'>
+                  <div className='border-black border rounded-md sm:min-w-[88px] p-1'>
                     {account && <WalletPill />}
                   </div>
                   <button
                     onClick={openChainModal}
                     type="button"
-                    className='hover:opacity-80 sm:flex sm:items-center px-1 py-[5px] border border-white rounded-md hidden sm:inline-block'
+                    className='hover:opacity-80 sm:flex sm:items-center px-1 py-[5px] border border-black rounded-md hidden sm:inline-block'
                   > 
                     {chain.hasIcon && (
                       <div
@@ -94,7 +94,7 @@ export const ConnectWallet = () => {
                 </div>
               );
             })()}
-          {/* <a target="_blank" href="https://warpcast.com/jordanlyall/0x1e9b3117" className="hidden sm:inline-block border border-white rounded-lg py-1 px-3 uppercase text-sm">
+          {/* <a target="_blank" href="https://warpcast.com/jordanlyall/0x1e9b3117" className="hidden sm:inline-block border border-black rounded-lg py-1 px-3 uppercase text-sm">
             🖼️ mint in frame
           </a> */}
           </div>

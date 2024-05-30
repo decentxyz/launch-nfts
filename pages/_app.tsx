@@ -59,9 +59,7 @@ function MyApp({ Component, pageProps }: AppProps) {
                 <BoxHooksContextProvider apiKey={process.env.NEXT_PUBLIC_DECENT_API_KEY}>
                   <TokenContextProvider>
                     <SearchContextProvider>
-                      <div className={`bg-[#13110F] text-white`}>
-                        <Component {...pageProps} />
-                      </div>
+                      <Component {...pageProps} />
                     </SearchContextProvider>
                   </TokenContextProvider>
                 </BoxHooksContextProvider>

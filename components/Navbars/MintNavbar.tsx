@@ -18,7 +18,7 @@ const MintNavbar = ({
 
         <div className="flex items-center gap-4">
           <Link href='/' className="flex items-center hover:opacity-80">
-            <Image src='/prohibition-icon.jpg' height={24} width={24} alt='' />
+            <Image src='/decent-icon.png' height={24} width={24} alt='' />
           </Link>
           {all && <><p className="text-2xl">/</p>
            <Search />

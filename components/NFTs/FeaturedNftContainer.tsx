@@ -50,7 +50,7 @@ const FeaturedNftContainer = ({ nftData, trackedNfts }: any) => {
   return (
     <>
       <Modal
-        className={`relative sm:min-w-[500px] max-w-[500px] rounded-lg bg-[#13110F] text-white`}
+        className={`relative sm:min-w-[500px] max-w-[500px] rounded-lg bg-white`}
         isOpen={isOpen}
         setIsOpen={setIsOpen}
       >
@@ -81,7 +81,7 @@ const FeaturedNftContainer = ({ nftData, trackedNfts }: any) => {
       </div>
       <div className="flex justify-between w-full pt-4 max-w-[760px]">
         <button
-          className="border border-white px-5 py-[2px] rounded-md rotate-180 h-8"
+          className="border border-black px-5 py-[2px] rounded-md rotate-180 h-8"
           onClick={handlePrev}
         >
           ⮕
@@ -94,12 +94,12 @@ const FeaturedNftContainer = ({ nftData, trackedNfts }: any) => {
                 <div className="hover:text-primary">{sortedNftData[middleIndex].name}</div>
               </Link>
               <div className="text-base text-gray-400 font-light">by {activeNft[0].artist}</div>
-              <button className="bg-white rounded-lg py-1 mt-4 px-20 text-black" onClick={() => setIsOpen(true)}>Mint</button>
+              <button className="bg-black rounded-lg py-1 mt-4 px-20 text-white" onClick={() => setIsOpen(true)}>Mint</button>
             </div>
           </div>
         </div>
         <button
-          className="border border-white px-5 py-[2px] rounded-md h-8"
+          className="border border-black px-5 py-[2px] rounded-md h-8"
           onClick={handleNext}
         >
           ⮕
