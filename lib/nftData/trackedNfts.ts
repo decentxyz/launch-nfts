@@ -36,7 +36,7 @@ export interface MintInfoProps {
 
 export const trackedNfts: ContractAddress[] = [
   // dora
-  { address: '0x896037d93A231273070dd5F5c9a72aba9A3Fe920', chainId: ChainId.ZORA, startDate: 1717088400, endDate: 1722312000, price: "0", mintFee: '0.0008', source: 'Decent', artist: 'Dora', art: '/nfts/dora.gif' },
+  { address: '0x896037d93A231273070dd5F5c9a72aba9A3Fe920', chainId: ChainId.ZORA, startDate: 1717088400, endDate: 1722312000, price: "0", mintFee: '0.0008', source: 'Decent', artist: 'Dora', art: '/nfts/dora.mp4' },
   // Enjoy
   { address: '0x0E39715Ca6208EC6b5094FF9E4699A32EbAb9a3f', chainId: ChainId.ZORA, startDate: 1713538800, endDate: 1722520800, price: "0", mintFee: '0.0008', source: 'Decent', artist: 'Enjoy', art: '/nfts/enjoy.png' },
   // From the ashes
