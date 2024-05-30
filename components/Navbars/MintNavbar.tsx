@@ -1,7 +1,7 @@
 import styles from "./navbar.module.css";
 import ConnectWallet from "./ConnectWallet";
 import Link from "next/link";
-import { DecentIcon } from "../../utils/logos";
+import Image from "next/image";
 import Search from "../Search";
 
 const MintNavbar = ({
@@ -14,11 +14,11 @@ const MintNavbar = ({
 
   return (
     <>
-      <nav className={`${styles.navbar} w-full flex flex-wrap items-center sm:justify-between justify-center`} >
+      <nav className={`${styles.navbar} w-full flex flex-wrap items-center sm:justify-between justify-center gap-2`} >
 
         <div className="flex items-center gap-4">
           <Link href='/' className="flex items-center hover:opacity-80">
-            <span>{DecentIcon("20", "20")}</span> <p className="pl-2">NFTs</p>
+            <Image src='/prohibition-icon.jpg' height={24} width={24} alt='' />
           </Link>
           {all && <><p className="text-2xl">/</p>
            <Search />

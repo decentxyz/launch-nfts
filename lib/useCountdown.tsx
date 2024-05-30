@@ -4,6 +4,17 @@ const MS_PER_MIN = 60 * MS_PER_SEC;
 const MS_PER_HOUR = 60 * MS_PER_MIN;
 const MS_PER_DAY = 24 * MS_PER_HOUR;
 
+export function getEndOfDayDate(): Date {
+  const now = new Date();
+  const endOfDay = new Date(
+    now.getFullYear(),
+    now.getMonth(),
+    now.getDate(),
+    23, 59, 59, 999 // Hours, minutes, seconds, milliseconds
+  );
+  return endOfDay;
+}
+
 export default function useCountdown(dropTime: Date, dropCallback?: Function) {
   const [ms, setMs] = useState(dropTime.getTime() - Date.now());
   const [countdownInterval, setCountdownInterval] = useState();

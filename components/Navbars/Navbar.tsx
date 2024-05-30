@@ -1,27 +1,28 @@
 import Link from "next/link";
 import styles from "./navbar.module.css";
 import ConnectWallet from "./ConnectWallet";
-import { DecentIcon } from "../../utils/logos";
-const Navbar = () => {
+import Image from "next/image";
 
+const Navbar = () => {
   return (
     <>
-      <nav className={`${styles.navbar} w-full flex flex-wrap items-center sm:justify-between justify-center`} >
-        <Link href='/' className="flex items-center hover:opacity-80">
-          <span>{DecentIcon("32", "32")}</span> <p className="pl-2 text-lg font-medium">NFTs</p>
+      <nav className={`${styles.navbar} w-full flex items-center gap-4 justify-between justify-center`}>
+        <Link href='/' className="hidden md:inline-block">
+          <div className="flex items-center gap-2">
+            <Image src='/prohibition-full.png' width={180} height={60} alt='Full logo' />
+            <div className="text-xl font-thin">Daily</div>
+          </div>
+        </Link>
+        <Link href='/' className="md:hidden inline-block flex items-center gap-4">
+          <Image src='/prohibition-icon.svg' width={34} height={34} alt='Icon logo' />
+          <div className="text-xl font-medium">Daily</div>
         </Link>
   
-        {/* <div>
-          date
-        </div> */}
-        
-        {/* <Search nav={true} /> */}
-        <div className="w-1/5 flex justify-end">
+        <div className="flex gap-2 justify-end">
           <ConnectWallet />
         </div>
       </nav>
     </>
-
   );
 };
 

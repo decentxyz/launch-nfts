@@ -2,53 +2,64 @@ import type { NextPage } from 'next';
 import styles from '../styles/Home.module.css';
 import Navbar from '../components/Navbars/Navbar';
 import FeaturedNftContainer from "../components/NFTs/FeaturedNftContainer";
-import { FeaturedNftContextProvider } from '../lib/contexts/FeaturedNftContext';
+import { FeaturedNftContextProvider, useFeaturedNftContext } from '../lib/contexts/FeaturedNftContext';
 import Footer from '../components/Footers/Footer';
-import Link from 'next/link';
 import { getContractData } from '../lib/nftData/getContractData';
-import { trackedNfts } from '../lib/nftData/trackedNfts';
+import { trackedNfts, orderedNfts } from '../lib/nftData/trackedNfts';
 import { Address } from 'viem';
 import { ChainId } from '@decent.xyz/box-common';
+import MintPreview from '../components/NFTs/MintPreview';
+import { useEffect, useState } from 'react';
+import LoadingSpinner from '../components/Spinner';
 
 const Home: NextPage = ({ contractData }: any) => {
-  function sortNFTsByMintedTimestamp(nfts: any) {
-    return nfts.sort((a: any, b: any) => b.mintedTimestamp - a.mintedTimestamp);
-  }
+  const [isLoading, setIsLoading] = useState(true);
+  const { activeNfts, activeNftData } = orderedNfts(contractData);
 
-  const sortedContractData = sortNFTsByMintedTimestamp(contractData);
-
-  return <>
-    <Navbar />
+  useEffect(() => {
+    if (activeNftData) {
+      setIsLoading(false);
+    }
+  }, [activeNftData]);
+  
+  return (
     <FeaturedNftContextProvider>
-      <main className={`${styles.main} relative`} style={{ minHeight: '100vh' }} >
-        <div className='flex w-full'>
-          <div className='w-full flex justify-end'>
-            <Link href="/all" className='text-right font-thin text-xs hover:text-primary pb-2'>View All {'→'}</Link>
-          </div>
+      <Navbar />
+      <div className='sm:py-0 py-16'></div>
+      <MainContent contractData={activeNftData} isLoading={isLoading} activeNfts={activeNfts} />
+      <Footer nftData={activeNftData} />
+    </FeaturedNftContextProvider>
+  );
+};
+
+const MainContent = ({ contractData, isLoading, activeNfts }: { contractData: any, isLoading: boolean, activeNfts: any }) => {
+  const { middleIndex } = useFeaturedNftContext();
+  
+  const activeNft = contractData[middleIndex];
+
+  return (
+    <main className={`${styles.main} relative`} style={{ minHeight: '100vh' }}>
+      {isLoading ? <LoadingSpinner /> : <>
+        <FeaturedNftContainer nftData={contractData.slice(0,5)} trackedNfts={activeNfts} />
+        <div className='w-[350px] mt-20 mb-12 inline-block sm:hidden space-y-4'>
+          <MintPreview collection={activeNft} />
         </div>
-        {contractData && <>
-          <FeaturedNftContainer nftData={sortedContractData} />
-          <Footer nftData={contractData} />
-        </>}
-      </main>
-    </FeaturedNftContextProvider>    
-  </>
+      </>}
+    </main>
+  );
 };
 
 export default Home;
 
 export async function getStaticProps() {
-  // Group NFTs by chainId
   const nftsByChainId: { [key in ChainId]?: string[] } = trackedNfts.reduce((acc: { [key in ChainId]?: Address[] }, nft) => {
-    const address = nft.pattern !== "proxy" ? nft.address : nft.token;
     if (!acc[nft.chainId]) {
       acc[nft.chainId] = [];
     }
-    acc[nft.chainId]!.push(address!);
+    acc[nft.chainId]!.push(nft.address!);
     return acc;
   }, {});
 
-  // Fetch contract data for each group
   const contractDataPromises = Object.entries(nftsByChainId).map(([chainId, addresses]) => {
     const cleanAddresses = addresses as `0x${string}`[];
     const cleanChainId = chainId as unknown as ChainId;
@@ -57,12 +68,10 @@ export async function getStaticProps() {
       data
     }));
   });
-  
 
-  // Await all promises and combine results
   type Data = any;
   const contractDataResults = await Promise.all(contractDataPromises);
-  
+
   const contractData = contractDataResults.reduce<Data[]>((acc, { chainId, data }) => {
     data.forEach((item: any) => acc.push({ chainId, ...item }));
     return acc;
@@ -72,6 +81,6 @@ export async function getStaticProps() {
     props: {
       contractData: contractData || null,
     },
-    revalidate: 300
-  }
-};
+    revalidate: 300,
+  };
+}

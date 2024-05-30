@@ -39,7 +39,7 @@ export const BalanceSelector = ({
 
   return (
     <ClientRendered>
-      <div className={"box-balance-selector " + className}>
+      <div className={"box-balance-selector" + className}>
         {(loadingTokens || tokenMap.size < 1) && <div className={"box-balance-selector-loader"} />}
         {!loadingTokens &&
           [...tokenMap.entries()].map(([key, arr]) => {

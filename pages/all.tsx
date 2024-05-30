@@ -1,5 +1,4 @@
-import { NextPage } from 'next';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import MintNavbar from '../components/Navbars/MintNavbar';
 import { getContractData } from '../lib/nftData/getContractData';
 import styles from "../styles/Home.module.css";
@@ -8,15 +7,19 @@ import { trackedNfts } from '../lib/nftData/trackedNfts';
 import { Address } from 'viem';
 import { ChainId } from '@decent.xyz/box-common';
 import { useRunSearch } from '../lib/runSearch';
+import StandardFooter from '../components/Footers/StandardFooter';
 
 const Explore = ({ contractData }: { contractData: any }) => {
+  const [sorted, setSorted] = useState([]);
 
-  function sortNFTsByMintedTimestamp(nfts: any) {
-    return nfts.sort((a: any, b: any) => b.mintedTimestamp - a.mintedTimestamp);
-  }
+  useEffect(() => {
+    if (contractData.length > 0) {
+      const revChron = contractData.sort((a: any, b: any) => +new Date(b.createdAt) - +new Date(a.createdAt));
+      setSorted(revChron);
+    }
+  }, [contractData]);
 
-  const sortedContractData = sortNFTsByMintedTimestamp(contractData);
-  const [sortedNftData, setSortedNftData] = useState(sortedContractData); 
+  const [sortedNftData, setSortedNftData] = useState(sorted); 
   useRunSearch({
     nftData: contractData,
     sortedNfts: sortedNftData,
@@ -28,15 +31,16 @@ const Explore = ({ contractData }: { contractData: any }) => {
     <MintNavbar all={true} />
     {contractData ? 
       <div className={`${styles.main}  px-[24px] relative`}>
-        <div className='grid sm:grid-cols-2 gap-12 max-w-5xl py-40'>
+        <div className='grid sm:grid-cols-2 pb-40 pt-12 max-w-5xl'>
           {sortedNftData.map((collection: any, i:number) => (
-            <div key={i} className='w-[360px] h-[360px] md:w-[400px] md:h-[400px]'>
-              <NftCard index={i} collection={collection} cardView={true} />
+            <div key={i} className='w-[360px] h-[360px] md:w-[400px] md:h-[400px] m-8 mt-32'>
+              <NftCard index={i} collection={collection} art={trackedNfts[i].art} cardView={true} />
             </div>
           ))}
         </div>
       </div>
       : <div className='w-full h-full flex justify-center items-center'>loading...</div>}
+      <StandardFooter className='p-4 sm:flex items-center justify-between max-w-5xl sm:py-12 mx-auto' />
     </>
   )
 }

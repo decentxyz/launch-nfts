@@ -1,16 +1,8 @@
-
-@import url('https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Maven+Pro:wght@300;400;500;600&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 html {
-  overscroll-behavior-y: none;
-}
-body {
-  font-family: 'Inter Tight', sans-serif;
-  @apply tracking-widest;
   overscroll-behavior-y: none;
 }
 
@@ -27,10 +19,10 @@ h1 {
   font-family: 'Maven Pro', sans-serif;
 }
 
-::-moz-selection { background-color: #000000; 
-  color: #ffffff; } 
-  ::selection { background-color: #000000; 
-  color: #ffffff; }
+::-moz-selection { background-color: #ffffff; 
+  color: #000000; } 
+  ::selection { background-color: #ffffff; 
+  color: #000000; }
 
 textarea:focus, input:focus{
   outline: none;

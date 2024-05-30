@@ -14,11 +14,11 @@ interface Theme {
 
 export const ThemeContext = createContext<Theme>({
   dark: false,
-  setDark: () => false
+  setDark: () => true
 });
 
 export const ThemeContextProvider = ({ children }: { children: ReactNode }) => {
-  const [dark, setDark] = useState(false);
+  const [dark, setDark] = useState(true);
 
   return (
     <ThemeContext.Provider value={{ dark, setDark }}>

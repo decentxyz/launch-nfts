@@ -6,6 +6,7 @@ import {
   useEffect,
   useCallback,
   useMemo,
+  useRef,
 } from "react";
 import { useUsersBalances } from "@decent.xyz/box-hooks";
 import { ChainId, TokenInfo } from "@decent.xyz/box-common";
@@ -41,6 +42,7 @@ export const TokenContextProvider = ({ children }: { children: ReactNode }) => {
   const [loadingPrice, setLoadingPrice] = useState(true);
   const [priceError, setPriceError] = useState(false);
   const [fullTokens, setFullTokens] = useState<FullTokens[]>([]);
+  const hasRunOnce = useRef(false);
 
   const { address } = useAccount();
   const { tokens: userTokens = [], isLoading, error } = useUsersBalances({
@@ -94,7 +96,8 @@ export const TokenContextProvider = ({ children }: { children: ReactNode }) => {
   }, [userTokens]);
 
   useEffect(() => {
-    if (address && userTokens.length > 0) {
+    if (address && userTokens.length > 0 && !hasRunOnce.current) {
+      hasRunOnce.current = true; // Mark the calculation as run
       calculateUsdBal();
     } else {
       setLoadingPrice(false);

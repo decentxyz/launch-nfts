@@ -2,22 +2,18 @@ import { GetServerSideProps, NextPage } from 'next';
 import { getContractData } from '../../../lib/nftData/getContractData';
 import MintNavbar from '../../../components/Navbars/MintNavbar';
 import styles from "../../../styles/Home.module.css";
-import Image from 'next/image';
 import Link from 'next/link';
 import MintFooter from '../../../components/Footers/MintFooter';
 import { getMintInfo } from "../../../lib/nftData/getMintInfo";
 import { MintInfoProps } from '../../../utils/types';
 import { useAccount } from "wagmi";
-import { ActionType, ChainId } from '@decent.xyz/box-common';
-import { parseUnits, zeroAddress } from "viem";
 import { EtherscanScan } from "../../../utils/logos";
 import { useState, useEffect } from 'react';
 import { convertTimestamp } from '../../../utils/convertTimestamp';
-import NumberTicker from '../../../components/NumberTicker';
-import { VideoDict } from '../../../lib/nftData/trackedNfts';
+import MintBox from '../../../components/NFTs/MintBox';
 import { getBlockscanner } from '../../../utils/blockscanners';
-import MintButton from '../../../components/MintButton';
-import { useThemeContext } from '../../../lib/contexts/ThemeContext';
+import { trackedNfts } from '../../../lib/nftData/trackedNfts';
+import NftMedia from '../../../components/NftMedia';
 
 const Mint: NextPage = (props: any) => {
   const {
@@ -28,7 +24,7 @@ const Mint: NextPage = (props: any) => {
   const [mintInfo, setMintInfo] = useState<MintInfoProps>();
   const [quantity, setQuantity] = useState(1);
   const [soldOut, setSoldOut] = useState(false);
-  const { dark } = useThemeContext();
+  const activeNft = trackedNfts.filter(nft => nft.address.toLowerCase() === contractData[0]?.primaryContract.toLowerCase());
 
   useEffect(() => {
     async function fetchMintInfo() {
@@ -56,10 +52,10 @@ const Mint: NextPage = (props: any) => {
     <div className='relative'>
       <MintNavbar address={address} />
 
-      <div className={`${styles.main} px-[24px] py-[12px] pt-[20vh] md:pt-0`}>
-        <div className={`flex md:flex-wrap flex-wrap-reverse md:gap-0 gap-12 md:h-[70vh]`}>
+      <div className={`${styles.main} py-[12px] md:pt-0 w-full`}>
+        <div className={`flex md:flex-wrap flex-wrap-reverse flex md:gap-0 gap-12 md:h-[70vh] sm:pt-[3vh] pt-[10vh] px-[24px]`}>
           
-          <div className='md:w-1/2 pr-8 flex-col justify-between relative'>
+          <div className='md:w-1/2 px-8 flex-col justify-between relative'>
             <div className="font-thin h-fit pb-4 sm:pb-0 sm:h-[15vh]">
               <span className={`${
                 contractData[0].name.length > 22 ? 'text-5xl' : 'text-7xl'
@@ -69,57 +65,25 @@ const Mint: NextPage = (props: any) => {
               {soldOut && <p className='uppercase text-red-500 text-xl pt-4'>sold out</p>}
             </div>
             
-            <div className='flex-wrap gap-2 text-sm font-thin pr-8 sm:h-[30vh] h-[80vh] overflow-y-auto'>
+            <div className='flex-wrap gap-2 text-sm font-thin sm:h-[30vh] h-[80vh] overflow-y-auto'>
               <div className='flex items-center justify-between'>
                 <p>Mint start: {convertTimestamp(mintInfo?.startDate)}</p>
                 <p>Mint end: {convertTimestamp(mintInfo?.endDate) || 'Open'}</p>
               </div>
-              <p className='py-2'>Mint price: <span className='font-bold'>{mintInfo?.price!}</span></p>
-              <div className='flex items-center justify-between'>
+              <div className='flex items-center justify-between space-y-2'>
                 <p>Max tokens: {mintInfo?.maxTokens || 'Open'}</p>
                 <Link target="_blank" className='flex gap-2' href={`https://${blockscanner.url}/address/${contractData[0].primaryContract || ''}`}>{EtherscanScan(18, 20)} <span className='underline'> View on {blockscanner.name}</span></Link> 
               </div>
               <p className='mt-8 overflow-y-auto max-h-96'>{contractData[0].description}</p>
             </div>
-            <div className='h-[20vh] absolute bottom-0 w-full'>
+            <div className='h-[20vh] sm:absolute sm:bottom-0 w-full'>
               {/* UPDATE TO REUSE THE MINT CONFIG */}
-              <MintButton 
-                account={account!}
-                dstTokenAddress={zeroAddress} // TODO: could update for different token denominations
-                mintConfig={{
-                  sender: account!,
-                  srcChainId: chain?.id as ChainId,
-                  dstChainId: contractData[0].chainId as ChainId,
-                  slippage: 1,
-                  actionType: ActionType.NftPreferMint,
-                  actionConfig: {
-                    contractAddress: contractData[0].primaryContract,
-                    chainId: contractData[0].chainId,
-                    signature: mintInfo?.mintMethod,
-                    args: mintInfo?.params,
-                    cost: {
-                      isNative: true,
-                      amount: parseUnits(mintInfo?.price! || '0.00', 18),
-                    },
-                    supplyConfig: {
-                      sellOutDate: mintInfo?.endDate,
-                      maxCap: mintInfo?.maxTokens
-                    },
-                  }
-                }}/>
-                <div className="px-4 pt-4 relative">
-                  <NumberTicker endDate={mintInfo?.endDate} maxTokens={mintInfo?.maxTokens} tokenCount={contractData[0].tokenCount} quantity={quantity} setQuantity={setQuantity} />
-                </div>
-              </div>
+              <MintBox collection={contractData[0]} />
+            </div>
           </div>
 
-          <div className='md:w-1/2 w-full flex justify-center max-h-[500px] relative'>
-            {VideoDict[contractData[0].symbol as keyof typeof VideoDict] ? 
-              (contractData[0].symbol === "DECENT" ? 
-              <div className='w-fit mx-8'><video src={VideoDict[contractData[0].symbol as keyof typeof VideoDict]} controls className='rounded-md' /></div> :
-              <video src={VideoDict[contractData[0].symbol as keyof typeof VideoDict]} autoPlay loop muted className='rounded-md' />)
-              : <Image src={contractData[0].symbol === 'SWAP+' ?  '/nfts/enjoy-nft.png' : contractData[0].image} height={500} width={500} alt="nft image" className='rounded-md' />
-            }
+          <div className='md:w-1/2 w-full flex justify-center lg:max-h-[500px] md:max-h-[400px] max-h-[300px] relative'>
+            <NftMedia mintPage media={activeNft[0].art} />
           </div>
         </div>
         
