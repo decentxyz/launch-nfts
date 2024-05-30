@@ -8,3 +8,12 @@ export const enum ProcessStep {
   Executing = 'Minting',
   InsufficientFunds = 'Insufficient Funds',
 }
+
+export const ChainIdToName = {
+  1: 'ethereum',
+  10: 'optimism',
+  42161: 'arbitrum',
+  137: 'polygon',
+  8453: 'base',
+  7777777: 'zora'
+} as const;

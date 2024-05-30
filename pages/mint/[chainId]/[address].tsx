@@ -7,13 +7,13 @@ import MintFooter from '../../../components/Footers/MintFooter';
 import { getMintInfo } from "../../../lib/nftData/getMintInfo";
 import { MintInfoProps } from '../../../utils/types';
 import { useAccount } from "wagmi";
-import { EtherscanScan } from "../../../utils/logos";
+import { Dora } from "../../../utils/logos";
 import { useState, useEffect } from 'react';
 import { convertTimestamp } from '../../../utils/convertTimestamp';
 import MintBox from '../../../components/NFTs/MintBox';
-import { getBlockscanner } from '../../../utils/blockscanners';
 import { trackedNfts } from '../../../lib/nftData/trackedNfts';
 import NftMedia from '../../../components/NftMedia';
+import { ChainIdToName } from '../../../utils/lookups';
 
 const Mint: NextPage = (props: any) => {
   const {
@@ -46,8 +46,6 @@ const Mint: NextPage = (props: any) => {
     }
   }, [contractData, mintInfo?.endDate]);
 
-  const blockscanner = getBlockscanner(contractData[0].chainId);
-
   return (
     <div className='relative'>
       <MintNavbar address={address} />
@@ -72,7 +70,7 @@ const Mint: NextPage = (props: any) => {
               </div>
               <div className='flex items-center justify-between space-y-2'>
                 <p>Max tokens: {mintInfo?.maxTokens || 'Open'}</p>
-                <Link target="_blank" className='flex gap-2' href={`https://${blockscanner.url}/address/${contractData[0].primaryContract || ''}`}>{EtherscanScan(18, 20)} <span className='underline'> View on {blockscanner.name}</span></Link> 
+                <Link target="_blank" className='flex gap-2' href={`https://ondora.xyz/network/${ChainIdToName[contractData[0].chainId]}/accounts/${address}`}>{Dora(18, 20)} <span className='underline'> View on Dora</span></Link> 
               </div>
               <p className='mt-8 overflow-y-auto max-h-96'>{contractData[0].description}</p>
             </div>
