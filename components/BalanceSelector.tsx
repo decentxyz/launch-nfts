@@ -218,20 +218,20 @@ function TokenOption({
       >
         <span className={"box-font-medium box-text-md"}>{name}</span>
         <span className={"box-font-light box-text-xs box-whitespace-nowrap"}>
-          {balanceFloat
-            ? balanceFloat.toLocaleString(undefined, {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              }) + " "
-            : ""}
+          {usdValue.toLocaleString(undefined, {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          })}
           {symbol} on {getChainName(chainId)}
         </span>
       </div>
       <div className={"box-flex box-flex-col box-items-end"}>
-        ${usdValue.toLocaleString(undefined, {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2,
-        })}
+        {balanceFloat
+          ? balanceFloat.toLocaleString(undefined, {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            }) + " "
+        : ""}
       </div>
     </button>
   );
